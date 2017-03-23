@@ -96,8 +96,8 @@
                                            autofocus>
                                     @if ($errors->has('email'))
                                         <span class="is-danger">
-                                        {{ $errors->first('email') }}
-                                    </span>
+                                            {{ $errors->first('email') }}
+                                        </span>
                                     @endif
                                 </p>
                             </div>
@@ -112,18 +112,18 @@
                                            required>
                                     @if($errors->has('password'))
                                         <span class="is-danger">
-                                        {{ $errors->first('password') }}
-                                    </span>
+                                            {{ $errors->first('password') }}
+                                        </span>
                                     @endif
                                 </p>
                             </div>
                             <div class="field">
-                                <p class="control">
+                                <p class="control" style="color: #0a0a0a">
                                     <label class="checkbox">
                                         <input type="checkbox"
                                                name="remember"
                                                class="checkbox"
-                                                {{ old('remember') ? 'checked' : '' }}>
+                                               {{ old('remember') ? 'checked' : '' }}>
                                         Remember me
                                     </label>
                                 </p>
