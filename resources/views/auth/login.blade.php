@@ -81,45 +81,54 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {!! csrf_field() !!}
                         <div class="box">
-                            <label class="label">
-                                Email
-                            </label>
-                            <p class="control">
-                                <input id="email"
-                                       type="email"
-                                       class="input {{ $errors->has('email') ? 'is-danger' : '' }}"
-                                       name="email"
-                                       value="{{ old('email') }}"
-                                       placeholder="jsmith@example.org"
-                                       required
-                                       autofocus>
-                                @if ($errors->has('email'))
-                                    <span class="is-danger">
+                            <div class="field">
+                                <label class="label">
+                                    Email
+                                </label>
+                                <p class="control">
+                                    <input id="email"
+                                           type="email"
+                                           class="input {{ $errors->has('email') ? 'is-danger' : '' }}"
+                                           name="email"
+                                           value="{{ old('email') }}"
+                                           placeholder="jsmith@example.org"
+                                           required
+                                           autofocus>
+                                    @if ($errors->has('email'))
+                                        <span class="is-danger">
                                         {{ $errors->first('email') }}
                                     </span>
-                                @endif
-                            </p>
-                            <label class="label">Password</label>
-                            <p class="control">
-                                <input id="password"
-                                       type="password"
-                                       class="input {{ $errors->has('password') ? ' is-danger' : '' }}"
-                                       name="password"
-                                       placeholder="●●●●●●●"
-                                       required>
-                                @if($errors->has('password'))
-                                    <span class="is-danger">
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <p class="control">
+                                    <input id="password"
+                                           type="password"
+                                           class="input {{ $errors->has('password') ? ' is-danger' : '' }}"
+                                           name="password"
+                                           placeholder="●●●●●●●"
+                                           required>
+                                    @if($errors->has('password'))
+                                        <span class="is-danger">
                                         {{ $errors->first('password') }}
                                     </span>
-                                @endif
-                            </p>
-                            <p class="control">
-                                <input type="checkbox"
-                                       name="remember"
-                                       class="checkbox"
-                                        {{ old('remember') ? 'checked' : '' }}>
-                                Remember Me
-                            </p>
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control">
+                                    <label class="checkbox">
+                                        <input type="checkbox"
+                                               name="remember"
+                                               class="checkbox"
+                                                {{ old('remember') ? 'checked' : '' }}>
+                                        Remember me
+                                    </label>
+                                </p>
+                            </div>
+
                             <hr>
                             <p class="control">
                                 <button class="button is-primary">Login</button>
