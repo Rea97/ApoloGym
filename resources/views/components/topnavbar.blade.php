@@ -34,7 +34,7 @@
                     Registrate
                 </a>
             @else
-                <a class="nav-item is-tab" href="{{ route('/') }}">{{ Auth::user()->name }}</a>
+                <a class="nav-item is-tab" href="{{ url('/profile') }}">{{ Auth::user()->name }}</a>
                 <a class="nav-item is-tab" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                    document.getElementById('logout-form').submit();">
