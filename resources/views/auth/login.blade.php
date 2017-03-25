@@ -124,15 +124,14 @@
                                                name="remember"
                                                class="checkbox"
                                                {{ old('remember') ? 'checked' : '' }}>
-                                        Remember me
+                                        Mantener sesión iniciada
                                     </label>
                                 </p>
                             </div>
 
                             <hr>
                             <p class="control">
-                                <button class="button is-primary">Login</button>
-                                <button class="button is-default">Cancel</button>
+                                <button class="button is-primary">Entrar</button>
                             </p>
                         </div>
                     </form>
