@@ -13,5 +13,8 @@ const { mix } = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
-    .styles('resources/assets/css/all.css', 'public/css/all.css')
+    .styles([
+        'resources/assets/css/all.css',
+        'node_modules/sweetalert/dist/sweetalert.css'
+    ], 'public/css/all.css')
     .version();

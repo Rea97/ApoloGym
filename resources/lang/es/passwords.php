@@ -16,7 +16,7 @@ return [
     'password' => 'La contraseña debe contener al menos 6 caracteres y coincidir la confirmación.',
     'reset' => 'Tú contraseña ha sido cambiada satisfactoriamente!',
     'sent' => 'Te hemos enviado un correo para restablecer tú contraseña!',
-    'token' => 'Este token de reseteo de contraseña es invalido.',
+    'token' => 'Este token de reestablecimiento de contraseña es invalido.',
     'user' => "No hemos podido encontrar un usuario con ese e-mail.",
 
 ];

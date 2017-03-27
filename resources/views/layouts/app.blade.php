@@ -31,5 +31,10 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
+    @if(session('status'))
+        <script>
+            swal("Éxito!", "{!! session('status') !!}", "success");
+        </script>
+    @endif
 </body>
 </html>

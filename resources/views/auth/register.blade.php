@@ -24,7 +24,7 @@
                                                required
                                                autofocus>
                                         @if($errors->has('name'))
-                                            <span class="is-danger">
+                                            <span class="input-error">
                                                 {{ $errors->first('name') }}
                                             </span>
                                         @endif
@@ -42,7 +42,7 @@
                                                placeholder="jsmith@example.org"
                                                required>
                                         @if($errors->has('email'))
-                                            <span class="is-danger">
+                                            <span class="input-error">
                                                 {{ $errors->first('email') }}
                                             </span>
                                         @endif
@@ -58,7 +58,7 @@
                                                placeholder="●●●●●●●"
                                                required>
                                         @if($errors->has('password'))
-                                            <span class="is-danger">
+                                            <span class="input-error">
                                                 {{ $errors->first('password') }}
                                             </span>
                                         @endif
@@ -74,7 +74,7 @@
                                                placeholder="●●●●●●●"
                                                required>
                                         @if($errors->has('password_confirmation'))
-                                            <span class="is-danger">
+                                            <span class="input-error">
                                                 {{ $errors->first('password_confirmation') }}
                                             </span>
                                         @endif
