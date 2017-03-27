@@ -2,7 +2,7 @@
     <div class="container">
         <div class="nav-left">
 
-            <a class="nav-item" href="{{ url('/') }}">
+            <a id="nav-logo" class="nav-item" href="{{ url('/') }}">
                 <figure class="image is-32x32">
                     <img src="{{ asset('imgs/logo.png') }}" alt="ApoloGym">
                 </figure>&nbsp;
