@@ -27,7 +27,7 @@
                                                required
                                                autofocus>
                                         @if ($errors->has('email'))
-                                            <span class="is-danger">
+                                            <span class="input-error">
                                                 {{ $errors->first('email') }}
                                             </span>
                                         @endif
@@ -43,7 +43,7 @@
                                                placeholder="●●●●●●●"
                                                required>
                                         @if($errors->has('password'))
-                                            <span class="is-danger">
+                                            <span class="input-error">
                                                 {{ $errors->first('password') }}
                                             </span>
                                         @endif
@@ -63,13 +63,15 @@
 
                                 <hr>
                                 <p class="control">
-                                    <button class="button is-primary">Entrar</button>
+                                    <button class="button is-primary">
+                                        Entrar
+                                    </button>
                                 </p>
                             </div>
                         </form>
 
                         <p class="has-text-centered">
-                            <a href="{{ url('/register') }}">Registrarse</a>
+                            <a href="{{ route('register') }}">Registrarse</a>
                             |
                             <a href="{{ route('password.request') }}">Olvidé mi contraseña</a>
                             |
