@@ -11,10 +11,26 @@
 |
 */
 
+/*
+ * Landing page
+ */
 Route::get('/', function () {
     return view('welcome');
 });
 
+/*
+ * Login, register and password reset
+ */
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+/*
+ * Dashboard
+ */
+Route::group(['prefix' => 'dashboard'], function() {
+    Route::get('/inicio', 'HomeController@index')->name('dashboard.inicio');
+
+    //TODO crear RoutinesController
+    //Route::get('/rutinas', 'RoutinesController@index');
+});
+
+
