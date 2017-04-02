@@ -1,12 +1,35 @@
 <?php
+    if (! function_exists('getUrls')) {
+        /**
+         * Retorna un array con el título de la sección asignado a cada ruta.
+         *
+         * @return array
+         */
+        function getUrls() {
+            return [
+                'Inicio'    =>  route('dashboard.inicio'),
+                'Rutinas'   =>  route('dashboard.routines'),
+                'Dietas'    =>  route('dashboard.diets'),
+                'Progreso'  =>  route('dashboard.progress'),
+                'Horario'   =>  route('dashboard.schedule'),
+                'Instructor'=>  route('dashboard.instructor')
+            ];
+        }
+    }
 
-    function getTitleSection($currentUrl) {
-        switch ($currentUrl) {
-            case route('dashboard.inicio'):
-                return 'Inicio';
-            case route('dashboard.routines'):
-                return 'Rutinas';
-            default:
-                return 'Dashboard';
+    if (! function_exists('getTitleSection')) {
+        /**
+         * Retorna el título para la sección actual.
+         *
+         * @param $currentUrl
+         * @return string
+         */
+        function getTitleSection($currentUrl) {
+            foreach (getUrls() as $title => $url) {
+                if ($currentUrl == $url) {
+                    return $title;
+                }
+            }
+            return 'Dashboard';
         }
     }
