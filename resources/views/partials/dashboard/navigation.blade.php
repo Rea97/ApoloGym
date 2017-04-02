@@ -1,8 +1,7 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    @include('partials.dashboard.navbar-header')
 
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        @include('components.dashboard.navbar-header')
+    @include('partials.dashboard.navbar-right')
 
-        @include('components.dashboard.navbar-right')
-
-        @include('components.dashboard.sidebar')
-    </nav>
+    @include('partials.dashboard.sidebar')
+</nav>

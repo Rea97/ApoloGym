@@ -23,7 +23,7 @@
                                                class="input {{ $errors->has('email') ? 'is-danger' : '' }}"
                                                name="email"
                                                value="{{ old('email') }}"
-                                               placeholder="jsmith@example.org"
+                                               placeholder="jhon@example.org"
                                                required
                                                autofocus>
                                         @if ($errors->has('email'))

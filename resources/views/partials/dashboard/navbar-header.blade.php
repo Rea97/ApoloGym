@@ -6,7 +6,8 @@
         <span class="icon-bar"></span>
     </button>
     <a id="nav-logo" class="navbar-brand" href="{{ url('/') }}">
-        {{ config('app.name') }}
+        <img src="{{ asset('/imgs/logo.png') }}" alt="ApoloGym" class="pull-left" style="width: 32px">
+        &nbsp;{{ config('app.name') }}
     </a>
 
 

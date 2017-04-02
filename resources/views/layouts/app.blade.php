@@ -13,6 +13,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/all.css') }}">
+    @if(url()->current() == url('/'))
+        <link rel="stylesheet" href="{{ mix('css/section/welcome.css') }}">
+    @endif
     <link href="//fonts.googleapis.com/css?family=Anton&subset=latin" rel="stylesheet" type="text/css">
 
     <!-- Scripts -->
@@ -24,7 +27,10 @@
 </head>
 <body>
     <div id="app">
-        @include('components.topnavbar')
+        @if(url()->current() != url('/'))
+            @include('partials.topnavbar')
+        @endif
+
 
         @yield('content')
     </div>
