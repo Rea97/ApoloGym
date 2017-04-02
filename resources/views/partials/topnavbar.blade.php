@@ -1,7 +1,6 @@
 <nav class="nav has-shadow">
     <div class="container">
         <div class="nav-left">
-
             <a id="nav-logo" class="nav-item" href="{{ url('/') }}">
                 <figure class="image is-32x32">
                     <img src="{{ asset('imgs/logo.png') }}" alt="ApoloGym">
@@ -16,10 +15,10 @@
             -->
         </div>
         <span class="nav-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
         <div class="nav-right nav-menu">
             <!--
             <a class="nav-item is-tab is-hidden-tablet is-active">Home</a>
