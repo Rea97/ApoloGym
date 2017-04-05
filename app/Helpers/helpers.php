@@ -12,7 +12,9 @@
                 'Dietas'    =>  route('dashboard.diets'),
                 'Progreso'  =>  route('dashboard.progress'),
                 'Horario'   =>  route('dashboard.schedule'),
-                'Instructor'=>  route('dashboard.instructor')
+                'Instructor'=>  route('dashboard.instructor'),
+                'Perfil'    =>  route('dashboard.profile'),
+                'Ajustes'   =>  route('dashboard.settings')
             ];
         }
     }
