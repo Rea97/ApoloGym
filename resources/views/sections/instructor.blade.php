@@ -19,15 +19,19 @@
                     <i class="fa fa-book"></i> Biografía
                 </div>
                 <div class="panel-body">
-                    <h4>Nombre Completo</h4>
+                    <h4><i class="fa fa-user"></i> Nombre Completo</h4>
                     <p>Juan Carlos Hernández Rodríguez</p>
-                    <h4>Edad</h4>
+                    <div class="divider"></div>
+                    <h4><i class="fa fa-calendar"></i> Edad</h4>
                     <p>26</p>
-                    <h4>Teléfono</h4>
+                    <div class="divider"></div>
+                    <h4><i class="fa fa-phone"></i> Teléfono</h4>
                     <p>044 811 738 39 12</p>
-                    <h4>Correo electrónico</h4>
+                    <div class="divider"></div>
+                    <h4><i class="fa fa-at"></i> Correo electrónico</h4>
                     <p>juan@gmail.com</p>
-                    <h4>Acerca de él</h4>
+                    <div class="divider"></div>
+                    <h4><i class="fa fa-book"></i> Acerca de él</h4>
                     <p>Soy una persona apasionada por el ejercicio, para mí, es una parte fundamental de la vida y creo
                     que todos deberían dedicar al menos 60 minutos al día de su tiempo.</p>
                 </div>
@@ -78,7 +82,7 @@
             <ul class="chat">
                 <li class="left clearfix">
                     <span class="chat-img pull-left">
-                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
@@ -94,7 +98,7 @@
                 </li>
                 <li class="right clearfix">
                     <span class="chat-img pull-right">
-                        <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/profile.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
@@ -109,7 +113,7 @@
                 </li>
                 <li class="left clearfix">
                     <span class="chat-img pull-left">
-                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
@@ -124,7 +128,7 @@
                 </li>
                 <li class="right clearfix">
                     <span class="chat-img pull-right">
-                        <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/profile.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
@@ -139,7 +143,7 @@
                 </li>
                 <li class="left clearfix">
                     <span class="chat-img pull-left">
-                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
@@ -155,7 +159,7 @@
                 </li>
                 <li class="right clearfix">
                     <span class="chat-img pull-right">
-                        <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/profile.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
@@ -171,7 +175,7 @@
 
                 <li class="left clearfix">
                     <span class="chat-img pull-left">
-                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header">
