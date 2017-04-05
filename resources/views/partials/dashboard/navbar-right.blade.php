@@ -50,6 +50,7 @@
         <!-- /.dropdown-messages -->
     </li>
     <!-- /.dropdown -->
+    <!-- Tareas pendiente
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -94,9 +95,9 @@
                     <i class="fa fa-angle-right"></i>
                 </a>
             </li>
-        </ul>
+        </ul>-->
         <!-- /.dropdown-tasks -->
-    </li>
+    <!--</li>-->
     <!-- /.dropdown -->
 
 

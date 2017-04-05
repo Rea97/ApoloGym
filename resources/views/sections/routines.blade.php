@@ -22,9 +22,10 @@
                     <table class="table">
                         <tr>
                             <th>Ejercicio</th>
-                            <th>Musculo ejercitado</th>
+                            <th>Músculo ejercitado</th>
                             <th>Series</th>
                             <th>Repeticiones</th>
+                            <th>Peso</th>
                             <th>Hecho</th>
                         </tr>
                         <tr>
@@ -32,20 +33,23 @@
                             <td>Pectorales</td>
                             <td>3</td>
                             <td>8</td>
+                            <td>60 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
+                            <td>Press militar</td>
+                            <td>Deltoides</td>
                             <td>3</td>
-                            <td>8</td>
+                            <td>6</td>
+                            <td>45 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
+                            <td>Press francés</td>
+                            <td>triceps</td>
                             <td>3</td>
-                            <td>8</td>
+                            <td>10</td>
+                            <td>30 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
 
@@ -97,30 +101,34 @@
                     <table class="table">
                         <tr>
                             <th>Ejercicio</th>
-                            <th>Musculo ejercitado</th>
+                            <th>Músculo ejercitado</th>
                             <th>Series</th>
                             <th>Repeticiones</th>
+                            <th>Peso</th>
                             <th>Hecho</th>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
+                            <td>Sentadillas con barra olímpica</td>
+                            <td>pierna</td>
                             <td>3</td>
-                            <td>8</td>
+                            <td>6</td>
+                            <td>60 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
+                            <td>curl de biceps con barra</td>
+                            <td>Biceps braquial</td>
                             <td>3</td>
-                            <td>8</td>
+                            <td>10</td>
+                            <td>20 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
-                            <td>3</td>
+                            <td>Remo horizontal con mancuerna</td>
+                            <td>Dorsal ancho</td>
+                            <td>4</td>
                             <td>8</td>
+                            <td>30 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
 
@@ -172,9 +180,10 @@
                     <table class="table">
                         <tr>
                             <th>Ejercicio</th>
-                            <th>Musculo ejercitado</th>
+                            <th>Músculo ejercitado</th>
                             <th>Series</th>
                             <th>Repeticiones</th>
+                            <th>Peso</th>
                             <th>Hecho</th>
                         </tr>
                         <tr>
@@ -182,20 +191,23 @@
                             <td>Pectorales</td>
                             <td>3</td>
                             <td>8</td>
+                            <td>60 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
+                            <td>Press militar</td>
+                            <td>Deltoides</td>
                             <td>3</td>
-                            <td>8</td>
+                            <td>6</td>
+                            <td>45 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
                         <tr>
-                            <td>Press de banca</td>
-                            <td>Pectorales</td>
+                            <td>Press francés</td>
+                            <td>triceps</td>
                             <td>3</td>
-                            <td>8</td>
+                            <td>10</td>
+                            <td>30 lbs.</td>
                             <td><input type="checkbox"></td>
                         </tr>
 
