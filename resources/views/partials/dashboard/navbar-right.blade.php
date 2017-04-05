@@ -157,9 +157,9 @@
             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
+            <li><a href="{{ route('dashboard.profile') }}"><i class="fa fa-user fa-fw"></i> Perfil</a>
             </li>
-            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Ajustes</a>
+            <li><a href="{{ route('dashboard.settings') }}"><i class="fa fa-gear fa-fw"></i> Ajustes</a>
             </li>
             <li class="divider"></li>
             <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
