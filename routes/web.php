@@ -49,6 +49,14 @@ Route::group(['prefix' => 'dashboard'], function() {
     Route::get('/instructor', function(){
         return view('sections.instructor');
     })->name('dashboard.instructor');
+
+    Route::get('/perfil', function(){
+        return view('sections.profile');
+    })->name('dashboard.profile');
+
+    Route::get('/ajustes', function(){
+        return view('sections.settings');
+    })->name('dashboard.settings');
 });
 
 
