@@ -14,37 +14,37 @@
             </li>
             <li>
                 <a href="{{ route('dashboard.inicio') }}"
-                   class="{{ url()->current() == route('dashboard.inicio') ? 'active' : '' }}">
+                   class="{{ markAsActive(route('dashboard.inicio')) }}">
                     <i class="fa fa-home fa-fw"></i> Inicio
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.routines') }}"
-                   class="{{ url()->current() == route('dashboard.routines') ? 'active' : '' }}">
+                   class="{{ markAsActive(route('dashboard.routines')) }}">
                     <i class="fa fa-th-list fa-fw"></i> Rutinas
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.diets') }}"
-                   class="{{ url()->current() == route('dashboard.diets') ? 'active' : '' }}">
-                    <i class="fa fa-cutlery fa-fw"></i> Dieta
+                   class="{{ markAsActive(route('dashboard.diets')) }}">
+                    <i class="fa fa-cutlery fa-fw"></i> Dietas
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.progress') }}"
-                   class="{{ url()->current() == route('dashboard.progress') ? 'active' : '' }}">
+                   class="{{ markAsActive(route('dashboard.progress')) }}">
                     <i class="fa fa-line-chart fa-fw"></i> Progreso
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.schedule') }}"
-                   class="{{ url()->current() == route('dashboard.schedule') ? 'active' : '' }}">
+                   class="{{ markAsActive(route('dashboard.schedule')) }}">
                     <i class="fa fa-calendar fa-fw"></i> Horario
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.instructor') }}"
-                   class="{{ url()->current() == route('dashboard.instructor') ? 'active' : '' }}">
+                   class="{{ markAsActive(route('dashboard.instructor')) }}">
                     <i class="fa fa-user fa-fw"></i> Instructor
                 </a>
             </li>
