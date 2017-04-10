@@ -23,7 +23,7 @@
         /**
          * Retorna el título para la sección actual.
          *
-         * @param $currentUrl
+         * @param String $currentUrl
          * @return string
          */
         function getTitleSection($currentUrl) {
@@ -33,5 +33,17 @@
                 }
             }
             return 'Dashboard';
+        }
+    }
+
+    if (! function_exists('markAsActive')) {
+        /**
+         * Retorna  la clase de bootstrap 'active' si la url actual corresponde a la url dada.
+         *
+         * @param String $route
+         * @return String
+         */
+        function markAsActive($route) {
+            return url()->current() === $route ? 'active' : '';
         }
     }
