@@ -38,10 +38,10 @@
                             </a>
                         </div>
                         <span class="nav-toggle">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </span>
                         <div class="nav-right nav-menu">
                             <a class="nav-item">
                                 Noticias
@@ -55,11 +55,19 @@
                             <a class="nav-item">
                                 Contacto
                             </a>
-                            <span class="nav-item">
-                                <a class="button is-default" href="{{ route('register')}}">
-                                  Unete!
-                                </a>
-                            </span>
+                            @if(Auth::guest())
+                                <span class="nav-item">
+                                    <a class="button is-default" href="{{ route('register')}}">
+                                      Unete!
+                                    </a>
+                                </span>
+                            @else
+                                <span class="nav-item">
+                                    <a class="button is-default" href="{{ route('dashboard.inicio')}}">
+                                      Dashboard
+                                    </a>
+                                </span>
+                            @endif
                         </div>
                     </div>
                 </nav>
