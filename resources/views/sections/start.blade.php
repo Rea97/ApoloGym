@@ -1,4 +1,6 @@
 @extends('layouts.dashboard')
+
+@section('title', 'Inicio')
 @section('content')
     <div class="row">
         <div class="col-lg-3 col-md-6">

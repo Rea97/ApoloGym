@@ -1,5 +1,6 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Rutinas')
 @section('content')
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-default">
