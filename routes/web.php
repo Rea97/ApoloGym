@@ -26,7 +26,7 @@ Auth::routes();
 /*
  * Dashboard
  */
-Route::group(['prefix' => 'dashboard'], function() {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web']], function() {
     Route::get('/inicio', 'HomeController@index')->name('dashboard.inicio');
 
     //TODO crear RoutinesController
