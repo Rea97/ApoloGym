@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Administrator extends Authenticatable
+class Instructor extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = [
-        'name', 'email', 'password','first_surname', 'second_surname', 'profile_picture', 'phone_number'
-    ];
+    protected $guard = 'instructor';
+
+    // Todos los atributos seran mass assignable, solo para hacer pruebas, corregir después
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
