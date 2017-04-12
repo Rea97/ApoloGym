@@ -13,8 +13,8 @@
                 <!-- /input-group -->
             </li>
             <li>
-                <a href="{{ route('dashboard.inicio') }}"
-                   class="{{ markAsActive(route('dashboard.inicio')) }}">
+                <a href="{{ route('dashboard.start') }}"
+                   class="{{ markAsActive(route('dashboard.start')) }}">
                     <i class="fa fa-home fa-fw"></i> Inicio
                 </a>
             </li>
