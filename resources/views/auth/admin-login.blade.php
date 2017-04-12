@@ -7,10 +7,10 @@
                 <div class="columns is-vcentered">
                     <div class="column is-4 is-offset-4">
                         <h1 class="title">
-                            Inicio de sesión
+                            Zona de <strong>Administrador</strong>.
                         </h1>
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.login') }}">
                             {!! csrf_field() !!}
                             <div class="box">
                                 <div class="field">
@@ -50,23 +50,12 @@
                                     </p>
                                 </div>
                                 <div class="field">
-                                    <label class="label" for="guard">Tipo de usuario</label>
-                                    <p class="control">
-                                        <span class="select">
-                                            <select class="control" name="guard" id="guard">
-                                            <option value="client">Cliente</option>
-                                            <option value="instructor">Instructor</option>
-                                        </select>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="field">
                                     <p class="control" style="color: #0a0a0a">
                                         <label class="checkbox">
                                             <input type="checkbox"
                                                    name="remember"
                                                    class="checkbox"
-                                                   {{ old('remember') ? 'checked' : '' }}>
+                                                    {{ old('remember') ? 'checked' : '' }}>
                                             Mantener sesión iniciada
                                         </label>
                                     </p>

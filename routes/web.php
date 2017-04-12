@@ -18,16 +18,33 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/*
+/**
  * Login, register and password reset
  */
 Auth::routes();
 
-/*
+/**
+ * Administrator login
+ */
+Route::group([
+    'namespace' => '\Auth',
+    'prefix' => 'admin',
+    'middleware' => 'guest:admin,client,instructor'
+], function() {
+    Route::get('/login', 'AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'LoginController@login')->name('admin.login.post');
+    Route::post('/logout', 'AdminLoginController@logout')->name('admin.logout');
+});
+
+/**
  * Dashboard
  */
-Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web']], function() {
-    Route::get('/inicio', 'HomeController@index')->name('dashboard.inicio');
+Route::get('admin/dashboard', 'AdministratorController@index')
+    ->middleware('auth:admin')
+    ->name('admin.dashboard');
+
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,admin'], function() {
+    Route::get('/inicio', 'HomeController@index')->name('dashboard.start');
 
     //TODO crear RoutinesController
     Route::get('/rutinas', function(){
