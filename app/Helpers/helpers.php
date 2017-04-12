@@ -47,3 +47,21 @@
             return url()->current() === $route ? 'active' : '';
         }
     }
+
+    if (! function_exists('isAdmin')) {
+        function isAdmin() {
+            return Auth::guard('admin')->check();
+        }
+    }
+
+    if (! function_exists('isClient')) {
+        function isClient() {
+            return Auth::guard('client')->check();
+        }
+    }
+
+if (! function_exists('isInstructor')) {
+    function isInstructor() {
+        return Auth::guard('instructor')->check();
+    }
+}
