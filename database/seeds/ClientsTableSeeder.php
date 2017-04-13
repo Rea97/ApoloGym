@@ -19,7 +19,7 @@ class ClientsTableSeeder extends Seeder
                 'first_surname' => $faker->lastName,
                 'second_surname' => $faker->lastName,
                 'gender' => $faker->randomElement(['m', 'f']),
-                'age' => $faker->numberBetween(14, 80),
+                'birth_date' => $faker->date(),
                 'height' => $faker->numberBetween(140, 220),
                 'weight' => $faker->numberBetween(30, 200),
                 'phone_number' => $faker->phoneNumber,
