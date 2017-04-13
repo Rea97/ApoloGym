@@ -49,19 +49,105 @@
     }
 
     if (! function_exists('isAdmin')) {
+        /**
+         * Determina si el usuario actual es de tipo admin y está autenticado.
+         *
+         * @return bool
+         */
         function isAdmin() {
             return Auth::guard('admin')->check();
         }
     }
 
     if (! function_exists('isClient')) {
+        /**
+         * Determina si el usuario actual es de tipo cliente y está autenticado.
+         *
+         * @return bool
+         */
         function isClient() {
             return Auth::guard('client')->check();
         }
     }
 
 if (! function_exists('isInstructor')) {
+    /**
+     * Determina si el usuario actual es de tipo instructor y está autenticado
+     *
+     * @return bool
+     */
     function isInstructor() {
         return Auth::guard('instructor')->check();
+    }
+}
+
+if (!function_exists('shouldIncludeNavbar')) {
+    /**
+     * @return bool
+     */
+    function shouldIncludeNavbar() {
+        return url()->current() != url('/') && url()->current() != route('admin.login');
+    }
+}
+
+if (! function_exists('getCurrentAuth')) {
+    /**
+     * Obtiene la instancia del usuario autenticado actual.
+     *
+     * @param string $guard
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function getCurrentAuth($guard) {
+        return Auth::guard($guard)->user();
+    }
+}
+
+if (! function_exists('authClient')) {
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function authClient() {
+        return getCurrentAuth('client');
+    }
+}
+
+if (! function_exists('authAdmin')) {
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function authAdmin() {
+        return getCurrentAuth('admin');
+    }
+}
+
+if (! function_exists('authInstructor')) {
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function authInstructor() {
+        return getCurrentAuth('instructor');
+    }
+}
+
+if (! function_exists('clientsInstructor')) {
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function clientsInstructor() {
+        return getCurrentAuth('client')->instructor;
+    }
+}
+
+if (! function_exists('getPP')) {
+    /**
+     * Obtiene la URL hacia la foto de perfil del usuario dado.
+     *
+     * @param $user
+     *
+     * @return string
+     */
+    function getPP($user) {
+        return $user->profile_picture ?? '/imgs/profile_pic/default.jpg';
     }
 }
