@@ -22,4 +22,9 @@ class Instructor extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function clients()
+    {
+        return $this->hasMany('App\Models\Client');
+    }
 }
