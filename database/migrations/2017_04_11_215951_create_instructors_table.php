@@ -22,6 +22,7 @@ class CreateInstructorsTable extends Migration
             $table->string('phone_number', 50);
             $table->string('email')->unique();
             $table->string('password');
+            $table->text('about_me');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
