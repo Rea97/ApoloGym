@@ -54,8 +54,14 @@
                                     <p class="control">
                                         <span class="select">
                                             <select class="control" name="guard" id="guard">
-                                            <option value="client">Cliente</option>
-                                            <option value="instructor">Instructor</option>
+                                            <option {{ old('guard') === 'client' ? 'selected' : '' }}
+                                                    value="client">
+                                                Cliente
+                                            </option>
+                                            <option {{ old('guard') === 'instructor' ? 'selected' : '' }}
+                                                    value="instructor">
+                                                Instructor
+                                            </option>
                                         </select>
                                         </span>
                                     </p>

@@ -27,7 +27,7 @@
 </head>
 <body>
     <div id="app">
-        @if(url()->current() != url('/'))
+        @if(shouldIncludeNavbar())
             @include('partials.topnavbar')
         @endif
 

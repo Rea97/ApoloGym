@@ -17,7 +17,10 @@
     <link rel="stylesheet" href="{{ mix('css/all.css') }}">
     <link rel="stylesheet" href="{{ mix('css/section/dashboard.css') }}">
     <link href="//fonts.googleapis.com/css?family=Anton&subset=latin" rel="stylesheet" type="text/css">
-
+    <style>
+        ul.pagination{margin: 0}
+        h1.page-header{margin: 30px 0 20px;}
+    </style>
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([

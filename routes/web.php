@@ -39,14 +39,23 @@ Route::group([
 /**
  * Dashboard
  */
-Route::get('admin/dashboard', 'AdministratorController@index')
-    ->middleware('auth:admin')
-    ->name('admin.dashboard');
 
+//Rutas accesibles solo por el ADMINISTRADOR
+Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() {
+    Route::get('/clientes', 'ClientsController@index')->name('dashboard.clients');
+    Route::get('/clientes/{client}', 'ClientsController@show')->name('dashboard.client');
+});
+
+//Rutas accesibles solo por el CLIENTE
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function() {
+    Route::get('/instructor', 'InstructorsController@showClientsInstructor')
+        ->name('dashboard.instructor');
+});
+
+//Rutas accesibles por TODOS los usuarios autenticados
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,admin'], function() {
     Route::get('/inicio', 'HomeController@index')->name('dashboard.start');
 
-    //TODO crear RoutinesController
     Route::get('/rutinas', function(){
         return view('sections.routines');
     })->name('dashboard.routines');
@@ -62,10 +71,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
     Route::get('/horario', function(){
         return view('sections.schedule');
     })->name('dashboard.schedule');
-
-    Route::get('/instructor', function(){
-        return view('sections.instructor');
-    })->name('dashboard.instructor');
 
     Route::get('/perfil', function(){
         return view('sections.profile');
