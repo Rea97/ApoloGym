@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Perfil')
+@section('title', 'Mi Perfil')
 @section('content')
     <div class="row">
         <div class="col-lg-4">
