@@ -42,12 +42,22 @@
                     <i class="fa fa-calendar fa-fw"></i> Horario
                 </a>
             </li>
-            <li>
-                <a href="{{ route('dashboard.instructor') }}"
-                   class="{{ markAsActive(route('dashboard.instructor')) }}">
-                    <i class="fa fa-user fa-fw"></i> Instructor
-                </a>
-            </li>
+            @if(isClient())
+                <li>
+                    <a href="{{ route('dashboard.instructor') }}"
+                       class="{{ markAsActive(route('dashboard.instructor')) }}">
+                        <i class="fa fa-user fa-fw"></i> Instructor
+                    </a>
+                </li>
+            @endif
+            @if(isAdmin())
+                <li>
+                    <a href="{{ route('dashboard.clients') }}"
+                       class="{{ markAsActive(route('dashboard.clients')) }}">
+                        <i class="fa fa-users fa-fw"></i> Clientes
+                    </a>
+                </li>
+            @endif
 
         </ul>
     </div>
