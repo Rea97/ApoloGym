@@ -6,10 +6,13 @@
         <div class="col-lg-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-user"></i> Juan Carlos
+                    <i class="fa fa-user"></i> {{ clientsInstructor()->name }}
                 </div>
                 <div class="panel-body text-center">
-                    <img class="img img-responsive img-thumbnail" src="{{ asset('/imgs/home/instructor2.jpg') }}" alt="">
+                    <img
+                            class="img img-responsive img-thumbnail"
+                            src="{{ asset(getPP(clientsInstructor())) }}"
+                            alt="Foto de perfil-{{clientsInstructor()->name}}">
                 </div>
             </div>
 
@@ -21,20 +24,25 @@
                 </div>
                 <div class="panel-body">
                     <h4><i class="fa fa-user"></i> Nombre Completo</h4>
-                    <p>Juan Carlos Hernández Rodríguez</p>
+                    <p>
+                        {{ clientsInstructor()->name}}
+                        {{ clientsInstructor()->first_surname }}
+                        {{ clientsInstructor()->second_surname ?? '' }}
+                    </p>
                     <div class="divider"></div>
                     <h4><i class="fa fa-calendar"></i> Edad</h4>
-                    <p>26</p>
+                    <p>{{ clientsInstructor()->age ?? 'No se encontró el dato.' }}</p>
                     <div class="divider"></div>
                     <h4><i class="fa fa-phone"></i> Teléfono</h4>
-                    <p>044 811 738 39 12</p>
+                    <p>{{ clientsInstructor()->phone_number }}</p>
                     <div class="divider"></div>
                     <h4><i class="fa fa-at"></i> Correo electrónico</h4>
-                    <p>juan@gmail.com</p>
+                    <p>{{ clientsInstructor()->email }}</p>
                     <div class="divider"></div>
                     <h4><i class="fa fa-book"></i> Acerca de él</h4>
-                    <p>Soy una persona apasionada por el ejercicio, para mí, es una parte fundamental de la vida y creo
-                    que todos deberían dedicar al menos 60 minutos al día de su tiempo.</p>
+                    <p>{{ clientsInstructor()->about_me }}</p>
+                    <!--<p>Soy una persona apasionada por el ejercicio, para mí, es una parte fundamental de la vida y creo
+                    que todos deberían dedicar al menos 60 minutos al día de su tiempo.</p>-->
                 </div>
             </div>
         </div>
