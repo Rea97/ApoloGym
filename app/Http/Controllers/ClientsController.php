@@ -7,11 +7,20 @@ use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
-    public function index()
+    protected $client;
+
+    public function __construct(Client $client)
     {
-        if (request()->ajax()) {
-            $clients = Client::latest()->paginate(10);
+        $this->client = $client;
+
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $clients = $this->client->latest()->paginate(10);
             $response = [
+                //TODO: Generar trait Paginates que contenga metodos para la paginacion, por ejemplo, metodo que genere este arreglo
                 'pagination' => [
                     'total' => $clients->total(),
                     'per_page' => $clients->perPage(),
@@ -24,8 +33,7 @@ class ClientsController extends Controller
             ];
             return response()->json($response);
         }
-        $clients = Client::latest()->paginate(10);
-        return view('sections.admin.clients', compact('clients'));
+        return view('sections.admin.clients');
     }
 
     public function store(Request $request)
@@ -45,7 +53,7 @@ class ClientsController extends Controller
             'email'         => 'required|email|max:255|unique:clients',
             'password'      => 'required|min:6|confirmed'
         ]);
-        $message = Client::create($request->all())
+        $message = $this->client->create($request->all())
             ? 'Cliente registrado con exito.'
             : 'Ha ocurrido un error al registrar al cliente.';
         return redirect()->route('dashboard.clients')->with($message);
@@ -68,7 +76,7 @@ class ClientsController extends Controller
             'email'         => 'required|email|max:255|unique:clients',
             'password'      => 'required|min:6|confirmed'
         ]);
-        $edit = Client::find($id)->update($request->all());
+        $edit = $this->client->find($id)->update($request->all());
         return response()->json($edit);
     }
 
@@ -79,7 +87,7 @@ class ClientsController extends Controller
 
     public function destroy($id)
     {
-        Client::find($id)->delete();
+        $this->client->find($id)->delete();
         return response()->json(['message' => 'Cliente eliminado satisfactoriamente.']);
     }
 }
