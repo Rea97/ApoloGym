@@ -12,9 +12,9 @@ window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass');
 require('sweetalert/dist/sweetalert.min.js');
 require('./vendor/metisMenu.min');
-require('./vendor/raphael.min');
-require('./vendor/morris.min');
-require('./vendor/morris-data');
+//require('./vendor/raphael.min');
+//require('./vendor/morris.min');
+//require('./vendor/morris-data');
 require('./sections/dashboard');
 
 /**
