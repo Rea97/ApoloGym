@@ -11293,7 +11293,8 @@ var app = new Vue({
         counter: 0,
         pagination: {
             total: 0,
-            per_page: 2,
+            //per_page: 2,
+            per_page: 10,
             from: 1,
             to: 0,
             current_page: 1
@@ -11301,16 +11302,14 @@ var app = new Vue({
         offset: 4
     },
     created: function created() {
-        //this.$on('getClients', function() {
-        //    this.getClients(this.pagination.current_page);
-        //});
         //this.getClients(this.pagination.current_page);
     },
     methods: {
         getClients: function getClients(page) {
             var _this = this;
             $.ajax({
-                url: 'clientes?page=' + page,
+                //url: 'clientes?page='+page,
+                url: 'clientes?page=' + page + '&quantity=' + _this.pagination.per_page,
                 success: function success(response) {
                     _this.clients = response.data.data;
                     _this.pagination = response.data;
@@ -12237,8 +12236,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         console.log('Componente de paginación montado.');
-        //Generar un evento cuando se monte el componente
-        //this.$emit('fetch');
         this.getClients(this.pagination.current_page);
     },
     computed: {
