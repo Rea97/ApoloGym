@@ -14,7 +14,35 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('vue-pagination', require('./components/Pagination.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        clients: [],
+        counter: 0,
+        pagination: {
+            total: 0,
+            per_page: 2,
+            from: 1,
+            to: 0,
+            current_page: 1
+        },
+        offset: 4,
+    },
+    mounted : function() {
+        this.getClients(this.pagination.current_page);
+    },
+    methods: {
+        getClients(page) {
+            var _this = this;
+            $.ajax({
+                url: 'clientes?page='+page,
+                success: (response) => {
+                    _this.clients = response.data.data;
+                    _this.pagination = response.data;
+                }
+            });
+        }
+    }
 });

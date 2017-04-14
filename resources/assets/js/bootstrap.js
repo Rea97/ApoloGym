@@ -15,7 +15,7 @@ require('./vendor/metisMenu.min');
 require('./vendor/raphael.min');
 require('./vendor/morris.min');
 require('./vendor/morris-data');
-require('./dashboard');
+require('./sections/dashboard');
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
