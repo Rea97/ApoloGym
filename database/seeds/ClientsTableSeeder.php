@@ -21,7 +21,7 @@ class ClientsTableSeeder extends Seeder
                 'gender' => $faker->randomElement(['m', 'f']),
                 'birth_date' => $faker->date(),
                 'height' => $faker->numberBetween(140, 220),
-                'weight' => $faker->numberBetween(30, 200),
+                'weight' => $faker->randomFloat(2, 40, 200),
                 'phone_number' => $faker->phoneNumber,
                 'address' => $faker->address,
                 'rfc' => $this->makeRfc(),

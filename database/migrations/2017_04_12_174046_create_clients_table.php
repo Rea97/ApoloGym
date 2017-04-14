@@ -25,7 +25,8 @@ class CreateClientsTable extends Migration
             //$table->tinyInteger('age');//modificar por un campo de tipo date que sea la fecha de nacimiento
             $table->date('birth_date');
             $table->tinyInteger('height')->unsigned();
-            $table->tinyInteger('weight')->unsigned();
+            //$table->tinyInteger('weight')->unsigned();
+            $table->float('weight');
             $table->string('phone_number', 50);
             $table->string('address', 100);
             $table->string('rfc', 30)->nullable();
