@@ -44,6 +44,9 @@ Route::group([
 Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() {
     Route::get('/clientes', 'ClientsController@index')->name('dashboard.clients');
     Route::get('/clientes/{client}', 'ClientsController@show')->name('dashboard.client');
+    Route::get('/instructores', function() {
+
+    })->name('dashboard.instructors');
 });
 
 //Rutas accesibles solo por el CLIENTE
