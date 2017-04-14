@@ -11310,13 +11310,6 @@ var app = new Vue({
             }).catch(function (error) {
                 console.log(error);
             });
-            /*$.ajax({ //Implementación con jquery
-                url: `clientes?page=${page}&quantity=${_this.pagination.per_page}`,
-                success: (response) => {
-                    _this.clients = response.data.data;
-                    _this.pagination = response.data;
-                }
-            });*/
         }
     }
 });
