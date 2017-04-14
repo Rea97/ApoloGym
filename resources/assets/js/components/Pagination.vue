@@ -27,7 +27,12 @@
             offset: {
                 type: Number,
                 default: 4
-            }
+            },
+            getClients: {}
+        },
+        mounted : function() {
+            console.log('Componente de paginación montado.');
+            this.getClients(this.pagination.current_page);
         },
         computed: {
             pagesNumber: function () {

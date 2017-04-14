@@ -30,8 +30,8 @@ const app = new Vue({
         },
         offset: 4,
     },
-    mounted : function() {
-        this.getClients(this.pagination.current_page);
+    created : function() {
+        //this.getClients(this.pagination.current_page);
     },
     methods: {
         getClients(page) {

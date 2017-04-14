@@ -11300,8 +11300,11 @@ var app = new Vue({
         },
         offset: 4
     },
-    mounted: function mounted() {
-        this.getClients(this.pagination.current_page);
+    created: function created() {
+        //this.$on('getClients', function() {
+        //    this.getClients(this.pagination.current_page);
+        //});
+        //this.getClients(this.pagination.current_page);
     },
     methods: {
         getClients: function getClients(page) {
@@ -12229,7 +12232,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         offset: {
             type: Number,
             default: 4
-        }
+        },
+        getClients: {}
+    },
+    mounted: function mounted() {
+        console.log('Componente de paginación montado.');
+        //Generar un evento cuando se monte el componente
+        //this.$emit('fetch');
+        this.getClients(this.pagination.current_page);
     },
     computed: {
         pagesNumber: function pagesNumber() {

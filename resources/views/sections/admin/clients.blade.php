@@ -6,9 +6,11 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-sm-8 col-md-8 col-lg-10">
-                    <vue-pagination  v-bind:pagination="pagination"
-                                     v-on:click.native="getClients(pagination.current_page)"
-                                     :offset="4">
+                    <vue-pagination
+                            :get-clients="getClients"
+                            v-bind:pagination="pagination"
+                            v-on:click.native="getClients(pagination.current_page)"
+                            :offset="4">
                     </vue-pagination>
                 </div>
                 <div class="col-sm-4 col-md-4 col- col-lg-2">
