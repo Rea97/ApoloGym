@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-sm-4 col-md-4 col- col-lg-2">
                     <button class="btn btn-success btn-block pull-righ">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i> Nuevo registro
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo registro
                     </button>
                 </div>
             </div>
@@ -41,7 +41,11 @@
                             <th>&nbsp;</th>
                         </tr>
                         <tr v-cloak v-for="client in clients">
-                            <td>@{{ client.id }}</td>
+                            <td>
+                                <a :href="'/dashboard/clientes/'+client.id">
+                                    @{{ client.id }}
+                                </a>
+                            </td>
                             <td>@{{ client.name }}</td>
                             <td>@{{ client.first_surname }} @{{ client.second_surname }}</td>
                             <td>@{{ client.email }}</td>

@@ -11,8 +11,6 @@
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
     <link rel="stylesheet" href="{{ mix('css/vendor/vendor.css') }}">
     <link rel="stylesheet" href="{{ mix('css/all.css') }}">
     <link rel="stylesheet" href="{{ mix('css/section/dashboard.css') }}">
@@ -41,7 +39,7 @@
                         @yield('title')
                         <a class="btn btn-sm btn-primary pull-right" onclick="window.history.back();">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                            Volver
+                            Página anterior
                         </a>
                     </h1>
                 </div>
