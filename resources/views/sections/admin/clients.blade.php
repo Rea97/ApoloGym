@@ -6,12 +6,12 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-sm-8 col-md-8 col-lg-10">
-                    <vue-pagination
-                            :get-clients="getClients"
+                    <pagination
+                            :fetch-clients="fetchClients"
                             v-bind:pagination="pagination"
-                            v-on:click.native="getClients(pagination.current_page)"
+                            v-on:click.native="fetchClients(pagination.current_page)"
                             :offset="4">
-                    </vue-pagination>
+                    </pagination>
                 </div>
                 <div class="col-sm-4 col-md-4 col- col-lg-2">
                     <button class="btn btn-success btn-block pull-righ">
@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="quantity">Mostrar: </label>
                                     <select v-model="pagination.per_page"
-                                            v-on:change="getClients(pagination.current_page)"
+                                            v-on:change="fetchClients(pagination.current_page)"
                                             class="form-control input-sm"
                                             name="quantity"
                                             id="quantity">

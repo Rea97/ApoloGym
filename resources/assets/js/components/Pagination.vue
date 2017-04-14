@@ -28,11 +28,11 @@
                 type: Number,
                 default: 4
             },
-            getClients: {}
+            fetchClients: {}
         },
         mounted : function() {
             console.log('Componente de paginación montado.');
-            this.getClients(this.pagination.current_page);
+            this.fetchClients(this.pagination.current_page);
         },
         computed: {
             pagesNumber: function () {

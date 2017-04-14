@@ -14,7 +14,7 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('vue-pagination', require('./components/Pagination.vue'));
+Vue.component('pagination', require('./components/Pagination.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -31,15 +31,17 @@ const app = new Vue({
         offset: 4,
     },
     methods: {
-        getClients(page) {
+        fetchClients(page) {
             var _this = this;
-            $.ajax({
-                url: `clientes?page=${page}&quantity=${_this.pagination.per_page}`,
-                success: (response) => {
-                    _this.clients = response.data.data;
-                    _this.pagination = response.data;
-                }
-            });
+            axios.get(`clientes?page=${page}&quantity=${_this.pagination.per_page}`)
+                .then((response) => {
+                    console.log(response.data);
+                    _this.clients = response.data.data.data;
+                    _this.pagination = response.data.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }
 });

@@ -11268,7 +11268,7 @@ module.exports = g;
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function($) {
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -11284,7 +11284,7 @@ __webpack_require__(33);
  */
 
 Vue.component('example', __webpack_require__(39));
-Vue.component('vue-pagination', __webpack_require__(40));
+Vue.component('pagination', __webpack_require__(40));
 
 var app = new Vue({
     el: '#app',
@@ -11293,7 +11293,6 @@ var app = new Vue({
         counter: 0,
         pagination: {
             total: 0,
-            //per_page: 2,
             per_page: 10,
             from: 1,
             to: 0,
@@ -11301,24 +11300,26 @@ var app = new Vue({
         },
         offset: 4
     },
-    created: function created() {
-        //this.getClients(this.pagination.current_page);
-    },
     methods: {
-        getClients: function getClients(page) {
+        fetchClients: function fetchClients(page) {
             var _this = this;
-            $.ajax({
-                //url: 'clientes?page='+page,
-                url: 'clientes?page=' + page + '&quantity=' + _this.pagination.per_page,
-                success: function success(response) {
+            axios.get('clientes?page=' + page + '&quantity=' + _this.pagination.per_page).then(function (response) {
+                console.log(response.data);
+                _this.clients = response.data.data.data;
+                _this.pagination = response.data.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+            /*$.ajax({ //Implementación con jquery
+                url: `clientes?page=${page}&quantity=${_this.pagination.per_page}`,
+                success: (response) => {
                     _this.clients = response.data.data;
                     _this.pagination = response.data;
                 }
-            });
+            });*/
         }
     }
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 12 */
@@ -12232,11 +12233,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Number,
             default: 4
         },
-        getClients: {}
+        fetchClients: {}
     },
     mounted: function mounted() {
         console.log('Componente de paginación montado.');
-        this.getClients(this.pagination.current_page);
+        this.fetchClients(this.pagination.current_page);
     },
     computed: {
         pagesNumber: function pagesNumber() {
