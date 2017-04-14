@@ -38,7 +38,7 @@
                             <th>Teléfono</th>
                             <th>&nbsp;</th>
                         </tr>
-                        <tr v-for="client in clients">
+                        <tr v-cloak v-for="client in clients">
                             <td>@{{ client.id }}</td>
                             <td>@{{ client.name }}</td>
                             <td>@{{ client.first_surname }} @{{ client.second_surname }}</td>
@@ -49,40 +49,13 @@
                                     Ver detalles
                                 </a>
                             </td>
-
                         </tr>
-
                     </table>
-                    <!--
-                    <table class="table table-hover table-condensed">
-                        <tr>
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        @foreach($clients as $client)
-                            <tr>
-                                <td>
-                                    <a href="{{route('dashboard.client', $client->id)}}">
-                                        {{ $client->id }}
-                                    </a>
-                                </td>
-                                <td>{{ $client->name }}</td>
-                                <td>{{ $client->first_surname }} {{ $client->second_surname }}</td>
-                                <td>{{ $client->email }}</td>
-                                <td>{{ $client->phone_number }}</td>
-                                <td>
-                                    <a href="{{route('dashboard.client', $client->id)}}">
-                                        Ver detalles
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                    -->
+                </div>
+                <div class="panel-footer">
+                    <span v-cloak>
+                        Mostrando <b>@{{ pagination.from }}</b> a <b>@{{ pagination.to }}</b> de <b>@{{ pagination.total }}</b> registros
+                    </span>
                 </div>
             </div>
             

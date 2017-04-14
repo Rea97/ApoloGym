@@ -12255,22 +12255,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         changePage: function changePage(page) {
             switch (page) {
                 case 'forward':
+                    //Esta acción ocurre cuando se presipna el botón para ir hacia adelante
                     if (this.pagination.current_page < this.pagination.last_page) {
                         this.pagination.current_page++;
                     }
                     break;
                 case 'backward':
+                    //Esta acción ocurre cuando se presipna el botón para ir hacia atrás
                     if (this.pagination.current_page != 1) {
                         this.pagination.current_page--;
                     }
                     break;
                 default:
+                    //En caso de no recibir ninguno de los dos anteriores casos como parametros
+                    //se entiende que es un numero de página especifico recibido, por lo tanto,
+                    //se asigna directamente dicho numero a la página actual
                     this.pagination.current_page = page;
                     break;
             }
-            /*if (this.pagination.current_page >= 1 && this.pagination.current_page <= this.pagination.last_page) {
-                this.pagination.current_page = page;
-            }*/
         }
     }
 });
