@@ -18,7 +18,7 @@ class ClientsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $clients = $this->client->latest()->paginate(10);
+            $clients = $this->client->latest()->paginate($request->quantity);
             $response = [
                 //TODO: Generar trait Paginates que contenga metodos para la paginacion, por ejemplo, metodo que genere este arreglo
                 'pagination' => [

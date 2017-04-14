@@ -55,9 +55,30 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <span v-cloak>
-                        Mostrando <b>@{{ pagination.from }}</b> a <b>@{{ pagination.to }}</b> de <b>@{{ pagination.total }}</b> registros
-                    </span>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <span v-cloak>
+                                Mostrando <b>@{{ pagination.from }}</b> a <b>@{{ pagination.to }}</b> de <b>@{{ pagination.total }}</b> registros
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="pull-right form-inline">
+                                <div class="form-group">
+                                    <label class="control-label" for="quantity">Mostrar: </label>
+                                    <select v-model="pagination.per_page"
+                                            v-on:change="getClients(pagination.current_page)"
+                                            class="form-control input-sm"
+                                            name="quantity"
+                                            id="quantity">
+                                        <option value="10">10</option>
+                                        <option value="30">30</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             
