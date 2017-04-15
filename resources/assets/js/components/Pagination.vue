@@ -32,7 +32,7 @@
         },
         mounted : function() {
             console.log('Componente de paginación montado.');
-            this.fetchClients(this.pagination.current_page);
+            this.fetchClients(true, this.pagination.current_page);
         },
         computed: {
             pagesNumber: function () {

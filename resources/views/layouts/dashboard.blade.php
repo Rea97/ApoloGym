@@ -37,10 +37,13 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         @yield('title')
-                        <a class="btn btn-sm btn-primary pull-right" onclick="window.history.back();">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                            Página anterior
-                        </a>
+                        <div class="pull-right hidden-xs">
+                            <a class="btn btn-sm btn-primary" onclick="window.history.back();">
+                                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                Página anterior
+                            </a>
+                        </div>
+
                     </h1>
                 </div>
                 <!-- /.col-lg-12 -->

@@ -9,7 +9,7 @@
                     <pagination
                             :fetch-clients="fetchClients"
                             v-bind:pagination="pagination"
-                            v-on:click.native="fetchClients(pagination.current_page)"
+                            v-on:click.native="fetchClients(true, pagination.current_page)"
                             :offset="4">
                     </pagination>
                 </div>
@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="quantity">Mostrar: </label>
                                     <select v-model="pagination.per_page"
-                                            v-on:change="fetchClients(pagination.current_page)"
+                                            v-on:change="fetchClients(true, pagination.current_page)"
                                             class="form-control input-sm"
                                             name="quantity"
                                             id="quantity">
