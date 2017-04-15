@@ -3,23 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Utilities\Pagination;
 use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
+    use Pagination;
+
     protected $client;
 
     public function __construct(Client $client)
     {
         $this->client = $client;
-
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $clients = $this->client->latest()->paginate($request->quantity);
-            $response = [
+            $response = $this->makePaginationArray($clients);
+            /*$response = [
                 //TODO: Generar trait Paginates que contenga metodos para la paginacion, por ejemplo, metodo que genere este arreglo
                 'pagination' => [
                     'total' => $clients->total(),
@@ -30,7 +33,7 @@ class ClientsController extends Controller
                     'to' => $clients->lastItem()
                 ],
                 'data' => $clients
-            ];
+            ];*/
             return response()->json($response);
         }
         return view('sections.admin.clients');
@@ -80,8 +83,17 @@ class ClientsController extends Controller
         return response()->json($edit);
     }
 
-    public function show(Client $client)
+    public function show(Request $request, Client $client)
     {
+        if ($request->ajax()) {
+            $response = [
+                'data' => [
+                    'client' => $client,
+                    'requested_instructor' => $client->instructor()->first()
+                ]
+            ];
+            return response()->json($response);
+        }
         return view('sections.admin.client', compact('client'));
     }
 
