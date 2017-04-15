@@ -1,7 +1,14 @@
 @extends('layouts.dashboard')
 
-@section('title', $client->name.' '.$client->first_surname)
+@section('title', 'Detalles del cliente')
 @section('content')
+    <client-details :instructor="instructor"
+                    :instructors="instructors"
+                    :client="client"
+                    :fetch-client="fetchClient"
+                    :fetch-instructors="fetchInstructors">
+    </client-details>
+    <!--
     <div class="row">
         <div class="col-sm-4">
             <div class="panel panel-default">
@@ -23,6 +30,12 @@
                         </div>
                         <div class="panel-body">
                             <h4><i class="fa fa-user-circle" aria-hidden="true"></i> Nombre(s)</h4>
+                            <div class="input-group">
+                                <input class="form-control" type="text" value="{{ $client->name }}">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
                             <p>{{ $client->name }}</p>
                             <div class="divider"></div>
                             <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido paterno</h4>
@@ -91,4 +104,5 @@
             </div>
         </div>
     </div>
+    -->
 @endsection
