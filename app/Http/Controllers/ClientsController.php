@@ -17,26 +17,24 @@ class ClientsController extends Controller
         $this->client = $client;
     }
 
+    public function showClients()
+    {
+        return view('sections.admin.clients');
+    }
+
+    public function showClient()
+    {
+        return view('sections.admin.client');
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $clients = $this->client->latest()->paginate($request->quantity);
             $response = $this->makePaginationArray($clients);
-            /*$response = [
-                //TODO: Generar trait Paginates que contenga metodos para la paginacion, por ejemplo, metodo que genere este arreglo
-                'pagination' => [
-                    'total' => $clients->total(),
-                    'per_page' => $clients->perPage(),
-                    'current_page' => $clients->currentPage(),
-                    'last_page' => $clients->lastPage(),
-                    'from' => $clients->firstItem(),
-                    'to' => $clients->lastItem()
-                ],
-                'data' => $clients
-            ];*/
             return response()->json($response);
         }
-        return view('sections.admin.clients');
+        return redirect()->route('dashboard.start');
     }
 
     public function store(Request $request)
@@ -94,7 +92,7 @@ class ClientsController extends Controller
             ];
             return response()->json($response);
         }
-        return view('sections.admin.client', compact('client'));
+        return redirect()->route('dashboard.start');
     }
 
     public function destroy($id)

@@ -42,9 +42,9 @@ Route::group([
 
 //Rutas accesibles solo por el ADMINISTRADOR
 Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() {
-    Route::get('/clientes', 'ClientsController@index')->name('dashboard.clients');
-    Route::get('/clientes/{client}', 'ClientsController@show')->name('dashboard.client');
-    Route::get('/instructores', 'InstructorsController@index')->name('dashboard.instructors');
+    Route::get('/clientes', 'ClientsController@showClients')->name('dashboard.clients');
+    Route::get('/clientes/{client}', 'ClientsController@showClient')->name('dashboard.client');
+    Route::get('/instructores', 'InstructorsController@showInstructors')->name('dashboard.instructors');
 });
 
 //Rutas accesibles solo por el CLIENTE
@@ -82,4 +82,19 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
     })->name('dashboard.settings');
 });
 
+/**
+ * API
+ */
+Route::group(['prefix' => '/api'], function () {
+   /**
+    * Instructors
+    */
+   Route::get('/instructors', 'InstructorsController@index')->middleware('auth:admin');
+
+   /**
+    * Clients
+    */
+   Route::get('/clients', 'ClientsController@index')->middleware('auth:admin');
+   Route::get('/clients/{client}', 'ClientsController@show')->middleware('auth:admin');
+});
 

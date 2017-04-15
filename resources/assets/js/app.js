@@ -51,11 +51,11 @@ const app = new Vue({
                 html: true
             });
         },
-        fetchClients(pagination = false, page = 1) {
+        fetchClients(pagination = false, page) {
             var _this = this;
             let url = pagination ?
-                `/dashboard/clientes?page=${page}&quantity=${_this.pagination.per_page}` :
-                '/dashboard/clientes';
+                `/api/clients?page=${page}&quantity=${_this.pagination.per_page}` :
+                '/api/clients';
             axios.get(url)
                 .then((response) => {
                     //console.log(response.data);
@@ -73,7 +73,7 @@ const app = new Vue({
         fetchClient() {
             let _this = this;
             let id = this.getIdOfResourceInUrl();
-            axios.get(`/dashboard/clientes/${id}`)
+            axios.get(`/api/clients/${id}`)
                 .then((response) => {
                     //Only for debug
                     //console.log(response.data.data);
@@ -87,11 +87,11 @@ const app = new Vue({
                     //console.log(error);
                 })
         },
-        fetchInstructors(pagination = false, page = 1) {
+        fetchInstructors(pagination = false, page) {
             let _this = this;
             let url = pagination ?
-                `/dashboard/instructores?page=${page}&quantity=${_this.pagination.per_page}` :
-                '/dashboard/instructores';
+                `/api/instructors?page=${page}&quantity=${_this.pagination.per_page}` :
+                '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
             axios.get(url)
                 .then((response) => {

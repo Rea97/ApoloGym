@@ -18,6 +18,15 @@ require('./vendor/metisMenu.min');
 require('./sections/dashboard');
 
 /**
+ * Rutas de la Api
+ */
+/*window.apiRoutes = {
+    clients: {
+        index: '/api/clients'
+    }
+};*/
+
+/**
  * Vue is a modern JavaScript library for building interactive web interfaces
  * using reactive data binding and reusable partials. Vue's API is clean
  * and simple, leaving you to focus on building your next great project.

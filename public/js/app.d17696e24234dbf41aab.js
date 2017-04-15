@@ -11323,10 +11323,10 @@ var app = new Vue({
             var _this2 = this;
 
             var pagination = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+            var page = arguments[1];
 
             var _this = this;
-            var url = pagination ? '/dashboard/clientes?page=' + page + '&quantity=' + _this.pagination.per_page : '/dashboard/clientes';
+            var url = pagination ? '/api/clients?page=' + page + '&quantity=' + _this.pagination.per_page : '/api/clients';
             axios.get(url).then(function (response) {
                 //console.log(response.data);
                 _this.clients = response.data.data.data;
@@ -11344,7 +11344,7 @@ var app = new Vue({
 
             var _this = this;
             var id = this.getIdOfResourceInUrl();
-            axios.get('/dashboard/clientes/' + id).then(function (response) {
+            axios.get('/api/clients/' + id).then(function (response) {
                 //Only for debug
                 //console.log(response.data.data);
                 //console.log(response.data.data.client);
@@ -11363,7 +11363,7 @@ var app = new Vue({
             var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
             var _this = this;
-            var url = pagination ? '/dashboard/instructores?page=' + page + '&quantity=' + _this.pagination.per_page : '/dashboard/instructores';
+            var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page : '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
             axios.get(url).then(function (response) {
                 console.log(response);
@@ -12413,6 +12413,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -12633,6 +12634,15 @@ __webpack_require__(36);
 //require('./vendor/morris.min');
 //require('./vendor/morris-data');
 __webpack_require__(35);
+
+/**
+ * Rutas de la Api
+ */
+/*window.apiRoutes = {
+    clients: {
+        index: '/api/clients'
+    }
+};*/
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -32540,6 +32550,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": _vm.getProfilePictureUrl,
       "alt": _vm.client.name
     }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "divider"
   }), _vm._v(" "), (_vm.isAnyDataOnEdit) ? _c('div', {
     attrs: {
       "id": "reset-data"

@@ -25,6 +25,16 @@ class InstructorsController extends Controller
         $this->instructor = $instructor;
     }
 
+    public function showInstructors()
+    {
+        return view('sections.admin.instructor');
+    }
+
+    public function showClientsInstructor()
+    {
+        return view('sections.instructor');
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -36,12 +46,9 @@ class InstructorsController extends Controller
             $instructors = $this->instructor->all();
             return response()->json(['data' => $instructors]);
         }
-        return view('sections.admin.instructor');
+        return redirect()->route('dashboard.start');
     }
 
-    public function showClientsInstructor()
-    {
-        return view('sections.instructor');
-    }
+
 
 }
