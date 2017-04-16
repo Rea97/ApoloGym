@@ -85,7 +85,60 @@ const app = new Vue({
                 .catch((error) => {
                     this.showErrorAlert();
                     //console.log(error);
+                });
+        },
+        deleteClient() {
+            let _this = this;
+            let id = this.getIdOfResourceInUrl();
+            swal({
+                    title: "Peligro",
+                    text: "¿Estás seguro?, se eliminará el registro del cliente.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sí, deseo eliminarlo",
+                    cancelButtonText: "No",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        axios.delete(`/api/clients/${id}`)
+                            .then((response) => {
+                                swal("Eliminado", "Se ha eliminado el registro satisfactoriamente.", "success");
+                                setTimeout(function () {
+                                    window.location = '/dashboard/clientes';
+                                }, 1000);
+                            })
+                            .catch((error) => {
+                                _this.showErrorAlert();
+                            });
+                    } else {
+                        swal("Cancelado", "Has cancelado la acción, tú cliente sigue registrado.", "error");
+                    }
+                }
+            );
+
+        },
+        updateClient() {
+            let _this = this;
+            //let id = this.getIdOfResourceInUrl();
+            let id = this.client.id;
+            axios.put(`/api/clients/${id}`, this.client)
+                .then((response) => {
+                    console.log(response);
+                    //swal("Correcto", "Se han guardado los cambios del registro", "success");
+                    /**
+                     * Solución temporal al problema de que no se actualice el modelo client despues
+                     * de guardar los cambios realizados, esto solo pasa cada segunda vez
+                     * que se hacen cambios.
+                     */
+                    window.location = '/dashboard/clientes/'+id;
                 })
+                .catch((error) => {
+                    console.log(error);
+                    _this.showErrorAlert();
+                });
         },
         fetchInstructors(pagination = false, page) {
             let _this = this;

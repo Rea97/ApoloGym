@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Utilities\Pagination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ClientsController extends Controller
 {
@@ -62,7 +64,7 @@ class ClientsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        /*$this->validate($request, [
             'name'          => 'required|max:40|string',
             'instructor_id' => 'required|integer',
             'first_surname' => 'required|max:40|string',
@@ -76,7 +78,31 @@ class ClientsController extends Controller
             'rfc'           => 'alpha_num|max:30',
             'email'         => 'required|email|max:255|unique:clients',
             'password'      => 'required|min:6|confirmed'
+        ]);*/
+        $validation = Validator::make($request->all(), [
+            'name'          => 'required|max:40|string',
+            'instructor_id' => 'required|integer',
+            'first_surname' => 'required|max:40|string',
+            'second_surname'=> 'max:40|string|nullable',
+            'gender'        => 'required|max:1|string',
+            'birth_date'    => 'required|date',
+            'height'        => 'required|integer|between:120,220',
+            'weight'        => 'required',
+            'phone_number'  => 'required|string',
+            'address'       => 'required|string|max:100',
+            'rfc'           => 'alpha_num|max:30',
+            'profile_picture'=> 'nullable|string',
+            //'password'      => 'required|min:6|confirmed',
+            'email'         => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('clients')->ignore($id)
+            ]
         ]);
+        if ($validation->fails()) {
+            return response()->json(['errors' => $validation->errors()]);
+        }
         $edit = $this->client->find($id)->update($request->all());
         return response()->json($edit);
     }

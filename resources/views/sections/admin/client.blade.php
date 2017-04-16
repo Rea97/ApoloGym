@@ -5,6 +5,8 @@
     <client-details :instructor="instructor"
                     :instructors="instructors"
                     :client="client"
+                    :delete-client="deleteClient"
+                    :update-client="updateClient"
                     :fetch-client="fetchClient"
                     :fetch-instructors="fetchInstructors">
     </client-details>

@@ -96,5 +96,7 @@ Route::group(['prefix' => '/api'], function () {
     */
    Route::get('/clients', 'ClientsController@index')->middleware('auth:admin');
    Route::get('/clients/{client}', 'ClientsController@show')->middleware('auth:admin');
+   Route::delete('/clients/{client}', 'ClientsController@destroy')->middleware('auth:admin');
+   Route::put('/clients/{client}', 'ClientsController@update')->middleware('auth:admin');
 });
 

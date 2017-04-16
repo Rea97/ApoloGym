@@ -11356,6 +11356,52 @@ var app = new Vue({
                 //console.log(error);
             });
         },
+        deleteClient: function deleteClient() {
+            var _this = this;
+            var id = this.getIdOfResourceInUrl();
+            swal({
+                title: "Peligro",
+                text: "¿Estás seguro?, se eliminará el registro del cliente.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sí, deseo eliminarlo",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    axios.delete('/api/clients/' + id).then(function (response) {
+                        swal("Eliminado", "Se ha eliminado el registro satisfactoriamente.", "success");
+                        setTimeout(function () {
+                            window.location = '/dashboard/clientes';
+                        }, 1000);
+                    }).catch(function (error) {
+                        _this.showErrorAlert();
+                    });
+                } else {
+                    swal("Cancelado", "Has cancelado la acción, tú cliente sigue registrado.", "error");
+                }
+            });
+        },
+        updateClient: function updateClient() {
+            var _this = this;
+            //let id = this.getIdOfResourceInUrl();
+            var id = this.client.id;
+            axios.put('/api/clients/' + id, this.client).then(function (response) {
+                console.log(response);
+                //swal("Correcto", "Se han guardado los cambios del registro", "success");
+                /**
+                 * Solución temporal al problema de que no se actualice el modelo client despues
+                 * de guardar los cambios realizados, esto solo pasa cada segunda vez
+                 * que se hacen cambios.
+                 */
+                window.location = '/dashboard/clientes/' + id;
+            }).catch(function (error) {
+                console.log(error);
+                _this.showErrorAlert();
+            });
+        },
         fetchInstructors: function fetchInstructors() {
             var _this4 = this;
 
@@ -12401,12 +12447,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         fetchClient: {},
         fetchInstructors: {},
         client: {},
+        deleteClient: {},
+        updateClient: {},
         instructor: {},
         instructors: {}
     },
@@ -12442,6 +12499,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         resetData: function resetData() {
             this.fetchClient();
             this.onEdit = false;
+        },
+        deleteData: function deleteData() {
+            this.deleteClient();
+        },
+        updateData: function updateData() {
+            this.updateClient();
+            //this.onEdit = false;
+            //this.fetchClient();
         }
     },
     computed: {
@@ -32537,7 +32602,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Cancelar\n                            ")]), _vm._v(" "), _vm._m(0)]) : _c('div', [_c('button', {
+  }), _vm._v(" Cancelar\n                            ")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-block btn-success",
+    on: {
+      "click": _vm.updateData
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-save",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Guardar\n                            ")])]) : _c('div', [_c('button', {
     staticClass: "btn btn-info btn-block",
     attrs: {
       "id": "edit-data"
@@ -32550,7 +32625,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Editar información\n                            ")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Editar información\n                            ")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger btn-block",
+    attrs: {
+      "id": "delete-data"
+    },
+    on: {
+      "click": _vm.deleteData
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-trash",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Eliminar usuario\n                            ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-8"
   }, [_c('div', {
     staticClass: "row"
@@ -32558,9 +32646,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-6"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(2), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  }, [_vm._m(1), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32582,7 +32670,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.name))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(2), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32604,7 +32692,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.first_surname))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(4), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32664,7 +32752,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Femenino")])]) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.getGender))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(5), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(4), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32688,9 +32776,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-6"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(7), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  }, [_vm._m(6), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32712,7 +32800,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.rfc))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(8), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(7), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32734,7 +32822,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.address))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(9), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(8), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32755,6 +32843,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.phone_number))]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _vm._m(9), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.client.email),
+      expression: "client.email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.client.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.client.email = $event.target.value
+      }
+    }
+  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.email))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
   })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     staticClass: "form-control",
@@ -32856,15 +32966,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                                    " + _vm._s(_vm.instructor.name) + "\n                                ")])])])])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-block btn-success"
-  }, [_c('i', {
-    staticClass: "fa fa-save",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Guardar\n                            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
   }, [_c('i', {
@@ -32925,6 +33026,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "aria-hidden": "true"
     }
   }), _vm._v(" Teléfono")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h4', [_c('i', {
+    staticClass: "fa fa-at",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" E-mail")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-calendar",

@@ -17,7 +17,7 @@
                                      el cliente en cuestion-->
                                     <i class="fa fa-times-circle" aria-hidden="true"></i> Cancelar
                                 </button>
-                                <button class="btn btn-block btn-success">
+                                <button @click="updateData" class="btn btn-block btn-success">
                                     <!-- Al ser presionado activará la función que envía una petición put ajax para
                                      guardar los cambios realizados en el modelo client-->
                                     <i class="fa fa-save" aria-hidden="true"></i> Guardar
@@ -26,6 +26,9 @@
                             <div v-else>
                                 <button @click="editModeOnClick" class="btn btn-info btn-block" id="edit-data">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Editar información
+                                </button>
+                                <button @click="deleteData" class="btn btn-danger btn-block" id="delete-data">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Eliminar usuario
                                 </button>
                             </div>
                         </div>
@@ -112,6 +115,12 @@
                                     <p>{{ client.phone_number }}</p>
                                     <div class="divider"></div>
                                 </div>
+                                <h4><i class="fa fa-at" aria-hidden="true"></i> E-mail</h4>
+                                <input v-if="onEdit" v-model="client.email" type="text" class="form-control">
+                                <div v-else>
+                                    <p>{{ client.email }}</p>
+                                    <div class="divider"></div>
+                                </div>
                                 <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de último pago</h4>
                                 <input v-if="onEdit" type="date" class="form-control">
                                 <div v-else>
@@ -176,6 +185,8 @@
             fetchClient:{},
             fetchInstructors:{},
             client:{},
+            deleteClient: {},
+            updateClient: {},
             instructor:{},
             instructors:{}
         },
@@ -210,6 +221,14 @@
             resetData() {
                 this.fetchClient();
                 this.onEdit = false;
+            },
+            deleteData() {
+                this.deleteClient();
+            },
+            updateData() {
+                this.updateClient();
+                //this.onEdit = false;
+                //this.fetchClient();
             }
         },
         computed: {
