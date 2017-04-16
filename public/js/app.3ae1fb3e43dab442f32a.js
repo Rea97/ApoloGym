@@ -11360,7 +11360,7 @@ var app = new Vue({
             var _this4 = this;
 
             var pagination = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+            var page = arguments[1];
 
             var _this = this;
             var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page : '/api/instructors';
@@ -12401,19 +12401,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -12432,17 +12419,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            onEdit: {
-                personalData: false,
-                invoiceData: false,
-                gymData: false
-            },
+            onEdit: false,
             displayResetButton: false
         };
     },
     methods: {
         //Ejecuta las funciones necesarias al hacer click en botón editar de dataGym
-        dataGymOnClick: function dataGymOnClick() {
+        editModeOnClick: function editModeOnClick() {
             this.toggleEdit('gym');
             this.fetchInstructorsEvent();
         },
@@ -12453,24 +12436,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchInstructorsEvent: function fetchInstructorsEvent() {
             this.$emit('fetchInstructorsEvent');
         },
-        toggleEdit: function toggleEdit(typeOfData) {
-            switch (typeOfData) {
-                case 'personal':
-                    this.onEdit.personalData = !this.onEdit.personalData;
-                    break;
-                case 'invoice':
-                    this.onEdit.invoiceData = !this.onEdit.invoiceData;
-                    break;
-                case 'gym':
-                    this.onEdit.gymData = !this.onEdit.gymData;
-                    break;
-            }
+        toggleEdit: function toggleEdit() {
+            this.onEdit = !this.onEdit;
         },
         resetData: function resetData() {
             this.fetchClient();
-            this.onEdit.personalData = false;
-            this.onEdit.invoiceData = false;
-            this.onEdit.gymData = false;
+            this.onEdit = false;
         }
     },
     computed: {
@@ -12488,9 +12459,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         makeInstructorUrl: function makeInstructorUrl() {
             return '/dashboard/instructores/' + this.instructor.id;
-        },
-        isAnyDataOnEdit: function isAnyDataOnEdit() {
-            return this.onEdit.personalData || this.onEdit.invoiceData || this.onEdit.gymData;
         }
     }
 });
@@ -15160,7 +15128,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(39)();
-exports.push([module.i, "\n#reset-data[data-v-b00dc252] {\n    margin-top: 4px;\n}\n", ""]);
+exports.push([module.i, "\n#divider[data-v-b00dc252] {\n    margin-top: 8px;\n    margin-bottom:8px;\n}\n", ""]);
 
 /***/ }),
 /* 39 */
@@ -32551,12 +32519,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": _vm.client.name
     }
   }), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), (_vm.isAnyDataOnEdit) ? _c('div', {
+    staticClass: "divider",
     attrs: {
-      "id": "reset-data"
+      "id": "divider"
     }
-  }, [_c('button', {
+  }), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "options"
+    }
+  }, [(_vm.onEdit) ? _c('div', [_c('button', {
     staticClass: "btn btn-block btn-warning",
     on: {
       "click": _vm.resetData
@@ -32566,17 +32537,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Cancelar cambios\n                        ")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-block btn-success",
+  }), _vm._v(" Cancelar\n                            ")]), _vm._v(" "), _vm._m(0)]) : _c('div', [_c('button', {
+    staticClass: "btn btn-info btn-block",
+    attrs: {
+      "id": "edit-data"
+    },
     on: {
-      "click": _vm.saveData
+      "click": _vm.editModeOnClick
     }
   }, [_c('i', {
-    staticClass: "fa fa-save",
+    staticClass: "fa fa-edit",
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Guardar cambios\n                        ")])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Editar información\n                            ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-8"
   }, [_c('div', {
     staticClass: "row"
@@ -32584,39 +32558,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-6"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_c('i', {
-    staticClass: "fa fa-book"
-  }), _vm._v(" Datos personales\n                            "), _c('div', {
-    staticClass: "pull-right"
-  }, [(_vm.onEdit.personalData) ? _c('button', {
-    staticClass: "btn btn-xs btn-success",
-    on: {
-      "click": function($event) {
-        _vm.toggleEdit('personal')
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-save",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Guardar\n                                ")]) : _c('button', {
-    staticClass: "btn btn-xs btn-info",
-    on: {
-      "click": function($event) {
-        _vm.toggleEdit('personal')
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-edit",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Editar\n                                ")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(0), _vm._v(" "), (_vm.onEdit.personalData) ? _c('input', {
+  }, [_vm._m(2), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32638,7 +32582,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.name))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(1), _vm._v(" "), (_vm.onEdit.personalData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32660,7 +32604,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.first_surname))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(2), _vm._v(" "), (_vm.onEdit.personalData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(4), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32688,7 +32632,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("\n                                Género\n                            ")]), _vm._v(" "), (_vm.onEdit.personalData) ? _c('select', {
+  }), _vm._v("\n                                Género\n                            ")]), _vm._v(" "), (_vm.onEdit) ? _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32720,7 +32664,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Femenino")])]) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.getGender))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.onEdit.personalData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(5), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32744,39 +32688,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-6"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_c('i', {
-    staticClass: "fa fa-money"
-  }), _vm._v(" Datos de facturación\n                            "), _c('div', {
-    staticClass: "pull-right"
-  }, [(_vm.onEdit.invoiceData) ? _c('button', {
-    staticClass: "btn btn-xs btn-success",
-    on: {
-      "click": function($event) {
-        _vm.toggleEdit('invoice')
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-save",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Guardar\n                                ")]) : _c('button', {
-    staticClass: "btn btn-xs btn-info",
-    on: {
-      "click": function($event) {
-        _vm.toggleEdit('invoice')
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-edit",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Editar\n                                ")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(4), _vm._v(" "), (_vm.onEdit.invoiceData) ? _c('input', {
+  }, [_vm._m(7), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32798,7 +32712,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.rfc))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(5), _vm._v(" "), (_vm.onEdit.invoiceData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(8), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32820,7 +32734,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.address))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(6), _vm._v(" "), (_vm.onEdit.invoiceData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(9), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32842,7 +32756,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.phone_number))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(7), _vm._v(" "), (_vm.onEdit.invoiceData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     staticClass: "form-control",
     attrs: {
       "type": "date"
@@ -32855,37 +32769,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-12"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_c('i', {
-    staticClass: "fa fa-heartbeat"
-  }), _vm._v(" Datos de gimnasio\n                        "), _c('div', {
-    staticClass: "pull-right"
-  }, [(_vm.onEdit.gymData) ? _c('button', {
-    staticClass: "btn btn-xs btn-success",
-    on: {
-      "click": function($event) {
-        _vm.toggleEdit('gym')
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-save",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Guardar\n                            ")]) : _c('button', {
-    staticClass: "btn btn-xs btn-info",
-    on: {
-      "click": _vm.dataGymOnClick
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-edit",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Editar\n                            ")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(8), _vm._v(" "), (_vm.onEdit.gymData) ? _c('input', {
+  }, [_vm._m(12), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32910,7 +32796,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.height) + " cm.")]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(9), _vm._v(" "), (_vm.onEdit.gymData) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(13), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32935,13 +32821,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.weight) + " kg.")]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit.gymData) ? _c('select', {
+  })]), _vm._v(" "), _vm._m(14), _vm._v(" "), (_vm.onEdit) ? _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.client.instructor_id),
       expression: "client.instructor_id"
     }],
+    staticClass: "form-control",
     attrs: {
       "name": "instructor_id",
       "id": "instructor_id"
@@ -32969,6 +32856,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                                    " + _vm._s(_vm.instructor.name) + "\n                                ")])])])])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-block btn-success"
+  }, [_c('i', {
+    staticClass: "fa fa-save",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Guardar\n                            ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "panel-heading"
+  }, [_c('i', {
+    staticClass: "fa fa-book"
+  }), _vm._v(" Datos personales\n                        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-user-circle",
     attrs: {
@@ -32997,6 +32899,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" Fecha de nacimiento")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "panel-heading"
+  }, [_c('i', {
+    staticClass: "fa fa-money"
+  }), _vm._v(" Datos de facturación\n                        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-id-card",
     attrs: {
@@ -33024,6 +32932,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "aria-hidden": "true"
     }
   }), _vm._v(" Fecha de último pago")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "panel-heading"
+  }, [_c('i', {
+    staticClass: "fa fa-heartbeat"
+  }), _vm._v(" Datos de gimnasio\n                    ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-male",

@@ -8,20 +8,28 @@
                     </div>
                     <div class="panel-body text-center">
                         <img class="img img-responsive img-thumbnail" :src="getProfilePictureUrl" :alt="client.name">
-                        <div class="divider"></div>
-                        <div v-if="isAnyDataOnEdit" id="reset-data">
-                            <!-- Hacer que solo aparezca cuando algun campo del modelo cambie, usar watchers -->
-                            <button @click="resetData" class="btn btn-block btn-warning">
-                                <!-- Al ser presionado activará la función que envía una petición ajax para obtener
-                                 el cliente en cuestion-->
-                                <i class="fa fa-times-circle" aria-hidden="true"></i> Cancelar cambios
-                            </button>
-                            <button @click="saveData" class="btn btn-block btn-success">
-                                <!-- Al ser presionado activará la función que envía una petición put ajax para
-                                 guardar los cambios realizados en el modelo client-->
-                                <i class="fa fa-save" aria-hidden="true"></i> Guardar cambios
-                            </button>
+                        <div id="divider" class="divider"></div>
+                        <div id="options">
+                            <div v-if="onEdit">
+                                <!-- Hacer que solo aparezca cuando algun campo del modelo cambie, usar watchers -->
+                                <button @click="resetData" class="btn btn-block btn-warning">
+                                    <!-- Al ser presionado activará la función que envía una petición ajax para obtener
+                                     el cliente en cuestion-->
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i> Cancelar
+                                </button>
+                                <button class="btn btn-block btn-success">
+                                    <!-- Al ser presionado activará la función que envía una petición put ajax para
+                                     guardar los cambios realizados en el modelo client-->
+                                    <i class="fa fa-save" aria-hidden="true"></i> Guardar
+                                </button>
+                            </div>
+                            <div v-else>
+                                <button @click="editModeOnClick" class="btn btn-info btn-block" id="edit-data">
+                                    <i class="fa fa-edit" aria-hidden="true"></i> Editar información
+                                </button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -32,14 +40,6 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <i class="fa fa-book"></i> Datos personales
-                                <div class="pull-right">
-                                    <button v-if="onEdit.personalData" @click="toggleEdit('personal')" class="btn btn-xs btn-success">
-                                        <i class="fa fa-save" aria-hidden="true"></i> Guardar
-                                    </button>
-                                    <button v-else @click="toggleEdit('personal')" class="btn btn-xs btn-info">
-                                        <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                                    </button>
-                                </div>
                             </div>
                             <div class="panel-body">
                                 <h4><i class="fa fa-user-circle" aria-hidden="true"></i> Nombre(s)</h4>
@@ -49,19 +49,19 @@
                                     <button class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
                                 </span>
                                 </div>-->
-                                <input v-if="onEdit.personalData" v-model="client.name" type="text" class="form-control">
+                                <input v-if="onEdit" v-model="client.name" type="text" class="form-control">
                                 <div v-else>
                                     <p>{{ client.name }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido paterno</h4>
-                                <input v-if="onEdit.personalData" v-model="client.first_surname" type="text" class="form-control">
+                                <input v-if="onEdit" v-model="client.first_surname" type="text" class="form-control">
                                 <div v-else>
                                     <p>{{ client.first_surname }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido materno</h4>
-                                <input v-if="onEdit.personalData" v-model="client.second_surname" type="text" class="form-control">
+                                <input v-if="onEdit" v-model="client.second_surname" type="text" class="form-control">
                                 <div v-else>
                                     <p>{{ client.second_surname }}</p>
                                     <div class="divider"></div>
@@ -72,7 +72,7 @@
                                        aria-hidden="true"></i>
                                     Género
                                 </h4>
-                                <select v-if="onEdit.personalData" v-model="client.gender" type="text" class="form-control">
+                                <select v-if="onEdit" v-model="client.gender" type="text" class="form-control">
                                     <option value="m">Masculino</option>
                                     <option value="f">Femenino</option>
                                 </select>
@@ -81,7 +81,7 @@
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de nacimiento</h4>
-                                <input v-if="onEdit.personalData" v-model="client.birth_date" type="date" class="form-control">
+                                <input v-if="onEdit" v-model="client.birth_date" type="date" class="form-control">
                                 <div v-else>
                                     <p>{{ client.birth_date }}</p>
                                 </div>
@@ -92,36 +92,28 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <i class="fa fa-money"></i> Datos de facturación
-                                <div class="pull-right">
-                                    <button v-if="onEdit.invoiceData" @click="toggleEdit('invoice')" class="btn btn-xs btn-success">
-                                        <i class="fa fa-save" aria-hidden="true"></i> Guardar
-                                    </button>
-                                    <button v-else @click="toggleEdit('invoice')" class="btn btn-xs btn-info">
-                                        <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                                    </button>
-                                </div>
                             </div>
                             <div class="panel-body">
                                 <h4><i class="fa fa-id-card" aria-hidden="true"></i> Rfc</h4>
-                                <input v-if="onEdit.invoiceData" v-model="client.rfc" type="text" class="form-control">
+                                <input v-if="onEdit" v-model="client.rfc" type="text" class="form-control">
                                 <div v-else>
                                     <p>{{ client.rfc }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-map-marker" aria-hidden="true"></i> Dirección</h4>
-                                <input v-if="onEdit.invoiceData" v-model="client.address" type="text" class="form-control">
+                                <input v-if="onEdit" v-model="client.address" type="text" class="form-control">
                                 <div v-else>
                                     <p>{{ client.address }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-phone" aria-hidden="true"></i> Teléfono</h4>
-                                <input v-if="onEdit.invoiceData" v-model="client.phone_number" type="text" class="form-control">
+                                <input v-if="onEdit" v-model="client.phone_number" type="text" class="form-control">
                                 <div v-else>
                                     <p>{{ client.phone_number }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de último pago</h4>
-                                <input v-if="onEdit.invoiceData" type="date" class="form-control">
+                                <input v-if="onEdit" type="date" class="form-control">
                                 <div v-else>
                                     <p>{{ client.birth_date }}</p>
                                 </div>
@@ -137,31 +129,26 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-heartbeat"></i> Datos de gimnasio
-                            <div class="pull-right">
-                                <button v-if="onEdit.gymData" @click="toggleEdit('gym')" class="btn btn-xs btn-success">
-                                    <i class="fa fa-save" aria-hidden="true"></i> Guardar
-                                </button>
-                                <!--<button v-else @click="toggleEdit('gym')" @click="fetchInstructorsEvent()" class="btn btn-xs btn-info">-->
-                                <button v-else @click="dataGymOnClick" class="btn btn-xs btn-info">
-                                    <i class="fa fa-edit" aria-hidden="true"></i> Editar
-                                </button>
-                            </div>
                         </div>
                         <div class="panel-body">
                             <h4><i class="fa fa-male" aria-hidden="true"></i> Altura</h4>
-                            <input v-if="onEdit.gymData" v-model="client.height" type="number" class="form-control">
+                            <input v-if="onEdit" v-model="client.height" type="number" class="form-control">
                             <div v-else>
                                 <p>{{ client.height }} cm.</p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-street-view" aria-hidden="true"></i> Peso</h4>
-                            <input v-if="onEdit.gymData" v-model="client.weight" type="number" class="form-control">
+                            <input v-if="onEdit" v-model="client.weight" type="number" class="form-control">
                             <div v-else>
                                 <p>{{ client.weight }} kg.</p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-user" aria-hidden="true"></i> Instructor</h4>
-                            <select v-if="onEdit.gymData" v-model="client.instructor_id" name="instructor_id" id="instructor_id">
+                            <select v-if="onEdit"
+                                    v-model="client.instructor_id"
+                                    name="instructor_id"
+                                    id="instructor_id"
+                                    class="form-control">
                             <!--<select v-if="onEdit.gymData" name="instructor_id" id="instructor_id">-->
                                 <option v-for="otherInstructor in instructors"
                                         :value="otherInstructor.id">
@@ -201,17 +188,13 @@
         },
         data: function() {
             return {
-                onEdit: {
-                    personalData: false,
-                    invoiceData: false,
-                    gymData: false,
-                },
+                onEdit: false,
                 displayResetButton: false
             }
         },
         methods: {
             //Ejecuta las funciones necesarias al hacer click en botón editar de dataGym
-            dataGymOnClick() {
+            editModeOnClick() {
                 this.toggleEdit('gym');
                 this.fetchInstructorsEvent();
             },
@@ -221,24 +204,12 @@
             fetchInstructorsEvent() {
                 this.$emit('fetchInstructorsEvent');
             },
-            toggleEdit(typeOfData) {
-                switch (typeOfData) {
-                    case 'personal':
-                        this.onEdit.personalData = !this.onEdit.personalData;
-                        break;
-                    case 'invoice':
-                        this.onEdit.invoiceData = !this.onEdit.invoiceData;
-                        break;
-                    case 'gym':
-                        this.onEdit.gymData = !this.onEdit.gymData;
-                        break;
-                }
+            toggleEdit() {
+                this.onEdit = !this.onEdit;
             },
             resetData() {
                 this.fetchClient();
-                this.onEdit.personalData = false;
-                this.onEdit.invoiceData = false;
-                this.onEdit.gymData = false;
+                this.onEdit = false;
             }
         },
         computed: {
@@ -258,16 +229,14 @@
             },
             makeInstructorUrl: function () {
                 return `/dashboard/instructores/${this.instructor.id}`;
-            },
-            isAnyDataOnEdit() {
-                return this.onEdit.personalData || this.onEdit.invoiceData || this.onEdit.gymData;
             }
         }
     }
 </script>
 
 <style scoped>
-    #reset-data {
-        margin-top: 4px;
+    #divider {
+        margin-top: 8px;
+        margin-bottom:8px;
     }
 </style>
