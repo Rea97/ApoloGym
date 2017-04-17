@@ -63,7 +63,7 @@
                                 </span>
                             @else
                                 <span class="nav-item">
-                                    <a class="button is-default" href="{{ route('dashboard.inicio')}}">
+                                    <a class="button is-default" href="{{ route('dashboard.start')}}">
                                       Dashboard
                                     </a>
                                 </span>
