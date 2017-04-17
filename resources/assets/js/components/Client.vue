@@ -127,7 +127,7 @@
                             <h4><i class="fa fa-id-card" aria-hidden="true"></i> Rfc</h4>
                             <input v-if="onEdit" v-model="client.rfc" type="text" class="form-control">
                             <div v-else>
-                                <p>{{ client.rfc }}</p>
+                                <p>{{ client.rfc || 'No tiene' }}</p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-map-marker" aria-hidden="true"></i> Dirección</h4>
@@ -282,7 +282,8 @@
                 return `/dashboard/instructores/${this.instructor.id}`;
             },
             memberSince: function () {
-                return this.client.created_at.split(" ")[0];
+                //return this.created_at;
+                return this.client.created_at.split(" ")[0] || '';
             }
         }
     }
