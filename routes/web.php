@@ -43,7 +43,10 @@ Route::group([
 //Rutas accesibles solo por el ADMINISTRADOR
 Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() {
     Route::get('/clientes', 'ClientsController@showClients')->name('dashboard.clients');
+    Route::get('/clientes/crear', 'ClientsController@showNewClientForm')->name('dashboard.client.create');
     Route::get('/clientes/{client}', 'ClientsController@showClient')->name('dashboard.client');
+    Route::post('/clientes', 'ClientsController@store')->name('dashboard.client.store');
+
     Route::get('/instructores', 'InstructorsController@showInstructors')->name('dashboard.instructors');
 });
 

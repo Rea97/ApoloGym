@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Instructor;
 use App\Utilities\Pagination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,6 +30,12 @@ class ClientsController extends Controller
         return view('sections.admin.client');
     }
 
+    public function showNewClientForm()
+    {
+        $instructors = Instructor::select('id', 'name', 'first_surname')->get();
+        return view('sections.admin.create-client', compact('instructors'));
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -49,17 +56,30 @@ class ClientsController extends Controller
             'gender'        => 'required|max:1|string',
             'birth_date'    => 'required|date',
             'height'        => 'required|integer|between:120,220',
-            'weight'        => 'required|between:40,250',
+            //Marca error sin importar que el numero esté entre lo especificado
+            //'weight'        => 'required|between:40,250',
+            'weight'        => 'required',
             'phone_number'  => 'required|string',
             'address'       => 'required|string|max:100',
-            'rfc'           => 'alpha_num|max:30',
+            'rfc'           => 'nullable|alpha_num|max:30',
             'email'         => 'required|email|max:255|unique:clients',
             'password'      => 'required|min:6|confirmed'
         ]);
-        $message = $this->client->create($request->all())
-            ? 'Cliente registrado con exito.'
-            : 'Ha ocurrido un error al registrar al cliente.';
-        return redirect()->route('dashboard.clients')->with($message);
+        if ($this->client->create($request->except('password_confirmation'))) {
+            $message = [
+                'type'      => 'success',
+                'content'   => 'Cliente registrado con exito.'
+            ];
+        } else {
+            $message = [
+                'type'      => 'error',
+                'content'   => 'Ha ocurrido un error al registrar al cliente.'
+            ];
+        }
+        //$message = $this->client->create($request->all())
+        //    ? 'Cliente registrado con exito.'
+        //    : 'Ha ocurrido un error al registrar al cliente.';
+        return redirect()->route('dashboard.clients')->with($message['type'], $message['content']);
     }
 
     public function update(Request $request, $id)
@@ -90,7 +110,7 @@ class ClientsController extends Controller
             'weight'        => 'required',
             'phone_number'  => 'required|string',
             'address'       => 'required|string|max:100',
-            'rfc'           => 'alpha_num|max:30',
+            'rfc'           => 'nullable|alpha_num|max:30',
             'profile_picture'=> 'nullable|string',
             //'password'      => 'required|min:6|confirmed',
             'email'         => [
