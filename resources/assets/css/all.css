@@ -13,3 +13,13 @@
 .divider {
     border-top: 1px solid rgb(221, 221, 221);
 }
+
+.notification-success {
+    background-color: #449D44;
+    color: white;
+}
+
+.notification-error {
+    background-color: #C9302C;
+    color: white;
+}

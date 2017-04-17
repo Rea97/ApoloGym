@@ -5,6 +5,15 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
+                @if(session('success') || session('error'))
+                    <div class="col-sm-12">
+                        <div class="panel {{ session('success') ? 'notification-success' : 'notification-danger' }}">
+                            <div class="panel-body">
+                                {{ session('success') ? session('success') : session('error') }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-sm-8 col-md-8 col-lg-10">
                     <pagination
                             :fetch-clients="fetchClients"
@@ -14,9 +23,9 @@
                     </pagination>
                 </div>
                 <div class="col-sm-4 col-md-4 col- col-lg-2">
-                    <button class="btn btn-success btn-block pull-righ">
+                    <a href="{{ route('dashboard.client.create') }}" class="btn btn-success btn-block pull-right">
                         <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo registro
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -89,3 +98,18 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    {{-- Envío de notificaciones mediante javascript, aún en revision si usar swal o toastr --}}
+    @if(session('success'))
+        <!--
+        <script>
+            swal("Correcto", "{{ session('success') }}", "success");
+        </script>
+    @elseif(session('error'))
+        <script>
+            swal("Error", "{{ session('error') }}", "error");
+        </script>
+        -->
+    @endif
+@endpush

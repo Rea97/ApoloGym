@@ -38,7 +38,7 @@
                     <h1 class="page-header">
                         @yield('title')
                         <div class="pull-right hidden-xs">
-                            <a class="btn btn-sm btn-primary" onclick="window.history.back();">
+                            <a class="btn btn-sm btn-primary" onclick="window.history.back()">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Página anterior
                             </a>
@@ -56,8 +56,9 @@
     <!-- /#wrapper -->
 </div>
 
+
 <!-- Scripts -->
 <script src="{{ mix('js/app.js') }}"></script>
-
+@stack('scripts')
 </body>
 </html>
