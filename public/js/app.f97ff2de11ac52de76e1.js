@@ -12456,9 +12456,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
+        isAdmin: {},
         fetchClient: {},
         fetchInstructors: {},
         client: {},
@@ -12477,6 +12507,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             onEdit: false,
+            saving: false,
             displayResetButton: false
         };
     },
@@ -12504,6 +12535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.deleteClient();
         },
         updateData: function updateData() {
+            this.saving = true;
             this.updateClient();
             //this.onEdit = false;
             //this.fetchClient();
@@ -12524,6 +12556,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         makeInstructorUrl: function makeInstructorUrl() {
             return '/dashboard/instructores/' + this.instructor.id;
+        },
+        memberSince: function memberSince() {
+            return this.client.created_at.split(" ")[0];
         }
     }
 });
@@ -15193,7 +15228,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(39)();
-exports.push([module.i, "\n#divider[data-v-b00dc252] {\n    margin-top: 8px;\n    margin-bottom:8px;\n}\n", ""]);
+exports.push([module.i, "\n.list-group[data-v-b00dc252] {\n    margin-bottom: 0;\n}\n.divider[data-v-b00dc252] {\n    margin-top: 8px;\n    margin-bottom:8px;\n}\n", ""]);
 
 /***/ }),
 /* 39 */
@@ -32576,44 +32611,45 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-user"
   }), _vm._v(" " + _vm._s(_vm.client.name) + "\n                ")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body text-center"
+    staticClass: "panel-body"
+  }, [_c('div', {
+    staticClass: "text-center"
   }, [_c('img', {
     staticClass: "img img-responsive img-thumbnail",
     attrs: {
       "src": _vm.getProfilePictureUrl,
       "alt": _vm.client.name
     }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
   }), _vm._v(" "), _c('div', {
-    staticClass: "divider",
-    attrs: {
-      "id": "divider"
-    }
+    staticClass: "list-group"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item-text"
+  }, [_vm._v(_vm._s(_vm.memberSince))])]), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item-text"
+  }, [_vm._v(_vm._s(_vm.memberSince))])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     attrs: {
       "id": "options"
     }
-  }, [(_vm.onEdit) ? _c('div', [_c('button', {
-    staticClass: "btn btn-block btn-warning",
-    on: {
-      "click": _vm.resetData
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times-circle",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Cancelar\n                            ")]), _vm._v(" "), _c('button', {
+  }, [(_vm.isAdmin && !_vm.onEdit) ? _c('div', [_c('a', {
     staticClass: "btn btn-block btn-success",
-    on: {
-      "click": _vm.updateData
+    attrs: {
+      "href": '/dashboard/facturas/crear?client_id=' + _vm.client.id
     }
   }, [_c('i', {
-    staticClass: "fa fa-save",
+    staticClass: "fa fa-money",
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Guardar\n                            ")])]) : _c('div', [_c('button', {
-    staticClass: "btn btn-info btn-block",
+  }), _vm._v(" Crear Factura\n                            ")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-block btn-info",
     attrs: {
       "id": "edit-data"
     },
@@ -32625,8 +32661,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Editar información\n                            ")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-danger btn-block",
+  }), _vm._v(" Editar Información\n                            ")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-block btn-danger",
     attrs: {
       "id": "delete-data"
     },
@@ -32638,7 +32674,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Eliminar usuario\n                            ")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Eliminar Usuario\n                            ")])]) : _c('div', [_c('button', {
+    staticClass: "btn btn-block btn-success",
+    on: {
+      "click": _vm.updateData
+    }
+  }, [(_vm.saving) ? _c('span', [_c('i', {
+    staticClass: "fa fa-pulse fa-spinner",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Guardando...")]) : _c('span', [_c('i', {
+    staticClass: "fa fa-save",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Guardar")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-block btn-warning",
+    on: {
+      "click": _vm.resetData
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times-circle",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Cancelar\n                            ")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-8"
   }, [_c('div', {
     staticClass: "row"
@@ -32646,9 +32707,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-6"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(1), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  }, [_vm._m(4), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32670,7 +32731,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.name))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(2), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(5), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32692,7 +32753,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.first_surname))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(6), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32752,7 +32813,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Femenino")])]) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.getGender))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(4), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(7), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32776,9 +32837,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-6"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(6), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  }, [_vm._m(9), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32800,7 +32861,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.rfc))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(7), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32822,7 +32883,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.address))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(8), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(11), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32844,7 +32905,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.phone_number))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(9), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(12), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32866,22 +32927,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.email))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(13), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     staticClass: "form-control",
     attrs: {
       "type": "date"
     }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.birth_date))])])])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-offset-4"
-  }, [_c('div', {
+  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.birth_date))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-12"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_vm._m(11), _vm._v(" "), _c('div', {
+  }, [_vm._m(14), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(12), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  }, [_vm._m(15), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32906,7 +32963,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.height) + " cm.")]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(13), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(16), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32931,7 +32988,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.weight) + " kg.")]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(14), _vm._v(" "), (_vm.onEdit) ? _c('select', {
+  })]), _vm._v(" "), _vm._m(17), _vm._v(" "), (_vm.onEdit) ? _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -32959,13 +33016,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": otherInstructor.id
       }
-    }, [_vm._v("\n                                " + _vm._s(otherInstructor.name) + " " + _vm._s(otherInstructor.first_name) + "\n                            ")])
+    }, [_vm._v("\n                                    " + _vm._s(otherInstructor.name) + " " + _vm._s(otherInstructor.first_name) + "\n                                ")])
   })) : _c('div', [_c('p', [_c('a', {
     attrs: {
       "href": _vm.makeInstructorUrl
     }
-  }, [_vm._v("\n                                    " + _vm._s(_vm.instructor.name) + "\n                                ")])])])])])])])])])
+  }, [_vm._v("\n                                        " + _vm._s(_vm.instructor.name) + "\n                                    ")])])])])])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "list-group-item",
+    attrs: {
+      "href": ""
+    }
+  }, [_vm._v("Facturas "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v("2")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "list-group-item-heading"
+  }, [_c('h4', [_vm._v("Fecha de próximo pago")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "list-group-item-heading"
+  }, [_c('h4', [_vm._v("Miembro desde")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
   }, [_c('i', {
@@ -33004,7 +33078,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel-heading"
   }, [_c('i', {
     staticClass: "fa fa-money"
-  }), _vm._v(" Datos de facturación\n                        ")])
+  }), _vm._v(" Datos de facturación\n                    ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-id-card",
@@ -33045,7 +33119,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel-heading"
   }, [_c('i', {
     staticClass: "fa fa-heartbeat"
-  }), _vm._v(" Datos de gimnasio\n                    ")])
+  }), _vm._v(" Datos de gimnasio\n                        ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-male",

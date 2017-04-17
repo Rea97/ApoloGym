@@ -2,7 +2,8 @@
 
 @section('title', 'Detalles del cliente')
 @section('content')
-    <client-details :instructor="instructor"
+    <client-details :is-admin="{{ isAdmin() }}"
+                    :instructor="instructor"
                     :instructors="instructors"
                     :client="client"
                     :delete-client="deleteClient"
