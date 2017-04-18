@@ -120,7 +120,16 @@ return [
 	*/
 
 	'attributes' => [
-		'username' => 'usuario',
-		'password' => 'contraseña'
+		'username'      => 'Usuario',
+		'password'      => 'Contraseña',
+        'name'          => 'Nombre',
+        'first_surname' => 'Apellido paterno',
+        'second_surname'=> 'Apellido materno',
+        'birth_date'    => 'Fecha de nacimiento',
+        'gender'        => 'Género',
+        'phone_number'  => 'Teléfono',
+        'address'       => 'Dirección',
+        'height'        => 'Altura',
+        'weight'        => 'Peso'
 	],
 ];
