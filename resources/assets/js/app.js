@@ -143,6 +143,11 @@ const app = new Vue({
         },
         fetchInstructors(pagination = false, page) {
             let _this = this;
+            if (this.search != '') {
+                //Correción temporal a bug que hacía que cuando la página actual sea
+                //diferente de uno, no obtuviera resultados de la busqueda
+                page = 1;
+            }
             let url = pagination ?
                 `/api/instructors?page=${page}&quantity=${_this.pagination.per_page}&search=${this.search}` :
                 '/api/instructors';
@@ -156,7 +161,6 @@ const app = new Vue({
                 .catch((error) => {
                     this.showErrorAlert();
                 });
-
         }
     }
 });

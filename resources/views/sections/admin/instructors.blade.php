@@ -24,10 +24,26 @@
                 <div class="col-sm-6 col-md-4 col- col-lg-6">
                     <div class="row">
                         <div class="col-sm-8">
-                            <input @keyup="fetchInstructors(true, pagination.current_page)"
+                            <!--
+                            De esta forma se consiguen resultados no tan buenos en la búsqueda sin embargo es más amigable
+                            con el usuario porque obtiene feedback cada que presiona una tecla.
+                            El punto negativo es que el performance es malo debido a que se realizan demasiadas peticiones ajax.
+                            Esta técnica es mejor implementarla  pero realizando la búsqueda a nivel client side.
+                            <input v-on:keyup="fetchInstructors(true, pagination.current_page)"
+                            v-model="search"
+                            class="form-control"
+                            type="text"
+                            placeholder="Busca un instructor...">
+                            -->
+                            <!--
+                            De esta forma, la búsqueda funciona de una manera más eficiente, además de que
+                            no se realizan tantas peticiones, sin embargo no es tan amigable con el usuario
+                            ya que debe presionar enter para cada busqueda
+                            -->
+                            <input v-on:search="fetchInstructors(true, pagination.current_page)"
                                     v-model="search"
                                     class="form-control"
-                                    type="text"
+                                    type="search"
                                     placeholder="Busca un instructor...">
                         </div>
                         <div class="col-sm-4">
