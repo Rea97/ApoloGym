@@ -12,7 +12,7 @@
                     </h4>
                 </div>
                 <div class="panel-body">
-                    <form action="{{ route('dashboard.client.store') }}" method="post">
+                    <form action="{{ route('client.store') }}" method="post">
                         {{ csrf_field() }}
                         <fieldset>
                             <legend>
@@ -56,7 +56,7 @@
                                            type="text"
                                            class="form-control"
                                            value="{{ old('second_surname') }}"
-                                           placeholder="Apellido paterno">
+                                           placeholder="Apellido materno">
                                     @if($errors->has('second_surname'))
                                         <span class="help-block">{{ $errors->first('second_surname') }}</span>
                                     @endif
@@ -243,8 +243,6 @@
                                             placeholder="Repite la contraseña">
                                         <span class="help-block">Por favor, repite la contraseña para evitar errores de tipeo.</span>
                                 </div>
-
-                                
                             </div>
                         </fieldset>
                         <div class="pull-right">
@@ -260,8 +258,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
-
 @endsection

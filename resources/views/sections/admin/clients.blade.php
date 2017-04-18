@@ -7,10 +7,9 @@
             <div class="row">
                 @if(session('success') || session('error'))
                     <div class="col-sm-12">
-                        <div class="panel {{ session('success') ? 'notification-success' : 'notification-danger' }}">
-                            <div class="panel-body">
-                                {{ session('success') ? session('success') : session('error') }}
-                            </div>
+                        <div class="alert alert-dismissable {{ session('success') ? 'alert-success' : 'alert-danger' }}">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ session('success') ? session('success') : session('error') }}
                         </div>
                     </div>
                 @endif

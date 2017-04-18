@@ -93,7 +93,8 @@
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido materno</h4>
                                 <input v-if="onEdit" v-model="client.second_surname" type="text" class="form-control">
                                 <div v-else>
-                                    <p>{{ client.second_surname }}</p>
+                                    <p v-if="client.second_surname">{{ client.second_surname }}</p>
+                                    <p v-else><i>No tiene</i></p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4>
@@ -127,7 +128,8 @@
                             <h4><i class="fa fa-id-card" aria-hidden="true"></i> Rfc</h4>
                             <input v-if="onEdit" v-model="client.rfc" type="text" class="form-control">
                             <div v-else>
-                                <p>{{ client.rfc || 'No tiene' }}</p>
+                                <p v-if="client.rfc">{{ client.rfc }}</p>
+                                <p v-else><i>No tiene</i></p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-map-marker" aria-hidden="true"></i> Dirección</h4>
