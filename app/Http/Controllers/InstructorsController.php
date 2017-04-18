@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
+use App\Repositories\InstructorRepository;
 
 class InstructorsController extends Controller
 {
@@ -20,14 +21,14 @@ class InstructorsController extends Controller
      *
      * @param Instructor $instructor
      */
-    public function __construct(Instructor $instructor)
+    public function __construct(InstructorRepository $instructor)
     {
         $this->instructor = $instructor;
     }
 
     public function showInstructors()
     {
-        return view('sections.admin.instructor');
+        return view('sections.admin.instructors');
     }
 
     public function showClientsInstructor()
@@ -39,11 +40,17 @@ class InstructorsController extends Controller
     {
         if ($request->ajax()) {
             if ($request->has(['page', 'quantity'])) {
-                $instructors = $this->instructor->latest()->paginate($request->input('quantity', 10));
+                if ($request->search) {
+                    $instructors = $this->instructor->search(
+                        $request->get('search'), $request->input('quantity')
+                    );
+                } else {
+                    $instructors = $this->instructor->pagination($request->input('quantity'));
+                }
                 $response = $this->makePaginationArray($instructors);
                 return response()->json($response);
             }
-            $instructors = $this->instructor->all();
+            $instructors = $this->instructor->getAll();
             return response()->json(['data' => $instructors]);
         }
         return redirect()->route('dashboard.start');

@@ -11290,6 +11290,7 @@ Vue.component('client-details', __webpack_require__(43));
 var app = new Vue({
     el: '#app',
     data: {
+        search: '',
         client: {},
         clients: [],
         instructor: {},
@@ -11409,7 +11410,7 @@ var app = new Vue({
             var page = arguments[1];
 
             var _this = this;
-            var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page : '/api/instructors';
+            var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page + '&search=' + this.search : '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
             axios.get(url).then(function (response) {
                 console.log(response);
@@ -12631,11 +12632,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Number,
             default: 4
         },
-        fetchClients: {}
+        fetchClients: {},
+        fetchInstructors: {}
     },
     mounted: function mounted() {
         console.log('Componente de paginación montado.');
-        this.fetchClients(true, this.pagination.current_page);
+        if (this.fetchClients) {
+            //Si se le pasó la propiedad fetchClients al componente
+            this.fetchClients(true, this.pagination.current_page); //ejecuta dicho método
+        } else if (this.fetchInstructors) {
+            //Si se le pasó la propiedad fetchInstructors al componente
+            this.fetchInstructors(true, this.pagination.current_page); //ejecuta dicho método
+        }
     },
     computed: {
         pagesNumber: function pagesNumber() {

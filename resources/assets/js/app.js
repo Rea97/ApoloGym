@@ -20,6 +20,7 @@ Vue.component('client-details', require('./components/Client.vue'));
 const app = new Vue({
     el: '#app',
     data: {
+        search: '',
         client: {},
         clients: [],
         instructor: {},
@@ -143,7 +144,7 @@ const app = new Vue({
         fetchInstructors(pagination = false, page) {
             let _this = this;
             let url = pagination ?
-                `/api/instructors?page=${page}&quantity=${_this.pagination.per_page}` :
+                `/api/instructors?page=${page}&quantity=${_this.pagination.per_page}&search=${this.search}` :
                 '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
             axios.get(url)
