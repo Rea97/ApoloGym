@@ -45,7 +45,6 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
     Route::get('/clientes', 'ClientsController@showClients')->name('dashboard.clients');
     Route::get('/clientes/crear', 'ClientsController@showNewClientForm')->name('dashboard.client.create');
     Route::get('/clientes/{client}', 'ClientsController@showClient')->name('dashboard.client');
-    Route::post('/clientes', 'ClientsController@store')->name('dashboard.client.store');
 
     Route::get('/instructores', 'InstructorsController@showInstructors')->name('dashboard.instructors');
 });
@@ -101,5 +100,6 @@ Route::group(['prefix' => '/api'], function () {
    Route::get('/clients/{client}', 'ClientsController@show')->middleware('auth:admin');
    Route::delete('/clients/{client}', 'ClientsController@destroy')->middleware('auth:admin');
    Route::put('/clients/{client}', 'ClientsController@update')->middleware('auth:admin');
+    Route::post('/clients', 'ClientsController@store')->name('client.store')->middleware('auth:admin');
 });
 
