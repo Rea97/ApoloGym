@@ -12485,6 +12485,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -32794,7 +32796,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.client.second_surname = $event.target.value
       }
     }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.second_surname))]), _vm._v(" "), _c('div', {
+  }) : _c('div', [(_vm.client.second_surname) ? _c('p', [_vm._v(_vm._s(_vm.client.second_surname))]) : _c('p', [_c('i', [_vm._v("No tiene")])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
   })]), _vm._v(" "), _c('h4', [_c('i', {
     staticClass: "fa",
@@ -32880,7 +32882,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.client.rfc = $event.target.value
       }
     }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.client.rfc || 'No tiene'))]), _vm._v(" "), _c('div', {
+  }) : _c('div', [(_vm.client.rfc) ? _c('p', [_vm._v(_vm._s(_vm.client.rfc))]) : _c('p', [_c('i', [_vm._v("No tiene")])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
   })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{

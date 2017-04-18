@@ -31,12 +31,4 @@ class StoreClientRequest extends FormRequest
         $rules['password'] = 'required|min:6|confirmed';
         return $rules;
     }
-
-    public function messages()
-    {
-        return [
-            //TODO: Generar mensajes personalizados para las validaciones
-        ];
-    }
-
 }
