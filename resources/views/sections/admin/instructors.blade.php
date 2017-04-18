@@ -63,6 +63,9 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <i class="fa fa-users" aria-hidden="true"></i> Resúmen de Instructores
+                        <span v-show="!loaded" class="pull-right">
+                            <i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...
+                        </span>
                     </h4>
                 </div>
                 <!--<div class="panel-body">

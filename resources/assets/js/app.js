@@ -20,6 +20,7 @@ Vue.component('client-details', require('./components/Client.vue'));
 const app = new Vue({
     el: '#app',
     data: {
+        loaded: false,
         search: '',
         client: {},
         clients: [],
@@ -53,6 +54,7 @@ const app = new Vue({
             });
         },
         fetchClients(pagination = false, page) {
+            this.loaded = false;
             var _this = this;
             let url = pagination ?
                 `/api/clients?page=${page}&quantity=${_this.pagination.per_page}` :
@@ -65,9 +67,11 @@ const app = new Vue({
                     //FIXME:Se está asignando al objeto de paginación un arreglo con todos los clientes
                     //_this.pagination = response.data.data.pagination;//Posible solucion
                     _this.pagination = pagination ? response.data.data : null;
+                    _this.loaded = true;
                 })
                 .catch((error) => {
                     this.showErrorAlert();
+                    _this.loaded = true;
                     //console.log(error);
                 });
         },
@@ -142,6 +146,7 @@ const app = new Vue({
                 });
         },
         fetchInstructors(pagination = false, page) {
+            this.loaded = false;
             let _this = this;
             if (this.search != '') {
                 //Correción temporal a bug que hacía que cuando la página actual sea
@@ -157,9 +162,11 @@ const app = new Vue({
                 console.log(response);
                     _this.instructors = pagination ?  response.data.data.data : response.data.data;
                     _this.pagination = pagination ? response.data.data : null;
+                    _this.loaded = true;
                 })
                 .catch((error) => {
                     this.showErrorAlert();
+                    _this.loaded = true;
                 });
         }
     }

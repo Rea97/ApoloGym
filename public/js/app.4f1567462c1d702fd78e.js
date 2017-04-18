@@ -11290,6 +11290,7 @@ Vue.component('client-details', __webpack_require__(43));
 var app = new Vue({
     el: '#app',
     data: {
+        loaded: false,
         search: '',
         client: {},
         clients: [],
@@ -11326,6 +11327,7 @@ var app = new Vue({
             var pagination = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var page = arguments[1];
 
+            this.loaded = false;
             var _this = this;
             var url = pagination ? '/api/clients?page=' + page + '&quantity=' + _this.pagination.per_page : '/api/clients';
             axios.get(url).then(function (response) {
@@ -11335,8 +11337,10 @@ var app = new Vue({
                 //FIXME:Se está asignando al objeto de paginación un arreglo con todos los clientes
                 //_this.pagination = response.data.data.pagination;//Posible solucion
                 _this.pagination = pagination ? response.data.data : null;
+                _this.loaded = true;
             }).catch(function (error) {
                 _this2.showErrorAlert();
+                _this.loaded = true;
                 //console.log(error);
             });
         },
@@ -11409,15 +11413,23 @@ var app = new Vue({
             var pagination = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var page = arguments[1];
 
+            this.loaded = false;
             var _this = this;
+            if (this.search != '') {
+                //Correción temporal a bug que hacía que cuando la página actual sea
+                //diferente de uno, no obtuviera resultados de la busqueda
+                page = 1;
+            }
             var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page + '&search=' + this.search : '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
             axios.get(url).then(function (response) {
                 console.log(response);
                 _this.instructors = pagination ? response.data.data.data : response.data.data;
                 _this.pagination = pagination ? response.data.data : null;
+                _this.loaded = true;
             }).catch(function (error) {
                 _this4.showErrorAlert();
+                _this.loaded = true;
             });
         }
     }
