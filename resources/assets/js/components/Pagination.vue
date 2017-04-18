@@ -28,15 +28,20 @@
                 type: Number,
                 default: 4
             },
-            fetchClients: {}
+            fetchClients: {},
+            fetchInstructors: {}
         },
         mounted : function() {
             console.log('Componente de paginación montado.');
-            this.fetchClients(true, this.pagination.current_page);
+            if (this.fetchClients) { //Si se le pasó la propiedad fetchClients al componente
+                this.fetchClients(true, this.pagination.current_page); //ejecuta dicho método
+            } else if (this.fetchInstructors) { //Si se le pasó la propiedad fetchInstructors al componente
+                this.fetchInstructors(true, this.pagination.current_page); //ejecuta dicho método
+            }
         },
         computed: {
             pagesNumber: function () {
-                if (!this.pagination.to) {
+                if (! this.pagination.to) {
                     return [];
                 }
                 var from = this.pagination.current_page - this.offset;
