@@ -63,9 +63,6 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <i class="fa fa-users" aria-hidden="true"></i> Resúmen de Instructores
-                        <span v-show="!loaded" class="pull-right">
-                            <i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...
-                        </span>
                     </h4>
                 </div>
                 <!--<div class="panel-body">
@@ -85,7 +82,7 @@
                             <th>Teléfono</th>
                             <th>&nbsp;</th>
                         </tr>
-                        <tr v-cloak v-for="instructor in instructors">
+                        <tr v-show="loaded" v-cloak v-for="instructor in instructors">
                             <td>
                                 <a :href="'/dashboard/instructores/'+instructor.id">
                                     @{{ instructor.id }}
@@ -99,6 +96,13 @@
                                 <a :href="'/dashboard/instructores/'+instructor.id">
                                     Ver detalles
                                 </a>
+                            </td>
+                        </tr>
+                        <tr v-show="!loaded">
+                            <td colspan="6" class="text-center">
+                                <span v-show="!loaded">
+                                    <h4><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...</h4>
+                                </span>
                             </td>
                         </tr>
                     </table>
