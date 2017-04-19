@@ -32,4 +32,11 @@ class ClientRepository
             ->paginate($paginate);
     }
 
+    public function instructedBy($instructor)
+    {
+        return $this->client
+            ->select('id', 'name', 'first_surname')
+            ->where('instructor_id', '=', $instructor->id)->get();
+    }
+
 }
