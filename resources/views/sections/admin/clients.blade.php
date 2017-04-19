@@ -13,7 +13,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-sm-8 col-md-8 col-lg-10">
+                <div class="col-sm-6 col-md-8 col-lg-6">
                     <pagination
                             :fetch-clients="fetchClients"
                             v-bind:pagination="pagination"
@@ -21,10 +21,21 @@
                             :offset="4">
                     </pagination>
                 </div>
-                <div class="col-sm-4 col-md-4 col- col-lg-2">
-                    <a href="{{ route('dashboard.client.create') }}" class="btn btn-success btn-block pull-right">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo registro
-                    </a>
+                <div class="col-sm-6 col-md-4 col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <input v-on:search="fetchClients(true, pagination.current_page)"
+                                   v-model="search"
+                                   class="form-control"
+                                   type="search"
+                                   placeholder="Busque un cliente...">
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="{{ route('dashboard.client.create') }}" class="btn btn-success btn-block pull-right">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> <span class="hidden-sm hidden-md">Nuevo registro</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,9 +47,6 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <i class="fa fa-users" aria-hidden="true"></i> Resúmen de clientes
-                        <span v-show="!loaded" class="pull-right">
-                            <i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...
-                        </span>
                     </h4>
                 </div>
                 <div class="table-responsive">
@@ -51,7 +59,7 @@
                             <th>Teléfono</th>
                             <th>&nbsp;</th>
                         </tr>
-                        <tr v-cloak v-for="client in clients">
+                        <tr v-show="loaded" v-cloak v-for="client in clients">
                             <td>
                                 <a :href="'/dashboard/clientes/'+client.id">
                                     @{{ client.id }}
@@ -65,6 +73,11 @@
                                 <a :href="'/dashboard/clientes/'+client.id">
                                     Ver detalles
                                 </a>
+                            </td>
+                        </tr>
+                        <tr v-show="!loaded">
+                            <td colspan="6" class="text-center">
+                                <h4><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...</h4>
                             </td>
                         </tr>
                     </table>
@@ -88,6 +101,7 @@
                                         <option value="10">10</option>
                                         <option value="30">30</option>
                                         <option value="50">50</option>
+                                        <option value="100">100</option>
                                     </select>
                                 </div>
                             </div>

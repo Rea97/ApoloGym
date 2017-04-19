@@ -21,7 +21,7 @@
                             :offset="4">
                     </pagination>
                 </div>
-                <div class="col-sm-6 col-md-4 col- col-lg-6">
+                <div class="col-sm-6 col-md-4 col-lg-6">
                     <div class="row">
                         <div class="col-sm-8">
                             <!--
@@ -44,7 +44,7 @@
                                     v-model="search"
                                     class="form-control"
                                     type="search"
-                                    placeholder="Busca un instructor...">
+                                    placeholder="Busque un instructor...">
                         </div>
                         <div class="col-sm-4">
                             <a href="{{-- route('dashboard.instructor.create') --}}" class="btn btn-success btn-block pull-right">
@@ -100,9 +100,7 @@
                         </tr>
                         <tr v-show="!loaded">
                             <td colspan="6" class="text-center">
-                                <span v-show="!loaded">
-                                    <h4><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...</h4>
-                                </span>
+                                <h4><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i> Cargando...</h4>
                             </td>
                         </tr>
                     </table>
