@@ -11290,7 +11290,6 @@ Vue.component('client-details', __webpack_require__(43));
 var app = new Vue({
     el: '#app',
     data: {
-        debug: '',
         loaded: false,
         search: '',
         client: {},
@@ -11318,7 +11317,6 @@ var app = new Vue({
             console.log("ultimo elemento en url: " + this.getIdOfResourceInUrl());
             if (this.getIdOfResourceInUrl() == 'clientes') {
                 this.fetchClients(true, 1);
-                console.log('jeje');
             } else if (this.getIdOfResourceInUrl() == 'instructores') {
                 this.fetchInstructors(true, 1);
             }
@@ -11361,13 +11359,6 @@ var app = new Vue({
 
             this.loaded = false;
             var _this = this;
-            /*
-            if (this.search != '') {
-                //Correción temporal a bug que hacía que cuando la página actual sea
-                //diferente de uno, no obtuviera resultados de la busqueda
-                //page = 1;
-            }
-            */
             var url = pagination ? '/api/clients?page=' + page + '&quantity=' + _this.pagination.per_page + '&search=' + this.search : '/api/clients';
             axios.get(url).then(function (response) {
                 //console.log(response.data);
@@ -11464,7 +11455,7 @@ var app = new Vue({
             if (this.search != '') {
                 //Correción temporal a bug que hacía que cuando la página actual sea
                 //diferente de uno, no obtuviera resultados de la busqueda
-                page = 1;
+                //page = 1;
             }
             var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page + '&search=' + this.search : '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
@@ -11473,6 +11464,9 @@ var app = new Vue({
                 _this.instructors = pagination ? response.data.data.data : response.data.data;
                 _this.pagination = pagination ? response.data.data : null;
                 _this.loaded = true;
+                if (_this.pagination.current_page > _this4.pagination.last_page) {
+                    _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                }
             }).catch(function (error) {
                 _this4.showErrorAlert();
                 _this.loaded = true;
