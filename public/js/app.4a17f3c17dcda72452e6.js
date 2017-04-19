@@ -11290,6 +11290,7 @@ Vue.component('client-details', __webpack_require__(43));
 var app = new Vue({
     el: '#app',
     data: {
+        debug: '',
         loaded: false,
         search: '',
         client: {},
@@ -11306,11 +11307,42 @@ var app = new Vue({
         },
         offset: 4
     },
+    mounted: function mounted() {
+        this.$on('currentPageDesbord', function (pageDesborded) {
+            //console.log('Pagina desbordada '+ pageDesborded);
+            //console.log('reseteando pagina actual en 1');
+            //console.log(this.pagination);
+            this.pagination.current_page = 1;
+            //console.log('ejecutando fetchClients()');
+            console.log("url actual: " + window.location.pathname);
+            console.log("ultimo elemento en url: " + this.getIdOfResourceInUrl());
+            if (this.getIdOfResourceInUrl() == 'clientes') {
+                this.fetchClients(true, 1);
+                console.log('jeje');
+            } else if (this.getIdOfResourceInUrl() == 'instructores') {
+                this.fetchInstructors(true, 1);
+            }
+        });
+    },
+
+    /*watch: {
+        'pagination.current_page': function (newPage) {
+            console.log('deccqq', newPage);
+            if ((newPage > this.pagination.last_page)) {
+                this.pagination.current_page = 1;
+                console.log('Cambiando a pagina 1');
+            }
+        }
+    },*/
     methods: {
         getIdOfResourceInUrl: function getIdOfResourceInUrl() {
+            //Cambiar nombre de método a getLastElementInUrl()
             var url = window.location.pathname;
             var arr = url.split('/');
-            return arr[arr.length - 1];
+            if (arr[arr.length - 1] != '') {
+                return arr[arr.length - 1];
+            }
+            return arr[arr.length - 2];
         },
         showErrorAlert: function showErrorAlert() {
             var message = 'Ha ocurrido un error en el servidor,\n                        favor de intentar de nuevo m\xE1s tarde. Si lo deseas, puedes\n                        <a href="/dashboard/bugs">reportar este error.</a>';
@@ -11329,15 +11361,29 @@ var app = new Vue({
 
             this.loaded = false;
             var _this = this;
-            var url = pagination ? '/api/clients?page=' + page + '&quantity=' + _this.pagination.per_page : '/api/clients';
+            /*
+            if (this.search != '') {
+                //Correción temporal a bug que hacía que cuando la página actual sea
+                //diferente de uno, no obtuviera resultados de la busqueda
+                //page = 1;
+            }
+            */
+            var url = pagination ? '/api/clients?page=' + page + '&quantity=' + _this.pagination.per_page + '&search=' + this.search : '/api/clients';
             axios.get(url).then(function (response) {
                 //console.log(response.data);
-                _this.clients = response.data.data.data;
+                _this.clients = pagination ? response.data.data.data : response.data.data;
+                //_this.clients = response.data.data.data;
 
                 //FIXME:Se está asignando al objeto de paginación un arreglo con todos los clientes
                 //_this.pagination = response.data.data.pagination;//Posible solucion
                 _this.pagination = pagination ? response.data.data : null;
                 _this.loaded = true;
+                if (_this.pagination.current_page > _this2.pagination.last_page) {
+                    //_this.pagination.current_page = 1;
+                    //console.log('Cambiando a pagina 1');
+                    //console.log('Emitiendo evento de desborde de pagina actual');
+                    _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                }
             }).catch(function (error) {
                 _this2.showErrorAlert();
                 _this.loaded = true;
@@ -12649,6 +12695,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         console.log('Componente de paginación montado.');
+        /*
+        this.$parent.$on('checkCurrentPage', function (currentPage) {
+            if ((currentPage > this.pagination.last_page)) {
+                this.changePage(1);
+                console.log('Cambiando a pagina 1');
+            }
+            console.log('afaf');
+        });
+        */
         if (this.fetchClients) {
             //Si se le pasó la propiedad fetchClients al componente
             this.fetchClients(true, this.pagination.current_page); //ejecuta dicho método

@@ -33,6 +33,15 @@
         },
         mounted : function() {
             console.log('Componente de paginación montado.');
+            /*
+            this.$parent.$on('checkCurrentPage', function (currentPage) {
+                if ((currentPage > this.pagination.last_page)) {
+                    this.changePage(1);
+                    console.log('Cambiando a pagina 1');
+                }
+                console.log('afaf');
+            });
+            */
             if (this.fetchClients) { //Si se le pasó la propiedad fetchClients al componente
                 this.fetchClients(true, this.pagination.current_page); //ejecuta dicho método
             } else if (this.fetchInstructors) { //Si se le pasó la propiedad fetchInstructors al componente

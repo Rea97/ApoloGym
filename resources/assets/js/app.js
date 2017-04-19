@@ -36,11 +36,40 @@ const app = new Vue({
         },
         offset: 4,
     },
+    mounted() {
+        this.$on('currentPageDesbord' , function (pageDesborded) {
+            //console.log('Pagina desbordada '+ pageDesborded);
+            //console.log('reseteando pagina actual en 1');
+            //console.log(this.pagination);
+            this.pagination.current_page = 1;
+            //console.log('ejecutando fetchClients()');
+            console.log("url actual: " + window.location.pathname);
+            console.log("ultimo elemento en url: " + this.getIdOfResourceInUrl());
+            if (this.getIdOfResourceInUrl() == 'clientes') {
+                this.fetchClients(true, 1);
+            } else if (this.getIdOfResourceInUrl() == 'instructores') {
+                this.fetchInstructors(true, 1);
+            }
+
+        });
+    },
+    /*watch: {
+        'pagination.current_page': function (newPage) {
+            console.log('deccqq', newPage);
+            if ((newPage > this.pagination.last_page)) {
+                this.pagination.current_page = 1;
+                console.log('Cambiando a pagina 1');
+            }
+        }
+    },*/
     methods: {
-        getIdOfResourceInUrl() {
+        getIdOfResourceInUrl() { //Cambiar nombre de método a getLastElementInUrl()
             let url = window.location.pathname;
             let arr = url.split('/');
-            return arr[arr.length - 1];
+            if (arr[arr.length -1] != '') {
+                return arr[arr.length - 1];
+            }
+            return arr[arr.length - 2];
         },
         showErrorAlert() {
             let message = `Ha ocurrido un error en el servidor,
@@ -57,17 +86,25 @@ const app = new Vue({
             this.loaded = false;
             var _this = this;
             let url = pagination ?
-                `/api/clients?page=${page}&quantity=${_this.pagination.per_page}` :
+                `/api/clients?page=${page}&quantity=${_this.pagination.per_page}&search=${this.search}` :
                 '/api/clients';
             axios.get(url)
                 .then((response) => {
                     //console.log(response.data);
-                    _this.clients = response.data.data.data;
+                    _this.clients = pagination ?  response.data.data.data : response.data.data;
+                    //_this.clients = response.data.data.data;
 
                     //FIXME:Se está asignando al objeto de paginación un arreglo con todos los clientes
                     //_this.pagination = response.data.data.pagination;//Posible solucion
                     _this.pagination = pagination ? response.data.data : null;
                     _this.loaded = true;
+                    if ((_this.pagination.current_page > this.pagination.last_page)) {
+                        //_this.pagination.current_page = 1;
+                        //console.log('Cambiando a pagina 1');
+                        //console.log('Emitiendo evento de desborde de pagina actual');
+                        _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                    }
+
                 })
                 .catch((error) => {
                     this.showErrorAlert();
