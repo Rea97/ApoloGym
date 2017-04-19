@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Instructor;
+use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
 use App\Repositories\InstructorRepository;
@@ -24,6 +26,11 @@ class InstructorsController extends Controller
     public function __construct(InstructorRepository $instructor)
     {
         $this->instructor = $instructor;
+    }
+
+    public function showInstructor()
+    {
+        return view('sections.admin.instructor');
     }
 
     public function showInstructors()
@@ -56,6 +63,29 @@ class InstructorsController extends Controller
         return redirect()->route('dashboard.start');
     }
 
+    public function show(Request $request, Instructor $instructor)
+    {
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => [
+                    'instructor' => $instructor
+                ]
+            ]);
+        }
+        return redirect()->route('dashboard.start');
+    }
 
+    public function showClientsInstructedBy(Request $request, Instructor $instructor, ClientRepository $client)
+    {
+        if ($request->ajax()) {
+            $clients = $client->instructedBy($instructor);
+            return response()->json([
+                'data' => [
+                    'clients' => $clients
+                ]
+            ]);
+        }
+        return redirect()->route('dashboard.start');
+    }
 
 }
