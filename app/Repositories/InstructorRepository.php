@@ -12,7 +12,7 @@ use App\Models\Instructor;
 
 class InstructorRepository
 {
-    protected $instructor;
+    private $instructor;
 
     public function __construct(Instructor $instructor)
     {

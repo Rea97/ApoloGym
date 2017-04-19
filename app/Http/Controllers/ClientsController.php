@@ -6,6 +6,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Instructor;
+use App\Repositories\ClientRepository;
 use App\Utilities\Pagination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,9 +19,12 @@ class ClientsController extends Controller
 
     protected $client;
 
-    public function __construct(Client $client)
+    protected $client_r;
+
+    public function __construct(Client $client, ClientRepository $clientRepository)
     {
         $this->client = $client;
+        $this->client_r = $clientRepository;
     }
 
     public function showClients()
@@ -42,9 +46,19 @@ class ClientsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $clients = $this->client->latest()->paginate($request->quantity);
-            $response = $this->makePaginationArray($clients);
-            return response()->json($response);
+            if ($request->has('page', 'quantity')) {
+                if ($request->has('search')) {
+                    $clients = $this->client_r->search(
+                        $request->get('search'), $request->input('quantity', 10)
+                    );
+                } else {
+                    $clients = $this->client_r->pagination($request->input('quantity'));
+                }
+                $response = $this->makePaginationArray($clients);
+                return response()->json($response);
+            }
+            $clients = $this->client_r->getAll();
+            return response()->json(['data' => $clients]);
         }
         return redirect()->route('dashboard.start');
     }
