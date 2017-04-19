@@ -19,12 +19,9 @@ class ClientsController extends Controller
 
     protected $client;
 
-    protected $client_r;
-
-    public function __construct(Client $client, ClientRepository $clientRepository)
+    public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->client_r = $clientRepository;
     }
 
     public function showClients()
@@ -43,21 +40,21 @@ class ClientsController extends Controller
         return view('sections.admin.create-client', compact('instructors'));
     }
 
-    public function index(Request $request)
+    public function index(Request $request, ClientRepository $client)
     {
         if ($request->ajax()) {
             if ($request->has('page', 'quantity')) {
                 if ($request->has('search')) {
-                    $clients = $this->client_r->search(
+                    $clients = $client->search(
                         $request->get('search'), $request->input('quantity', 10)
                     );
                 } else {
-                    $clients = $this->client_r->pagination($request->input('quantity'));
+                    $clients = $client->pagination($request->input('quantity'));
                 }
                 $response = $this->makePaginationArray($clients);
                 return response()->json($response);
             }
-            $clients = $this->client_r->getAll();
+            $clients = $client->getAll();
             return response()->json(['data' => $clients]);
         }
         return redirect()->route('dashboard.start');

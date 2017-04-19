@@ -29,8 +29,6 @@ class ClientRepository
             ->orWhere('first_surname', 'LIKE', "%{$search}%")
             ->orWhere('second_surname', 'LIKE', "%{$search}%")
             ->orWhere('email', 'LIKE', "%{$search}%")
-
-
             ->paginate($paginate);
     }
 
