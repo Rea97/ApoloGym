@@ -11448,15 +11448,10 @@ var app = new Vue({
             var _this4 = this;
 
             var pagination = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            var page = arguments[1];
+            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
             this.loaded = false;
             var _this = this;
-            if (this.search != '') {
-                //Correción temporal a bug que hacía que cuando la página actual sea
-                //diferente de uno, no obtuviera resultados de la busqueda
-                //page = 1;
-            }
             var url = pagination ? '/api/instructors?page=' + page + '&quantity=' + _this.pagination.per_page + '&search=' + this.search : '/api/instructors';
             console.log('Realizando petición ajax desde fetchInstructors');
             axios.get(url).then(function (response) {
@@ -11464,11 +11459,14 @@ var app = new Vue({
                 _this.instructors = pagination ? response.data.data.data : response.data.data;
                 _this.pagination = pagination ? response.data.data : null;
                 _this.loaded = true;
-                if (_this.pagination.current_page > _this4.pagination.last_page) {
-                    _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                if (_this.pagination) {
+                    if (_this.pagination.current_page > _this4.pagination.last_page) {
+                        _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                    }
                 }
             }).catch(function (error) {
                 _this4.showErrorAlert();
+                console.log(error);
                 _this.loaded = true;
             });
         }

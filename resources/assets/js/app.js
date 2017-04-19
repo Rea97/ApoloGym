@@ -182,7 +182,7 @@ const app = new Vue({
                     _this.showErrorAlert();
                 });
         },
-        fetchInstructors(pagination = false, page) {
+        fetchInstructors(pagination = false, page = 1) {
             this.loaded = false;
             let _this = this;
             let url = pagination ?
@@ -195,12 +195,15 @@ const app = new Vue({
                     _this.instructors = pagination ?  response.data.data.data : response.data.data;
                     _this.pagination = pagination ? response.data.data : null;
                     _this.loaded = true;
-                    if ((_this.pagination.current_page > this.pagination.last_page)) {
-                        _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                    if (_this.pagination) {
+                        if ((_this.pagination.current_page > this.pagination.last_page)) {
+                            _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                        }
                     }
                 })
                 .catch((error) => {
                     this.showErrorAlert();
+                    console.log(error);
                     _this.loaded = true;
                 });
         }
