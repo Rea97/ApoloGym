@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        /*
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instructor_id')->unsigned();
@@ -47,6 +48,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        */
     }
 
     /**
