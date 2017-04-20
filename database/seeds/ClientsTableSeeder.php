@@ -30,8 +30,7 @@ class ClientsTableSeeder extends Seeder
                 'profile_picture' => null,
                 'remember_token' => null,
                 'created_at' => date('Y,m,d H:i:s'),
-                'updated_at' => date('Y,m,d H:i:s'),
-                'deleted_at' => null
+                'updated_at' => date('Y,m,d H:i:s')
             ]);
         }
     }
