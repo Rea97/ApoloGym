@@ -16,6 +16,7 @@ require('./bootstrap');
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('pagination', require('./components/Pagination.vue'));
 Vue.component('client-details', require('./components/Client.vue'));
+Vue.component('instructor-details', require('./components/Instructor.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -98,7 +99,7 @@ const app = new Vue({
                     //_this.pagination = response.data.data.pagination;//Posible solucion
                     _this.pagination = pagination ? response.data.data : null;
                     _this.loaded = true;
-                    if ((_this.pagination.current_page > this.pagination.last_page)) {
+                    if ((_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0)) {
                         //_this.pagination.current_page = 1;
                         //console.log('Cambiando a pagina 1');
                         //console.log('Emitiendo evento de desborde de pagina actual');
@@ -196,7 +197,7 @@ const app = new Vue({
                     _this.pagination = pagination ? response.data.data : null;
                     _this.loaded = true;
                     if (_this.pagination) {
-                        if ((_this.pagination.current_page > this.pagination.last_page)) {
+                        if (_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0) {
                             _this.$emit('currentPageDesbord', _this.pagination.current_page);
                         }
                     }
