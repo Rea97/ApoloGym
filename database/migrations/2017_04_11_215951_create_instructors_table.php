@@ -25,7 +25,7 @@ class CreateInstructorsTable extends Migration
             $table->text('about_me');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
     }
 
