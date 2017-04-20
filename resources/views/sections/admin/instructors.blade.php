@@ -15,6 +15,7 @@
                 @endif
                 <div class="col-sm-6 col-md-8 col-lg-6">
                     <pagination
+                            v-show="pagination.total > 0"
                             :fetch-instructors="fetchInstructors"
                             v-bind:pagination="pagination"
                             v-on:click.native="fetchInstructors(true, pagination.current_page)"
@@ -40,7 +41,8 @@
                             no se realizan tantas peticiones, sin embargo no es tan amigable con el usuario
                             ya que debe presionar enter para cada busqueda
                             -->
-                            <input v-on:search="fetchInstructors(true, pagination.current_page)"
+                            <input v-show="pagination.total > 0"
+                                    v-on:search="fetchInstructors(true, pagination.current_page)"
                                     v-model="search"
                                     class="form-control"
                                     type="search"
@@ -106,7 +108,10 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <div class="row">
+                    <div v-show="pagination.total <= 0">
+                        <strong>No</strong> hay instructores registrados.
+                    </div>
+                    <div v-show="pagination.total > 0" class="row">
                         <div class="col-sm-8">
                             <span v-cloak>
                                 Mostrando <b>@{{ pagination.from }}</b> a <b>@{{ pagination.to }}</b> de <b>@{{ pagination.total }}</b> registros
