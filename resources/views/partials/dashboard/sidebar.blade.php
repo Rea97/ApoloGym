@@ -1,4 +1,5 @@
-<div class="navbar-default sidebar" role="navigation">
+<!--<div class="navbar-default sidebar" role="navigation"> tema anterior     -->
+<div class="sidebar" role="navigation"> <!-- Flaty -->
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li class="sidebar-search">
@@ -14,38 +15,38 @@
             </li>
             <li>
                 <a href="{{ route('dashboard.start') }}"
-                   class="{{ markAsActive(route('dashboard.start')) }}">
+                   class="li-sidebar {{ markAsActive(route('dashboard.start')) }}">
                     <i class="fa fa-home fa-fw"></i> Inicio
                 </a>
             </li>
             @if(isClient())
                 <li>
                     <a href="{{ route('dashboard.routines') }}"
-                       class="{{ markAsActive(route('dashboard.routines')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.routines')) }}">
                         <i class="fa fa-th-list fa-fw"></i> Rutinas
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('dashboard.diets') }}"
-                       class="{{ markAsActive(route('dashboard.diets')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.diets')) }}">
                         <i class="fa fa-cutlery fa-fw"></i> Dietas
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('dashboard.progress') }}"
-                       class="{{ markAsActive(route('dashboard.progress')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.progress')) }}">
                         <i class="fa fa-line-chart fa-fw"></i> Progreso
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('dashboard.schedule') }}"
-                       class="{{ markAsActive(route('dashboard.schedule')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.schedule')) }}">
                         <i class="fa fa-calendar fa-fw"></i> Horario
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('dashboard.instructor') }}"
-                       class="{{ markAsActive(route('dashboard.instructor')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.instructor')) }}">
                         <i class="fa fa-user fa-fw"></i> Instructor
                     </a>
                 </li>
@@ -53,13 +54,13 @@
             @if(isAdmin())
                 <li>
                     <a href="{{ route('dashboard.clients') }}"
-                       class="{{ markAsActive(route('dashboard.clients')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.clients')) }}">
                         <i class="fa fa-users fa-fw"></i> Clientes
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('dashboard.instructors') }}"
-                       class="{{ markAsActive(route('dashboard.instructors')) }}">
+                       class="li-sidebar {{ markAsActive(route('dashboard.instructors')) }}">
                         <i class="fa fa-users fa-fw"></i> Instructores
                     </a>
                 </li>

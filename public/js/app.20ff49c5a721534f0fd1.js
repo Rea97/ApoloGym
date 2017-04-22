@@ -12539,6 +12539,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -12653,8 +12654,278 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12863,20 +13134,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['isAdmin', 'updateInstructor', 'deleteInstructor', 'clients'],
+    props: ['isAdmin', 'deleteInstructor', 'showErrorAlert'],
     mounted: function mounted() {
         console.log('Componente Instructor montado');
         this.fetchInstructor();
+        this.fetchClientsInstructedBy();
     },
     data: function data() {
         return {
+            instructor: {},
+            schedule: [],
+            clients: [],
             onEdit: false,
             saving: false,
             displayResetButton: false
         };
     },
 
-    methods: _defineProperty({
+    methods: {
+        editMode: function editMode() {
+            this.onEdit = !this.onEdit;
+            this.formatTimeInSchedule();
+        },
+        formatTime: function formatTime(time) {
+            var timeArr = time.split(':');
+            timeArr.pop();
+            return timeArr.join(':');
+        },
+        getDayByNumber: function getDayByNumber(number) {
+            switch (number) {
+                case 1:
+                    return 'Lunes';
+                case 2:
+                    return 'Martes';
+                case 3:
+                    return 'Miercoles';
+                case 4:
+                    return 'Jueves';
+                case 5:
+                    return 'Viernes';
+                case 6:
+                    return 'Sabado';
+                case 7:
+                    return 'Domingo';
+            }
+        },
         getLastElementInUrl: function getLastElementInUrl() {
             var url = window.location.pathname;
             var arr = url.split('/');
@@ -12885,36 +13187,137 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
             return arr[arr.length - 2];
         },
-        editModeOnClick: function editModeOnClick() {
-            this.toggleEdit();
-            this.fetchClientsInstructedBy();
-        },
         fetchInstructor: function fetchInstructor() {
             var id = this.getLastElementInUrl();
             var _this = this;
             axios.get('/api/instructors/' + id).then(function (response) {
+                console.log(response);
                 _this.instructor = response.data.data.instructor;
+                _this.schedule = response.data.data.schedule;
             }).catch(function (error) {
                 console.log('Error en fetchInstructor() ' + error);
             });
         },
         fetchClientsInstructedBy: function fetchClientsInstructedBy() {
+            var id = this.getLastElementInUrl();
             var _this = this;
-            axios.get('/api/instructors/' + this.instructor.id + '/clients').then(function (response) {
+            axios.get('/api/instructors/' + id + '/clients').then(function (response) {
+                console.log(response);
                 _this.clients = response.data.data.clients;
             }).catch(function (error) {
                 console.log('Error en fetchClientsInstructedBy() ' + error);
             });
         },
-        updateData: function updateData() {},
-        deleteData: function deleteData() {}
-    }, 'deleteData', function deleteData() {}),
+        formatTimeInSchedule: function formatTimeInSchedule() {
+            console.log('sdfghjk');
+            var days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            for (var i = 0; i < 7; i++) {
+                if (this.schedule[days[i]]) {
+                    this.schedule[days[i]].from = this.formatTime(this.schedule[days[i]].from);
+                    this.schedule[days[i]].to = this.formatTime(this.schedule[days[i]].to);
+                }
+            }
+        },
+        updateData: function updateData() {
+            this.saving = true;
+            this.updateSchedule();
+            this.updateInstructor();
+            this.saving = false;
+        },
+        deleteData: function deleteData() {
+            var id = this.getLastElementInUrl();
+            var _this = this;
+            swal({
+                title: "Peligro",
+                text: "¿Estás seguro?, se eliminará el registro del instructor.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sí, deseo eliminarlo",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    axios.delete('/api/instructors/' + id).then(function (response) {
+                        console.log('eliminando...');
+                        console.log(response);
+                        if (response.data.error) {
+                            swal("Error", response.data.error, "error");
+                            return;
+                        }
+                        swal("Eliminado", "Se ha eliminado el registro satisfactoriamente.", "success");
+                        setTimeout(function () {
+                            window.location = '/dashboard/instructores';
+                        }, 1000);
+                    }).catch(function (error) {
+                        console.log('error eliminando ' + error);
+                        _this.showErrorAlert();
+                    });
+                } else {
+                    swal("Cancelado", "Has cancelado la acción, tú instructor sigue registrado.", "error");
+                }
+            });
+        },
+        resetData: function resetData() {
+            this.fetchInstructor();
+            this.onEdit = false;
+        },
+        updateSchedule: function updateSchedule() {
+            axios.put('/api/instructors/' + this.instructor.id + '/schedule', {
+                'monday-from': this.schedule.monday.from || null,
+                'monday-to': this.schedule.monday.to || null,
+                'tuesday-from': this.schedule.tuesday.from || null,
+                'tuesday-to': this.schedule.tuesday.to || null,
+                'wednesday-from': this.schedule.wednesday.from || null,
+                'wednesday-to': this.schedule.wednesday.to || null,
+                'thursday-from': this.schedule.thursday.from || null,
+                'thursday-to': this.schedule.thursday.to || null,
+                'friday-from': this.schedule.friday.from || null,
+                'friday-to': this.schedule.friday.to || null,
+                'saturday-from': this.schedule.saturday.from || null,
+                'saturday-to': this.schedule.saturday.to || null,
+                'sunday-from': this.schedule.sunday.from || null,
+                'sunday-to': this.schedule.sunday.to || null
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        updateInstructor: function updateInstructor() {
+            axios.put('/api/instructors/' + this.instructor.id, this.instructor).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
     computed: {
+        getGenderIcon: function getGenderIcon() {
+            if (this.instructor.gender == 'm') {
+                return 'fa-mars';
+            }
+            return 'fa-venus';
+        },
+        getGender: function getGender() {
+            return this.instructor.gender == 'm' ? 'Masculino' : 'Femenino';
+        },
         getProfilePictureUrl: function getProfilePictureUrl() {
             return this.instructor.profile_picture ? this.instructor.profile_picture : '/imgs/profile_pic/default.jpg';
         },
         instructorSince: function instructorSince() {
             return this.instructor.created_at.split(" ")[0] || '';
+        },
+        totalWork: function totalWork() {
+            var total = 0;
+            var days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            for (var i = 0; i < days.length; i++) {
+                if (this.schedule[days[i]].hours) {
+                    total += this.schedule[days[i]].hours;
+                }
+            }
+            return total;
         }
     }
 });
@@ -15591,7 +15994,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(41)();
-exports.push([module.i, "\n.list-group[data-v-b00dc252] {\n    margin-bottom: 0;\n}\n.divider[data-v-b00dc252] {\n    margin-top: 8px;\n    margin-bottom:8px;\n}\n", ""]);
+exports.push([module.i, "\n.list-group[data-v-b00dc252] {\n    margin-bottom: 0;\n}\n\n", ""]);
 
 /***/ }),
 /* 41 */
@@ -33021,7 +33424,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "list-group"
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "list-group-item"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item-text"
+  }, [(_vm.instructor.about_me) ? _c('p', {
+    staticClass: "text-justify"
+  }, [_vm._v(_vm._s(_vm.instructor.about_me))]) : _c('p', [_c('i', [_vm._v("No tiene.")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "list-group-item-text"
+  }, [(_vm.clients.length > 0) ? _c('div', [_c('ul', _vm._l((_vm.clients), function(client) {
+    return _c('li', [_c('a', {
+      attrs: {
+        "href": '/dashboard/clientes/' + client.id
+      }
+    }, [_vm._v("\n                                                " + _vm._s(client.name) + " " + _vm._s(client.first_surname) + "\n                                            ")])])
+  }))]) : _c('div', [_c('p', [_c('i', [_vm._v("No hay clientes asignados.")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "list-group-item"
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "list-group-item-text"
@@ -33219,6 +33638,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.birth_date))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-6"
   }, [_c('div', {
+    staticClass: "sol-sm-12"
+  }, [_c('div', {
     staticClass: "panel panel-default"
   }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
@@ -33226,25 +33647,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.instructor.rfc),
-      expression: "instructor.rfc"
+      value: (_vm.instructor.salary),
+      expression: "instructor.salary"
     }],
     staticClass: "form-control",
     attrs: {
       "type": "text"
     },
     domProps: {
-      "value": (_vm.instructor.rfc)
+      "value": (_vm.instructor.salary)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.instructor.rfc = $event.target.value
+        _vm.instructor.salary = $event.target.value
       }
     }
-  }) : _c('div', [(_vm.instructor.rfc) ? _c('p', [_vm._v(_vm._s(_vm.instructor.rfc))]) : _c('p', [_c('i', [_vm._v("No tiene")])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(10), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  }) : _c('div', [(_vm.instructor.salary) ? _c('p', [_vm._v("$ " + _vm._s(_vm.instructor.salary))]) : _c('p', [_c('i', [_vm._v("No tiene")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "sol-sm-12"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_vm._m(10), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_vm._m(11), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33266,7 +33691,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.address))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(11), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(12), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33288,7 +33713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.phone_number))]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(12), _vm._v(" "), (_vm.onEdit) ? _c('input', {
+  })]), _vm._v(" "), _vm._m(13), _vm._v(" "), (_vm.onEdit) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33308,124 +33733,505 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.instructor.email = $event.target.value
       }
     }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.email))]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(13), _vm._v(" "), (_vm.onEdit) ? _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "date"
-    }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.birth_date))])])])])]), _vm._v(" "), _c('div', {
+  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.email))])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-12"
   }, [_c('div', {
     staticClass: "panel panel-default"
-  }, [_vm._m(14), _vm._v(" "), _c('div', {
+  }, [_vm._m(14), _vm._v(" "), (_vm.onEdit) ? _c('div', {
     staticClass: "panel-body"
-  }, [_vm._m(15), _vm._v(" "), (_vm.onEdit) ? _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.instructor.height),
-      expression: "instructor.height"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.instructor.height)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.instructor.height = $event.target.value
-      },
-      "blur": function($event) {
-        _vm.$forceUpdate()
-      }
-    }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.height) + " cm.")]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(16), _vm._v(" "), (_vm.onEdit) ? _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.instructor.weight),
-      expression: "instructor.weight"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.instructor.weight)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.instructor.weight = $event.target.value
-      },
-      "blur": function($event) {
-        _vm.$forceUpdate()
-      }
-    }
-  }) : _c('div', [_c('p', [_vm._v(_vm._s(_vm.instructor.weight) + " kg.")]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _vm._m(17), _vm._v(" "), (_vm.onEdit) ? _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.instructor.instructor_id),
-      expression: "instructor.instructor_id"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "name": "instructor_id",
-      "id": "instructor_id"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.instructor.instructor_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.instructors), function(otherInstructor) {
-    return _c('option', {
-      domProps: {
-        "value": otherInstructor.id
-      }
-    }, [_vm._v("\n                                    " + _vm._s(otherInstructor.name) + " " + _vm._s(otherInstructor.first_name) + "\n                                ")])
-  })) : _c('div', [_c('p', [_c('a', {
-    attrs: {
-      "href": _vm.makeInstructorUrl
-    }
-  }, [_vm._v("\n                                        " + _vm._s(_vm.instructor.name) + "\n                                    ")])])])])])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "list-group-item",
-    attrs: {
-      "href": ""
-    }
-  }, [_vm._v("Facturas "), _c('span', {
-    staticClass: "badge"
-  }, [_vm._v("2")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "list-group-item"
   }, [_c('div', {
-    staticClass: "list-group-item-heading"
-  }, [_c('h4', [_vm._v("Fecha de próximo pago")])]), _vm._v(" "), _c('div', {
-    staticClass: "list-group-item-text"
-  }, [_vm._v("Null")])])
+    staticClass: "form-horizontal"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Lunes")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.monday.from),
+      expression: "schedule.monday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "monday-from",
+      "name": "monday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.monday.from),
+      "value": (_vm.schedule.monday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.monday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(15), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.monday.to),
+      expression: "schedule.monday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "monday-to",
+      "name": "monday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.monday.to),
+      "value": (_vm.schedule.monday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.monday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Martes")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.tuesday.from),
+      expression: "schedule.tuesday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "tuesday-from",
+      "name": "tuesday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.tuesday.from),
+      "value": (_vm.schedule.tuesday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.tuesday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(16), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.tuesday.to),
+      expression: "schedule.tuesday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "tuesday-to",
+      "name": "tuesday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.tuesday.to),
+      "value": (_vm.schedule.tuesday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.tuesday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Miercoles")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.wednesday.from),
+      expression: "schedule.wednesday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "wednesday-from",
+      "name": "wednesday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.wednesday.from),
+      "value": (_vm.schedule.wednesday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.wednesday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.wednesday.to),
+      expression: "schedule.wednesday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "wednesday-to",
+      "name": "wednesday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.wednesday.to),
+      "value": (_vm.schedule.wednesday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.wednesday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Jueves")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.thursday.from),
+      expression: "schedule.thursday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "thursday-from",
+      "name": "thursday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.thursday.from),
+      "value": (_vm.schedule.thursday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.thursday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.thursday.to),
+      expression: "schedule.thursday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "thursday-to",
+      "name": "thursday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.thursday.to),
+      "value": (_vm.schedule.thursday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.thursday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Viernes")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.friday.from),
+      expression: "schedule.friday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "friday-from",
+      "name": "friday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.friday.from),
+      "value": (_vm.schedule.friday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.friday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(19), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.friday.to),
+      expression: "schedule.friday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "friday-to",
+      "name": "friday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.friday.to),
+      "value": (_vm.schedule.friday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.friday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Sábado")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.saturday.from),
+      expression: "schedule.saturday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "saturday-from",
+      "name": "saturday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.saturday.from),
+      "value": (_vm.schedule.saturday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.saturday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.saturday.to),
+      expression: "schedule.saturday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "saturday-to",
+      "name": "saturday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.saturday.to),
+      "value": (_vm.schedule.saturday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.saturday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-xs-12 col-sm-2 control-label",
+    attrs: {
+      "for": "monday-from"
+    }
+  }, [_vm._v("Domingo")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.sunday.from),
+      expression: "schedule.sunday.from"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "sunday-from",
+      "name": "sunday-from"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.sunday.from),
+      "value": (_vm.schedule.sunday.from)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.sunday.from = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-4"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.schedule.sunday.to),
+      expression: "schedule.sunday.to"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "time",
+      "id": "sunday-to",
+      "name": "sunday-to"
+    },
+    domProps: {
+      "value": _vm.formatTime(_vm.schedule.sunday.to),
+      "value": (_vm.schedule.sunday.to)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.schedule.sunday.to = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "hidden-xs col-lg-offset-1"
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("Dejar en blanco ambos campos de un día para asignarlo como descanso.")])])]) : _c('ul', {
+    staticClass: "list-group"
+  }, [(_vm.schedule.monday.from || _vm.schedule.monday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Lunes:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.monday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.monday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.monday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), (_vm.schedule.tuesday.from || _vm.schedule.tuesday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Martes:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.tuesday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.tuesday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.tuesday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), (_vm.schedule.wednesday.from || _vm.schedule.wednesday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Miercoles:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.wednesday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.wednesday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.wednesday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), (_vm.schedule.thursday.from || _vm.schedule.thursday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Jueves:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.thursday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.thursday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.thursday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), (_vm.schedule.friday.from || _vm.schedule.friday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Viernes:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.friday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.friday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.friday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), (_vm.schedule.saturday.from || _vm.schedule.saturday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Sábado:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.saturday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.saturday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.saturday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), (_vm.schedule.sunday.from || _vm.schedule.sunday.to) ? _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Domingo:")]), _vm._v(" " + _vm._s(_vm.formatTime(_vm.schedule.sunday.from)) + " - " + _vm._s(_vm.formatTime(_vm.schedule.sunday.to)) + "\n                                "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.schedule.sunday.hours) + " horas.")])]) : _c('li', {
+    staticClass: "list-group"
+  }, [_c('i', [_vm._v("No tiene actividad.")])]), _vm._v(" "), _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('strong', [_vm._v("Total Trabajado:")]), _vm._v(" "), _c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.totalWork) + " horas.")])])])])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "list-group-heading"
+  }, [_c('h4', [_c('i', {
+    staticClass: "fa fa-book",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Biografía")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "list-group-heading"
+  }, [_c('h4', [_c('i', {
+    staticClass: "fa fa-users",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Clientes que instruye")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "list-group-item-heading"
-  }, [_c('h4', [_vm._v("Instructor desde")])])
+  }, [_c('h4', [_c('i', {
+    staticClass: "fa fa-calendar",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Instructor desde")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
@@ -33464,15 +34270,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "panel-heading"
   }, [_c('i', {
-    staticClass: "fa fa-money"
-  }), _vm._v(" Datos de facturación\n                        ")])
+    staticClass: "fa fa-credit-card"
+  }), _vm._v(" Datos financieros\n                            ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
-    staticClass: "fa fa-id-card",
+    staticClass: "fa fa-money",
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v(" Rfc")])
+  }), _vm._v(" Salario "), _c('small', [_vm._v("semanal")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "panel-heading"
+  }, [_c('i', {
+    staticClass: "fa fa-address-book"
+  }), _vm._v(" Datos de contácto\n                            ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', [_c('i', {
     staticClass: "fa fa-map-marker",
@@ -33495,39 +34307,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" E-mail")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h4', [_c('i', {
-    staticClass: "fa fa-calendar",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Fecha de último pago")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
   }, [_c('i', {
-    staticClass: "fa fa-heartbeat"
-  }), _vm._v(" Datos de gimnasio\n                        ")])
+    staticClass: "fa fa-clock-o"
+  }), _vm._v(" Horario\n                        ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h4', [_c('i', {
-    staticClass: "fa fa-male",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Altura")])
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h4', [_c('i', {
-    staticClass: "fa fa-street-view",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Peso")])
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h4', [_c('i', {
-    staticClass: "fa fa-user",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v(" Instructor")])
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "hidden-xs col-sm-1"
+  }, [_c('sub', [_vm._v("-")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -33918,7 +34730,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "min": "0",
+      "value": "0",
+      "step": "0.01"
     },
     domProps: {
       "value": (_vm.client.weight)
@@ -33963,11 +34778,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": otherInstructor.id
       }
     }, [_vm._v("\n                                    " + _vm._s(otherInstructor.name) + " " + _vm._s(otherInstructor.first_name) + "\n                                ")])
-  })) : _c('div', [_c('p', [_c('a', {
+  })) : _c('div', [_c('p', [(_vm.instructor) ? _c('a', {
     attrs: {
       "href": _vm.makeInstructorUrl
     }
-  }, [_vm._v("\n                                        " + _vm._s(_vm.instructor.name) + "\n                                    ")])])])])])])])])])])
+  }, [_vm._v("\n                                        " + _vm._s(_vm.instructor.name) + "\n                                    ")]) : _c('i', [_vm._v("Sin instructor asignado.")])])])])])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     staticClass: "list-group-item",

@@ -30,7 +30,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
      */
     .styles([
         'node_modules/sweetalert/dist/sweetalert.css',
-        'resources/assets/css/vendor/bootstrap.min.css',
+        'resources/assets/css/vendor/bootstrap-flatly.css',
         'resources/assets/css/vendor/metisMenu.min.css',
         'resources/assets/css/vendor/morris.css',
         'resources/assets/css/vendor/font-awesome.css'
