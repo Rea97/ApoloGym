@@ -17,6 +17,8 @@ class InstructorsTableSeeder extends Seeder
                 'name' => $faker->name,
                 'first_surname' => $faker->lastName,
                 'second_surname' => $faker->lastName,
+                'gender' => $faker->randomElement(['m', 'f']),
+                'birth_date' => $faker->date(),
                 'profile_picture' => null,
                 'phone_number' => $faker->phoneNumber,
                 'address' => $faker->address,

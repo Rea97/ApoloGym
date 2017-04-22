@@ -16,11 +16,11 @@ class CreateInstructorsScheduleTable extends Migration
         Schema::create('instructors_schedule', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instructor_id')->unsigned();
-            $table->foreign('instructor_id')->references('id')->on('instructors');
+            $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
             $table->enum('day', [1, 2, 3, 4, 5, 6, 7]);
-            $table->time('from');
-            $table->time('to');
-            $table->tinyInteger('hours');
+            $table->time('from')->nullable();
+            $table->time('to')->nullable();
+            $table->tinyInteger('hours')->nullable();
             $table->timestamps();
             /*
             $table->integer('instructor_id')->references('id')->on('instructors');

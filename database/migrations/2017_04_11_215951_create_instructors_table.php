@@ -17,6 +17,8 @@ class CreateInstructorsTable extends Migration
             $table->increments('id');
             $table->string('name', 50);
             $table->string('first_surname', 50);
+            $table->char('gender');
+            $table->date('birth_date');
             $table->string('second_surname', 50)->nullable();
             $table->string('profile_picture')->nullable();
             $table->string('phone_number', 50);
