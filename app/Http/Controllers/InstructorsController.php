@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Instructor;
+use App\Models\InstructorSchedule;
 use App\Repositories\ClientRepository;
+use App\Repositories\InstructorScheduleRepository;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
 use App\Repositories\InstructorRepository;
@@ -19,13 +21,20 @@ class InstructorsController extends Controller
     protected $instructor;
 
     /**
+     * @var InstructorSchedule
+     */
+    protected $instructorSchedule;
+
+    /**
      * InstructorsController constructor.
      *
-     * @param Instructor $instructor
+     * @param InstructorRepository         $instructor
+     * @param InstructorScheduleRepository $instructorSchedule
      */
-    public function __construct(InstructorRepository $instructor)
+    public function __construct(InstructorRepository $instructor, InstructorScheduleRepository $instructorSchedule)
     {
         $this->instructor = $instructor;
+        $this->instructorSchedule = $instructorSchedule;
     }
 
     public function showInstructor()
@@ -41,6 +50,12 @@ class InstructorsController extends Controller
     public function showClientsInstructor()
     {
         return view('sections.instructor');
+    }
+
+    public function showNewInstructorForm()
+    {
+        //TODO: pendiente de modificación la vista
+        return view('sections.admin.create-instructor');
     }
 
     public function index(Request $request)
@@ -66,13 +81,39 @@ class InstructorsController extends Controller
     public function show(Request $request, Instructor $instructor)
     {
         if ($request->ajax()) {
+            $schedule = $this->instructorSchedule->scheduleOf($instructor)->toArray();
             return response()->json([
                 'data' => [
-                    'instructor' => $instructor
+                    'instructor' => $instructor,
+                    'schedule' => $this->instructorSchedule->makeScheduleArray($schedule)
                 ]
             ]);
         }
         return redirect()->route('dashboard.start');
+    }
+
+    public function update(Request $request, Instructor $instructor)
+    {
+        $edit = $instructor->update($request->all());
+        return response()->json($edit);
+
+    }
+
+    public function updateSchedule(Request $request, Instructor $instructor, InstructorSchedule $instructorSchedule)
+    {
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        for ($i = 0; $i < 7; $i++) {
+            $instructorSchedule->where('instructor_id', '=', $instructor->id)
+                ->where('day', '=', $i + 1)->first()->update([
+                    'from' => $request->input($days[$i].'-from', null),
+                    'to' => $request->input($days[$i].'-to', null),
+                    'hours' => getHoursDiff(
+                        $request->input($days[$i].'-from', null),
+                        $request->input($days[$i].'-to', null)
+                    )
+                ]);
+        }
+        return response()->json(['success' => 'Se ha modificado el registro exitosamente']);
     }
 
     public function showClientsInstructedBy(Request $request, Instructor $instructor, ClientRepository $client)
@@ -86,6 +127,20 @@ class InstructorsController extends Controller
             ]);
         }
         return redirect()->route('dashboard.start');
+    }
+
+    public function destroy(Client $client, Instructor $instructor)
+    {
+        $clientsInstructedBy = $client->where('instructor_id', '=', $instructor->id)->get();
+        if ($clientsInstructedBy->isEmpty()) {
+            $instructor->delete();
+            return response()->json(['message' => 'Instructor eliminado satisfactoriamente.']);
+        }
+        $message = 'Antes de proceder con la eliminación, asegurate de cambiar de instructor a los clientes que instruye ';
+        $message .= $instructor->name.' '.$instructor->first_surname;
+        $message .= ' Puede que después de la eliminación, necesite recargar la página para ver los cambios';
+        return response()->json(['error' => $message]);
+
     }
 
 }
