@@ -172,7 +172,7 @@
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-street-view" aria-hidden="true"></i> Peso</h4>
-                                <input v-if="onEdit" v-model="client.weight" type="number" class="form-control">
+                                <input v-if="onEdit" v-model="client.weight" type="number" min="0" value="0" step="0.01" class="form-control">
                                 <div v-else>
                                     <p>{{ client.weight }} kg.</p>
                                     <div class="divider"></div>
@@ -192,9 +192,10 @@
                                 </select>
                                 <div v-else>
                                     <p>
-                                        <a :href="makeInstructorUrl">
+                                        <a v-if="instructor" :href="makeInstructorUrl">
                                             {{ instructor.name }}
                                         </a>
+                                        <i v-else>Sin instructor asignado.</i>
                                     </p>
                                 </div>
                             </div>
@@ -295,8 +296,5 @@
     .list-group {
         margin-bottom: 0;
     }
-    .divider {
-        margin-top: 8px;
-        margin-bottom:8px;
-    }
+
 </style>
