@@ -179,3 +179,12 @@ function getHoursDiff($from, $to) {
     $hours = (int) $diffArr[0];
     return $hours;
 }
+
+if (! function_exists('formatTime')) {
+    function formatTime($time) {
+        $timeArr = explode(':', $time);
+        array_pop($timeArr);
+        $timeFormatted = implode(':', $timeArr);
+        return $timeFormatted;
+    }
+}
