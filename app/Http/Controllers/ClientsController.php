@@ -60,9 +60,9 @@ class ClientsController extends Controller
         return redirect()->route('dashboard.start');
     }
 
-    public function store(StoreClientRequest $request)
+    public function store(StoreClientRequest $request, ClientRepository $clientRepository)
     {
-        if ($this->client->create($request->except('password_confirmation'))) {
+        if ($this->client->create($clientRepository->makeDataArray($request))) {
             $message = [
                 'type'      => 'success',
                 'content'   => 'Cliente registrado con exito.'

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use Illuminate\Http\Request;
 
 class ClientRepository
 {
@@ -37,6 +38,26 @@ class ClientRepository
         return $this->client
             ->select('id', 'name', 'first_surname')
             ->where('instructor_id', '=', $instructor->id)->get();
+    }
+
+    public function makeDataArray(Request $request)
+    {
+        return [
+            'instructor_id' => $request->input('instructor_id'),
+            'name' => $request->input('name'),
+            'first_surname' => $request->input('first_surname'),
+            'second_surname' => $request->input('second_surname', null),
+            'gender' => $request->input('gender'),
+            'birth_date' => $request->input('birth_date'),
+            'height' => $request->input('height'),
+            'weight' => $request->input('weight'),
+            'phone_number' => $request->input('phone_number'),
+            'address' => $request->input('address'),
+            'rfc' => $request->input('rfc', null),
+            'profile_picture' => $request->input('profile_picture', null),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ];
     }
 
 }
