@@ -4,7 +4,7 @@
 @section('content')
     <instructor-details :is-admin="{{ isAdmin() }}"
                     :instructor="instructor"
-                    :clients="clients">
+                    :show-error-alert="showErrorAlert">
                     <!--
                     :delete-instructor="deleteInstructor"
                     :update-instructor="updateInstructor">-->
