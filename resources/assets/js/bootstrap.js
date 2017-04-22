@@ -36,6 +36,20 @@ require('./sections/dashboard');
 window.Vue = require('vue');
 
 /**
+ * Plugins para Vue js
+ */
+import VeeValidate, {Validator} from 'vee-validate';
+
+import es from 'vee-validate/dist/locale/es';
+import moment from 'moment/moment';
+
+Validator.installDateTimeValidators(moment);
+Validator.addLocale(es);
+Vue.use(VeeValidate, {
+    locale: 'es',
+});
+
+/**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.

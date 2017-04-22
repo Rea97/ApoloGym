@@ -79,19 +79,28 @@
                                     <button class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
                                 </span>
                                 </div>-->
-                                <input v-if="onEdit" v-model="client.name" type="text" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('name')}">
+                                    <input v-model="client.name" v-validate="'required|alpha_spaces'" type="text" class="form-control" name="name" data-vv-as="Nombre">
+                                    <span v-show="errors.has('name')" class="help-block">{{ errors.first('name') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ client.name }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido paterno</h4>
-                                <input v-if="onEdit" v-model="client.first_surname" type="text" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('first_surname')}">
+                                    <input v-model="client.first_surname" v-validate="'required|alpha'" type="text" class="form-control" name="first_surname" data-vv-as="Apellido paterno">
+                                    <span v-show="errors.has('first_surname')" class="help-block">{{ errors.first('first_surname') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ client.first_surname }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido materno</h4>
-                                <input v-if="onEdit" v-model="client.second_surname" type="text" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('second_surname')}">
+                                    <input v-model="client.second_surname" v-validate="'alpha'" type="text" class="form-control" name="second_surname" data-vv-as="Apellido materno">
+                                    <span v-show="errors.has('second_surname')" class="help-block">{{ errors.first('second_surname') }}</span>
+                                </div>
                                 <div v-else>
                                     <p v-if="client.second_surname">{{ client.second_surname }}</p>
                                     <p v-else><i>No tiene</i></p>
@@ -112,7 +121,10 @@
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de nacimiento</h4>
-                                <input v-if="onEdit" v-model="client.birth_date" type="date" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('birth_date')}">
+                                    <input v-model="client.birth_date" v-validate="'required|date_format:YYYY-MM-DD'" type="date" class="form-control" name="birth_date" data-vv-as="Fecha de nacimiento">
+                                    <span v-show="errors.has('birth_date')" class="help-block">{{ errors.first('birth_date') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ client.birth_date }}</p>
                                 </div>
@@ -126,26 +138,38 @@
                         </div>
                         <div class="panel-body">
                             <h4><i class="fa fa-id-card" aria-hidden="true"></i> Rfc</h4>
-                            <input v-if="onEdit" v-model="client.rfc" type="text" class="form-control">
+                            <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('rfc')}">
+                                <input v-model="client.rfc" v-validate="'alpha_num'" type="text" class="form-control" name="rfc" data-vv-as="Rfc">
+                                <span v-show="errors.has('rfc')" class="help-block">{{ errors.first('rfc') }}</span>
+                            </div>
                             <div v-else>
                                 <p v-if="client.rfc">{{ client.rfc }}</p>
                                 <p v-else><i>No tiene</i></p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-map-marker" aria-hidden="true"></i> Dirección</h4>
-                            <input v-if="onEdit" v-model="client.address" type="text" class="form-control">
+                            <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('address')}">
+                                <input v-model="client.address" v-validate="'required'" type="text" class="form-control" name="address" data-vv-as="Dirección">
+                                <span v-show="errors.has('address')" class="help-block">{{ errors.first('address') }}</span>
+                            </div>
                             <div v-else>
                                 <p>{{ client.address }}</p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-phone" aria-hidden="true"></i> Teléfono</h4>
-                            <input v-if="onEdit" v-model="client.phone_number" type="text" class="form-control">
+                            <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('phone_number')}">
+                                <input v-model="client.phone_number" v-validate="'required'" type="text" class="form-control" name="phone_number" data-vv-as="Teléfono">
+                                <span v-show="errors.has('phone_number')" class="help-block">{{ errors.first('phone_number') }}</span>
+                            </div>
                             <div v-else>
                                 <p>{{ client.phone_number }}</p>
                                 <div class="divider"></div>
                             </div>
                             <h4><i class="fa fa-at" aria-hidden="true"></i> E-mail</h4>
-                            <input v-if="onEdit" v-model="client.email" type="text" class="form-control">
+                            <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('email')}">
+                                <input v-model="client.email" v-validate="'required|email'" type="email" class="form-control" name="email" data-vv-as="E-mail">
+                                <span v-show="errors.has('email')" class="help-block">{{ errors.first('email') }}</span>
+                            </div>
                             <div v-else>
                                 <p>{{ client.email }}</p>
                                 <div class="divider"></div>
@@ -166,34 +190,44 @@
                             </div>
                             <div class="panel-body">
                                 <h4><i class="fa fa-male" aria-hidden="true"></i> Altura</h4>
-                                <input v-if="onEdit" v-model="client.height" type="number" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('height')}">
+                                    <input v-model="client.height" v-validate="'required|numeric'" type="number" class="form-control" name="height" data-vv-as="Altura">
+                                    <span v-show="errors.has('height')" class="help-block">{{ errors.first('height') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ client.height }} cm.</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-street-view" aria-hidden="true"></i> Peso</h4>
-                                <input v-if="onEdit" v-model="client.weight" type="number" min="0" value="0" step="0.01" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('weight')}">
+                                    <input v-model="client.weight" v-validate="'required|numeric'" type="number" class="form-control" name="weight" data-vv-as="Peso" min="0" value="0.00" step="0.01">
+                                    <span v-show="errors.has('weight')" class="help-block">{{ errors.first('weight') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ client.weight }} kg.</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-user" aria-hidden="true"></i> Instructor</h4>
-                                <select v-if="onEdit"
-                                        v-model="client.instructor_id"
-                                        name="instructor_id"
-                                        id="instructor_id"
-                                        class="form-control">
-                                    <!--<select v-if="onEdit.gymData" name="instructor_id" id="instructor_id">-->
-                                    <option v-for="otherInstructor in instructors"
-                                            :value="otherInstructor.id">
-                                        <!--:selected="otherInstructor.id === client.instructor_id">-->
-                                        {{ otherInstructor.name }} {{ otherInstructor.first_name }}
-                                    </option>
-                                </select>
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('instructor_id')}">
+                                    <select v-model="client.instructor_id"
+                                            name="instructor_id"
+                                            id="instructor_id"
+                                            class="form-control"
+                                            v-validate="'required|numeric'"
+                                            data-vv-as="Instructor">
+                                        <!--<select v-if="onEdit.gymData" name="instructor_id" id="instructor_id">-->
+                                        <option v-for="otherInstructor in instructors"
+                                                :value="otherInstructor.id">
+                                            <!--:selected="otherInstructor.id === client.instructor_id">-->
+                                            {{ otherInstructor.name }} {{ otherInstructor.first_name }}
+                                        </option>
+                                    </select>
+                                    <span v-show="errors.has('instructor_id')" class="help-block">{{ errors.first('instructor_id') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>
                                         <a v-if="instructor" :href="makeInstructorUrl">
-                                            {{ instructor.name }}
+                                            {{ instructor.name }} {{ instructor.first_surname }}
                                         </a>
                                         <i v-else>Sin instructor asignado.</i>
                                     </p>
@@ -213,7 +247,18 @@
 </template>
 <script>
     export default {
-        props: {
+        props: [
+            'isAdmin',
+            'fetchClient',
+            'fetchInstructors',
+            'client',
+            'deleteClient',
+            'updateClient',
+            'instructor',
+            'instructors',
+            'showErrorAlert'
+        ]
+            /*{
             isAdmin: {},
             fetchClient:{},
             fetchInstructors:{},
@@ -221,8 +266,9 @@
             deleteClient: {},
             updateClient: {},
             instructor:{},
-            instructors:{}
-        },
+            instructors:{},
+            showAlert
+        }*/,
         mounted: function() {
             console.log('Componente Cliente montado');
             this.$once('fetchInstructorsEvent', function () {
@@ -261,9 +307,20 @@
             },
             updateData() {
                 this.saving = true;
+                if (this.formHasErrors()) {
+                    this.saving = false;
+                    return;
+                }
                 this.updateClient();
                 //this.onEdit = false;
                 //this.fetchClient();
+            },
+            formHasErrors() {
+                if (this.errors.errors.length > 0) {
+                    this.showErrorAlert("Verifica los errores en el formulario.");
+                    return true;
+                }
+                return false;
             }
         },
         computed: {

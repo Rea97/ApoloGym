@@ -9,6 +9,7 @@
                     :delete-client="deleteClient"
                     :update-client="updateClient"
                     :fetch-client="fetchClient"
-                    :fetch-instructors="fetchInstructors">
+                    :fetch-instructors="fetchInstructors"
+                    :show-error-alert="showErrorAlert">
     </client-details>
 @endsection

@@ -33,7 +33,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'resources/assets/css/vendor/bootstrap-flatly.css',
         'resources/assets/css/vendor/metisMenu.min.css',
         'resources/assets/css/vendor/morris.css',
-        'resources/assets/css/vendor/font-awesome.css'
+        'resources/assets/css/vendor/font-awesome.css',
     ], 'public/css/vendor/vendor.css')
 
     /**

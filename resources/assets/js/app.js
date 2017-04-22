@@ -72,8 +72,8 @@ const app = new Vue({
             }
             return arr[arr.length - 2];
         },
-        showErrorAlert() {
-            let message = `Ha ocurrido un error en el servidor,
+        showErrorAlert(text) {
+            let message = text || `Ha ocurrido un error en el servidor,
                         favor de intentar de nuevo más tarde. Si lo deseas, puedes
                         <a href="/dashboard/bugs">reportar este error.</a>`;
             swal({

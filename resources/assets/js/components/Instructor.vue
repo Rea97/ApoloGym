@@ -98,19 +98,28 @@
                                     <button class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
                                 </span>
                                 </div>-->
-                                <input v-if="onEdit" v-model="instructor.name" type="text" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('name')}">
+                                    <input v-model="instructor.name" v-validate="'required|alpha_spaces'" type="text" class="form-control" name="name" data-vv-as="Nombre">
+                                    <span v-show="errors.has('name')" class="help-block">{{ errors.first('name') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ instructor.name }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido paterno</h4>
-                                <input v-if="onEdit" v-model="instructor.first_surname" type="text" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('first_surname')}">
+                                    <input v-model="instructor.first_surname" v-validate="'required|alpha'" type="text" class="form-control" name="first_surname" data-vv-as="Apellido paterno">
+                                    <span v-show="errors.has('first_surname')" class="help-block">{{ errors.first('first_surname') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ instructor.first_surname }}</p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido materno</h4>
-                                <input v-if="onEdit" v-model="instructor.second_surname" type="text" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('second_surname')}">
+                                    <input v-model="instructor.second_surname" v-validate="'alpha'" type="text" class="form-control" name="second_surname" data-vv-as="Apellido materno">
+                                    <span v-show="errors.has('second_surname')" class="help-block">{{ errors.first('second_surname') }}</span>
+                                </div>
                                 <div v-else>
                                     <p v-if="instructor.second_surname">{{ instructor.second_surname }}</p>
                                     <p v-else><i>No tiene</i></p>
@@ -131,7 +140,10 @@
                                     <div class="divider"></div>
                                 </div>
                                 <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de nacimiento</h4>
-                                <input v-if="onEdit" v-model="instructor.birth_date" type="date" class="form-control">
+                                <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('birth_date')}">
+                                    <input v-model="instructor.birth_date" v-validate="'required|date_format:YYYY-MM-DD'" type="date" class="form-control" name="birth_date" data-vv-as="Fecha de nacimiento">
+                                    <span v-show="errors.has('birth_date')" class="help-block">{{ errors.first('birth_date') }}</span>
+                                </div>
                                 <div v-else>
                                     <p>{{ instructor.birth_date }}</p>
                                 </div>
@@ -146,7 +158,10 @@
                                 </div>
                                 <div class="panel-body">
                                     <h4><i class="fa fa-money" aria-hidden="true"></i> Salario <small>semanal</small></h4>
-                                    <input v-if="onEdit" v-model="instructor.salary" type="text" class="form-control">
+                                    <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('salary')}">
+                                        <input v-model="instructor.salary" v-validate="'required|decimal:2'" type="number" class="form-control" min="0" value="0.00" step="0.10" name="salary" data-vv-as="Salario">
+                                        <span v-show="errors.has('salary')" class="help-block">{{ errors.first('salary') }}</span>
+                                    </div>
                                     <div v-else>
                                         <p v-if="instructor.salary">$ {{ instructor.salary }}</p>
                                         <p v-else><i>No tiene</i></p>
@@ -157,23 +172,32 @@
                         <div class="sol-sm-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <i class="fa fa-address-book"></i> Datos de contácto
+                                    <i class="fa fa-addsress-book"></i> Datos de contácto
                                 </div>
                                 <div class="panel-body">
                                     <h4><i class="fa fa-map-marker" aria-hidden="true"></i> Dirección</h4>
-                                    <input v-if="onEdit" v-model="instructor.address" type="text" class="form-control">
+                                    <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('address')}">
+                                        <input v-model="instructor.address" type="text" v-validate="'required'" class="form-control" name="address" data-vv-as="Dirección">
+                                        <span v-show="errors.has('address')" class="help-block">{{ errors.first('address') }}</span>
+                                    </div>
                                     <div v-else>
                                         <p>{{ instructor.address }}</p>
                                         <div class="divider"></div>
                                     </div>
                                     <h4><i class="fa fa-phone" aria-hidden="true"></i> Teléfono</h4>
-                                    <input v-if="onEdit" v-model="instructor.phone_number" type="text" class="form-control">
+                                    <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('phone_number')}">
+                                        <input v-model="instructor.phone_number" v-validate="'required|numeric'" type="text" class="form-control" name="phone_number" data-vv-as="Teléfono">
+                                        <span v-show="errors.has('phone_number')" class="help-block">{{ errors.first('phone_number') }}</span>
+                                    </div>
                                     <div v-else>
                                         <p>{{ instructor.phone_number }}</p>
                                         <div class="divider"></div>
                                     </div>
                                     <h4><i class="fa fa-at" aria-hidden="true"></i> E-mail</h4>
-                                    <input v-if="onEdit" v-model="instructor.email" type="text" class="form-control">
+                                    <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('email')}">
+                                        <input v-model="instructor.email" v-validate="'required|email'" type="text" class="form-control" name="email" data-vv-as="E-mail">
+                                        <span v-show="errors.has('email')" class="help-block">{{ errors.first('email') }}</span>
+                                    </div>
                                     <div v-else>
                                         <p>{{ instructor.email }}</p>
                                     </div>
@@ -560,10 +584,16 @@
                 }
             },
             updateData() {
+                let id = this.getLastElementInUrl();
                 this.saving = true;
+                if (this.formHasErrors()) {
+                    this.saving = false;
+                    return;
+                }
                 this.updateSchedule();
                 this.updateInstructor();
-                this.saving = false;
+                window.location = '/dashboard/instructores/'+id;
+                //this.saving = false;
             },
             deleteData() {
                 let id = this.getLastElementInUrl();
@@ -632,6 +662,13 @@
                 axios.put(`/api/instructors/${this.instructor.id}`, this.instructor)
                     .then((response)=>{console.log(response)})
                     .catch((error)=>{console.log(error)});
+            },
+            formHasErrors() {
+                if (this.errors.errors.length > 0) {
+                    this.showErrorAlert("Verifica los errores en el formulario.");
+                    return true;
+                }
+                return false;
             }
         },
         computed: {
