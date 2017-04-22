@@ -41,8 +41,7 @@
                             no se realizan tantas peticiones, sin embargo no es tan amigable con el usuario
                             ya que debe presionar enter para cada busqueda
                             -->
-                            <input v-show="pagination.total > 0"
-                                    v-on:search="fetchInstructors(true, pagination.current_page)"
+                            <input v-on:search="fetchInstructors(true, pagination.current_page)"
                                     v-model="search"
                                     class="form-control"
                                     type="search"

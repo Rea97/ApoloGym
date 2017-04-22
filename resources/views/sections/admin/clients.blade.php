@@ -25,8 +25,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-6">
                     <div class="row">
                         <div class="col-sm-8">
-                            <input v-show="pagination.total > 0"
-                                   v-on:search="fetchClients(true, pagination.current_page)"
+                            <input v-on:search="fetchClients(true, pagination.current_page)"
                                    v-model="search"
                                    class="form-control"
                                    type="search"
