@@ -38,11 +38,11 @@ class SetupAdmin extends Command
      */
     public function handle()
     {
-        $email = $this->ask('Indica el email del super admin');
-        $phone = $this->ask('Indica el numero de telefono del super admin');
-        $pass = $this->secret('Escribe el password para el super admin (minimo 6 caracteres)');
+        $email = $this->ask('Indica el email del admin');
+        $phone = $this->ask('Indica el numero de telefono del admin');
+        $pass = $this->secret('Escribe el password para el admin (minimo 6 caracteres)');
         $data = [
-            'name' => 'super',
+            'name' => 'admin',
             'first_surname' => 'admin',
             'second_surname' => null,
             'phone_number' => $phone,
@@ -50,7 +50,10 @@ class SetupAdmin extends Command
             'email' => $email,
             'password' => bcrypt($pass)
         ];
-        Administrator::create($data);
-        $this->comment('Se ha inicializado al administrador principal exitosamente');
+        if (Administrator::create($data)) {
+            $this->comment('Se ha inicializado al administrador principal exitosamente.');
+            return;
+        }
+        $this->error('Ha ocurrido un error al crear al administrador.');
     }
 }
