@@ -112,7 +112,7 @@
                                        aria-hidden="true"></i>
                                     Género
                                 </h4>
-                                <select v-if="onEdit" v-model="client.gender" type="text" class="form-control">
+                                <select v-if="onEdit" v-model="client.gender" v-validate="'in:m,f'" class="form-control" name="gender" data-vv-as="Género">
                                     <option value="m">Masculino</option>
                                     <option value="f">Femenino</option>
                                 </select>
