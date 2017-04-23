@@ -5,14 +5,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                @if(session('success') || session('error'))
-                    <div class="col-sm-12">
-                        <div class="alert alert-dismissable {{ session('success') ? 'alert-success' : 'alert-danger' }}">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            {{ session('success') ? session('success') : session('error') }}
-                        </div>
-                    </div>
-                @endif
+                @include('partials.alert-notification')
                 <div class="col-sm-6 col-md-8 col-lg-6">
                     <pagination
                             v-show="pagination.total > 0"
