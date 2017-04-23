@@ -122,7 +122,7 @@
                                 </div>
                                 <div v-else>
                                     <p v-if="instructor.second_surname">{{ instructor.second_surname }}</p>
-                                    <p v-else><i>No tiene</i></p>
+                                    <p v-else><i>No tiene.</i></p>
                                     <div class="divider"></div>
                                 </div>
                                 <h4>
@@ -131,7 +131,7 @@
                                        aria-hidden="true"></i>
                                     Género
                                 </h4>
-                                <select v-if="onEdit" v-model="instructor.gender" type="text" class="form-control">
+                                <select v-if="onEdit" v-model="instructor.gender" v-validate="'in:m,f'" class="form-control" name="gender" data-vv-as="Género">
                                     <option value="m">Masculino</option>
                                     <option value="f">Femenino</option>
                                 </select>
@@ -223,271 +223,163 @@
 
                                 <div class="form-horizontal">
                                     <!-- Monday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('monday-from') || errors.has('monday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Lunes</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.monday.from" :value="formatTime(schedule.monday.from)" type="time" class="form-control" id="monday-from" name="monday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.monday.from" :value="formatTime(schedule.monday.from)" type="time" class="form-control input" id="monday-from" name="monday-from" data-vv-as="Lunes, entrada" :class="{'has-error': errors.has('monday-from')}">
+                                            <span v-show="errors.has('monday-from')" class="help-block">{{ errors.first('monday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.monday.to" :value="formatTime(schedule.monday.to)" type="time" class="form-control" id="monday-to" name="monday-to">
+                                            <input v-validate="'date_format:HH:mm|after:monday-from'" v-model="schedule.monday.to" :value="formatTime(schedule.monday.to)" type="time" class="form-control" id="monday-to" name="monday-to" data-vv-as="Lunes, salida">
+                                            <span v-show="errors.has('monday-to')" class="help-block">{{ errors.first('monday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
                                     <!-- Tuesday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('tuesday-from') || errors.has('tuesday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Martes</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.tuesday.from" :value="formatTime(schedule.tuesday.from)" type="time" class="form-control" id="tuesday-from" name="tuesday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.tuesday.from" :value="formatTime(schedule.tuesday.from)" type="time" class="form-control" id="tuesday-from" name="tuesday-from" data-vv-as="Martes, entrada">
+                                            <span v-show="errors.has('tuesday-from')" class="help-block">{{ errors.first('tuesday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.tuesday.to" :value="formatTime(schedule.tuesday.to)" type="time" class="form-control" id="tuesday-to" name="tuesday-to">
+                                            <input v-validate="'date_format:HH:mm|after:tuesday-from'" v-model="schedule.tuesday.to" :value="formatTime(schedule.tuesday.to)" type="time" class="form-control" id="tuesday-to" name="tuesday-to" data-vv-as="Martes, salida">
+                                            <span v-show="errors.has('tuesday-to')" class="help-block">{{ errors.first('tuesday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
                                     <!-- Wednesday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('wednesday-from') || errors.has('wednesday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Miercoles</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.wednesday.from" :value="formatTime(schedule.wednesday.from)" type="time" class="form-control" id="wednesday-from" name="wednesday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.wednesday.from" :value="formatTime(schedule.wednesday.from)" type="time" class="form-control" id="wednesday-from" name="wednesday-from" data-vv-as="Miercoles, entrada">
+                                            <span v-show="errors.has('wednesday-from')" class="help-block">{{ errors.first('wednesday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.wednesday.to" :value="formatTime(schedule.wednesday.to)" type="time" class="form-control" id="wednesday-to" name="wednesday-to">
+                                            <input v-validate="'date_format:HH:mm|after:wednesday-from'" v-model="schedule.wednesday.to" :value="formatTime(schedule.wednesday.to)" type="time" class="form-control" id="wednesday-to" name="wednesday-to" data-vv-as="Miercoles, salida">
+                                            <span v-show="errors.has('wednesday-to')" class="help-block">{{ errors.first('wednesday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
                                     <!-- Thursday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('thursday-from') || errors.has('thursday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Jueves</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.thursday.from" :value="formatTime(schedule.thursday.from)" type="time" class="form-control" id="thursday-from" name="thursday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.thursday.from" :value="formatTime(schedule.thursday.from)" type="time" class="form-control" id="thursday-from" name="thursday-from" data-vv-as="Jueves, entrada">
+                                            <span v-show="errors.has('thursday-from')" class="help-block">{{ errors.first('thursday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.thursday.to" :value="formatTime(schedule.thursday.to)" type="time" class="form-control" id="thursday-to" name="thursday-to">
+                                            <input v-validate="'date_format:HH:mm|after:thursday-from'" v-model="schedule.thursday.to" :value="formatTime(schedule.thursday.to)" type="time" class="form-control" id="thursday-to" name="thursday-to" data-vv-as="Jueves, salida">
+                                            <span v-show="errors.has('thursday-to')" class="help-block">{{ errors.first('thursday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
                                     <!-- Friday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('friday-from') || errors.has('friday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Viernes</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.friday.from" :value="formatTime(schedule.friday.from)" type="time" class="form-control" id="friday-from" name="friday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.friday.from" :value="formatTime(schedule.friday.from)" type="time" class="form-control" id="friday-from" name="friday-from" data-vv-as="Viernes, entrada">
+                                            <span v-show="errors.has('friday-from')" class="help-block">{{ errors.first('friday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.friday.to" :value="formatTime(schedule.friday.to)" type="time" class="form-control" id="friday-to" name="friday-to">
+                                            <input v-validate="'date_format:HH:mm|after:friday-from'" v-model="schedule.friday.to" :value="formatTime(schedule.friday.to)" type="time" class="form-control" id="friday-to" name="friday-to" data-vv-as="Viernes, salida">
+                                            <span v-show="errors.has('friday-to')" class="help-block">{{ errors.first('friday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
                                     <!-- Saturday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('saturday-from') || errors.has('saturday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Sábado</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.saturday.from" :value="formatTime(schedule.saturday.from)" type="time" class="form-control" id="saturday-from" name="saturday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.saturday.from" :value="formatTime(schedule.saturday.from)" type="time" class="form-control" id="saturday-from" name="saturday-from" data-vv-as="Sábado, entrada">
+                                            <span v-show="errors.has('saturday-from')" class="help-block">{{ errors.first('saturday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.saturday.to" :value="formatTime(schedule.saturday.to)" type="time" class="form-control" id="saturday-to" name="saturday-to">
+                                            <input v-validate="'date_format:HH:mm|after:saturday-from'" v-model="schedule.saturday.to" :value="formatTime(schedule.saturday.to)" type="time" class="form-control" id="saturday-to" name="saturday-to" data-vv-as="Sábado, salida">
+                                            <span v-show="errors.has('saturday-to')" class="help-block">{{ errors.first('saturday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
                                     <!-- Sunday -->
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{'has-error': errors.has('sunday-from') || errors.has('sunday-to')}">
                                         <label for="monday-from" class="col-xs-12 col-sm-2 control-label">Domingo</label>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.sunday.from" :value="formatTime(schedule.sunday.from)" type="time" class="form-control" id="sunday-from" name="sunday-from">
+                                            <input v-validate="'date_format:HH:mm'" v-model="schedule.sunday.from" :value="formatTime(schedule.sunday.from)" type="time" class="form-control" id="sunday-from" name="sunday-from"data-vv-as="Domingo, entrada">
+                                            <span v-show="errors.has('sunday-from')" class="help-block">{{ errors.first('sunday-from') }}</span>
                                         </div>
                                         <div class="hidden-xs col-sm-1"><sub>-</sub></div>
                                         <div class="col-xs-6 col-sm-4">
-                                            <input v-model="schedule.sunday.to" :value="formatTime(schedule.sunday.to)" type="time" class="form-control" id="sunday-to" name="sunday-to">
+                                            <input v-validate="'date_format:HH:mm|after:sunday-from'" v-model="schedule.sunday.to" :value="formatTime(schedule.sunday.to)" type="time" class="form-control" id="sunday-to" name="sunday-to" data-vv-as="Domingo, salida">
+                                            <span v-show="errors.has('sunday-to')" class="help-block">{{ errors.first('sunday-to') }}</span>
                                         </div>
                                         <div class="hidden-xs col-lg-offset-1"></div>
                                     </div>
-                                    <span class="help-block">Dejar en blanco ambos campos de un día para asignarlo como descanso.</span>
+                                    <span class="help-block">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Dejar en blanco ambos campos de un día para asignarlo como descanso.
+                                    </span>
                                 </div>
-
-
-
-
-
                             </div>
                             <ul v-else class="list-group">
                                 <li v-if="schedule.monday.from || schedule.monday.to" class="list-group-item">
                                     <strong>Lunes:</strong> {{ formatTime(schedule.monday.from) }} - {{ formatTime(schedule.monday.to) }}
                                     <span class="badge">{{ schedule.monday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Lunes: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li v-if="schedule.tuesday.from || schedule.tuesday.to" class="list-group-item">
                                     <strong>Martes:</strong> {{ formatTime(schedule.tuesday.from) }} - {{ formatTime(schedule.tuesday.to) }}
                                     <span class="badge">{{ schedule.tuesday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Martes: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li v-if="schedule.wednesday.from || schedule.wednesday.to" class="list-group-item">
                                     <strong>Miercoles:</strong> {{ formatTime(schedule.wednesday.from) }} - {{ formatTime(schedule.wednesday.to) }}
                                     <span class="badge">{{ schedule.wednesday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Miercoles: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li v-if="schedule.thursday.from || schedule.thursday.to" class="list-group-item">
                                     <strong>Jueves:</strong> {{ formatTime(schedule.thursday.from) }} - {{ formatTime(schedule.thursday.to) }}
                                     <span class="badge">{{ schedule.thursday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Jueves: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li v-if="schedule.friday.from || schedule.friday.to" class="list-group-item">
                                     <strong>Viernes:</strong> {{ formatTime(schedule.friday.from) }} - {{ formatTime(schedule.friday.to) }}
                                     <span class="badge">{{ schedule.friday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Viernes: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li v-if="schedule.saturday.from || schedule.saturday.to" class="list-group-item">
                                     <strong>Sábado:</strong> {{ formatTime(schedule.saturday.from) }} - {{ formatTime(schedule.saturday.to) }}
                                     <span class="badge">{{ schedule.saturday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Sábado: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li v-if="schedule.sunday.from || schedule.sunday.to" class="list-group-item">
                                     <strong>Domingo:</strong> {{ formatTime(schedule.sunday.from) }} - {{ formatTime(schedule.sunday.to) }}
                                     <span class="badge">{{ schedule.sunday.hours }} horas.</span>
                                 </li>
-                                <li v-else class="list-group">
-                                    <i>No tiene actividad.</i>
+                                <li v-else class="list-group-item">
+                                    <strong>Domingo: </strong><i>No tiene actividad.</i>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Total Trabajado:</strong>
                                     <span class="badge">{{ totalWork }} horas.</span>
                                 </li>
                             </ul>
-                            <!--
-                            <div class="panel-body">
-                                <div v-if="onEdit">
-                                    Lunes
-                                    <input type="time" :value="formatTime(schedule.monday.from)">
-                                    a
-                                    <input type="time" :value="schedule.monday.to">
-                                    <input type="time">
-
-                                </div>
-                                <div v-else>
-                                    <ul>
-                                        <li>Lunes
-                                            <ul>
-                                                <li v-if="schedule.monday.from || schedule.monday.to">
-                                                    {{ formatTime(schedule.monday.from) }} - {{ formatTime(schedule.monday.to) }}
-                                                </li>
-                                                <li v-else>
-                                                    <i>Descansa</i>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>Martes
-                                            <ul>
-                                                <li>{{ formatTime(schedule.tuesday.from) }} - {{ formatTime(schedule.tuesday.to) }}</li>
-                                            </ul>
-                                        </li>
-                                        <li>Miercoles
-                                            <ul>
-                                                <li>{{ formatTime(schedule.wednesday.from) }} - {{ formatTime(schedule.wednesday.to) }}</li>
-                                            </ul>
-                                        </li>
-                                        <li>Jueves
-                                            <ul>
-                                                <li>{{ formatTime(schedule.thursday.from) }} - {{ formatTime(schedule.thursday.to) }}</li>
-                                            </ul>
-                                        </li>
-                                        <li>Viernes
-                                            <ul>
-                                                <li>{{ formatTime(schedule.friday.from) }} - {{ formatTime(schedule.friday.to) }}</li>
-                                            </ul>
-                                        </li>
-                                        <li>Sabado
-                                            <ul>
-                                                <li>{{ formatTime(schedule.saturday.from) }} - {{ formatTime(schedule.saturday.to) }}</li>
-                                            </ul>
-                                        </li>
-                                        <li>Domingo
-                                            <ul>
-                                                <li>{{ formatTime(schedule.sunday.from) }} - {{ formatTime(schedule.sunday.to) }}</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-
-
-                            </div>
-                            -->
-                            <!--
-                            <div class="table responsive">
-                                <table class="table table-hover">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>email</th>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>oziel</td>
-                                        <td>oz@gmail.com</td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <tr class="text-center">
-                                        <th>&nbsp;</th>
-                                        <th>Lunes</th>
-                                        <th>Martes</th>
-                                        <th>Miercoles</th>
-                                        <th>Jueves</th>
-                                        <th>Viernes</th>
-                                        <th>Sábado</th>
-                                        <th>Domingo</th>
-                                    </tr>
-                                    <tr>
-                                        <th>De</th>
-                                        <td>{{ formatTime(schedule.monday.from) }}</td>
-                                        <td>{{ formatTime(schedule.tuesday.from) }}</td>
-                                        <td>{{ formatTime(schedule.wednesday.from) }}</td>
-                                        <td>{{ formatTime(schedule.thursday.from) }}</td>
-                                        <td>{{ formatTime(schedule.friday.from) }}</td>
-                                        <td>{{ formatTime(schedule.saturday.from) }}</td>
-                                        <td>{{ formatTime(schedule.sunday.from) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>A</th>
-                                        <td>{{ formatTime(schedule.monday.to) }}</td>
-                                        <td>{{ formatTime(schedule.tuesday.to) }}</td>
-                                        <td>{{ formatTime(schedule.wednesday.to) }}</td>
-                                        <td>{{ formatTime(schedule.thursday.to) }}</td>
-                                        <td>{{ formatTime(schedule.friday.to) }}</td>
-                                        <td>{{ formatTime(schedule.saturday.to) }}</td>
-                                        <td>{{ formatTime(schedule.sunday.to) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Total Horas</th>
-                                        <td>{{ schedule.monday.hours }}</td>
-                                        <td>{{ schedule.tuesday.hours }}</td>
-                                        <td>{{ schedule.wednesday.hours }}</td>
-                                        <td>{{ schedule.thursday.hours }}</td>
-                                        <td>{{ schedule.friday.hours }}</td>
-                                        <td>{{ schedule.saturday.hours }}</td>
-                                        <td>{{ schedule.sunday.hours }}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            -->
                         </div>
                     </div>
                 </div>
@@ -524,9 +416,11 @@
                 this.formatTimeInSchedule();
             },
             formatTime(time) {
-                let timeArr = time.split(':');
-                timeArr.pop();
-                return timeArr.join(':');
+                if (time) {
+                    let timeArr = time.split(':');
+                    timeArr.pop();
+                    return timeArr.join(':');
+                }
             },
             getDayByNumber(number) {
                 switch (number) {
