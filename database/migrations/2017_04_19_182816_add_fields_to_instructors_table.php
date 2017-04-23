@@ -15,7 +15,8 @@ class AddFieldsToInstructorsTable extends Migration
     {
         Schema::table('instructors', function (Blueprint $table) {
             $table->string('address', 100)->after('phone_number');
-            $table->float('salary')->after('address');
+            $table->decimal('salary', 10, 2)->after('address');
+            //$table->float('salary')->after('address');
             //$table->integer('schedule_id')->unsigned()->index();
         });
     }
