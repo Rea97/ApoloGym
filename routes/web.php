@@ -46,9 +46,10 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
     Route::get('/clientes/crear', 'ClientsController@showNewClientForm')->name('dashboard.client.create');
     Route::get('/clientes/{client}', 'ClientsController@showClient')->name('dashboard.client');
 
+    Route::get('/instructores/crear', 'InstructorsController@showNewInstructorForm')->name('dashboard.instructor.create');
     Route::get('/instructores', 'InstructorsController@showInstructors')->name('dashboard.instructors');
     Route::get('/instructores/{instructor}', 'InstructorsController@showInstructor')->name('dashboard.admin.instructor');
-    Route::get('/instructores/crear', 'InstructorsController@showNewInstructorForm')->name('dashboard.instructor.create');
+
 });
 
 //Rutas accesibles solo por el CLIENTE
@@ -96,6 +97,7 @@ Route::group(['prefix' => '/api'], function () {
    Route::get('/instructors', 'InstructorsController@index')->middleware('auth:admin');
    Route::get('/instructors/{instructor}', 'InstructorsController@show')->middleware('auth:admin');
    Route::get('/instructors/{instructor}/clients', 'InstructorsController@showClientsInstructedBy')->middleware('auth:admin');
+   Route::post('/instructors', 'InstructorsController@store')->name('instructor.store')->middleware('auth:admin');
    Route::delete('/instructors/{instructor}', 'InstructorsController@destroy')->middleware('auth:admin');
    Route::put('/instructors/{instructor}', 'InstructorsController@update')->middleware('auth:admin');
    Route::put('/instructors/{instructor}/schedule', 'InstructorsController@updateSchedule')->middleware('auth:admin');
