@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInstructorRequest;
+use App\Http\Requests\UpdateInstructorRequest;
 use App\Models\Client;
 use App\Models\Instructor;
 use App\Models\InstructorSchedule;
@@ -92,7 +94,26 @@ class InstructorsController extends Controller
         return redirect()->route('dashboard.start');
     }
 
-    public function update(Request $request, Instructor $instructor)
+    public function store(StoreInstructorRequest $request, Instructor $instructor)
+    {
+        if ($instructor->create($this->instructor->makeDataArray($request))) {
+            $newInstructor = $instructor->where('email', '=', $request->input('email'))->first();
+            if ($this->instructorSchedule->storeSchedule($request, $newInstructor)) {
+                $message = [
+                    'type' => 'success',
+                    'content' => 'Instructor registrado con exito.'
+                ];
+            } else {
+                $message = [
+                    'type' => 'error',
+                    'content' => 'Ha ocurrido un error al registrar al instructor.'
+                ];
+            }
+        }
+        return redirect()->route('dashboard.instructors')->with($message['type'], $message['content']);
+    }
+
+    public function update(UpdateInstructorRequest $request, Instructor $instructor)
     {
         $edit = $instructor->update($request->all());
         return response()->json($edit);
