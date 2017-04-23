@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: oziel
- * Date: 17/04/17
- * Time: 11:48 PM
- */
 
 namespace App\Repositories;
 
 use App\Models\Instructor;
+use Illuminate\Http\Request;
 
 class InstructorRepository
 {
@@ -36,6 +31,24 @@ class InstructorRepository
             ->orWhere('second_surname', 'LIKE', "%{$search}%")
             ->orWhere('email', 'LIKE', "%{$search}%")
             ->paginate($paginate);
+    }
+
+    public function makeDataArray(Request $request)
+    {
+        return [
+            'name' => $request->input('name'),
+            'first_surname' => $request->input('first_surname'),
+            'second_surname' => $request->input('second_surname', null),
+            'about_me' => $request->input('about_me', null),
+            'gender' => $request->input('gender'),
+            'birth_date' => $request->input('birth_date'),
+            'profile_picture' => $request->input('profile_picture', null),
+            'phone_number' => $request->input('phone_number'),
+            'address' => $request->input('address'),
+            'salary' => $request->input('salary'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ];
     }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Instructor;
 use App\Models\InstructorSchedule;
+use Illuminate\Http\Request;
 
 class InstructorScheduleRepository
 {
@@ -32,6 +34,27 @@ class InstructorScheduleRepository
             'saturday' => $schedule[5],
             'sunday' => $schedule[6]
         ];
+    }
+
+    public function storeSchedule(Request $request, Instructor $instructor)
+    {
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        for ($i = 0; $i < 7; $i++) {
+            $saved = $this->instructorSchedule->create([
+                'instructor_id' => $instructor->id,
+                'day' => $i + 1,
+                'from' => $request->input($days[$i].'-from', null),
+                'to' => $request->input($days[$i].'-to', null),
+                'hours' => getHoursDiff(
+                    $request->input($days[$i].'-from', null),
+                    $request->input($days[$i].'-to', null)
+                )
+            ]);
+            if (! $saved) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
