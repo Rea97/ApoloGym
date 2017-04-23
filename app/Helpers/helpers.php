@@ -174,6 +174,9 @@ function getTimeDiff($dtime,$atime)
 }
 
 function getHoursDiff($from, $to) {
+    if (! $from || ! $to) {
+        return 0;
+    }
     $diff = getTimeDiff($from, $to);
     $diffArr = explode(':', $diff);
     $hours = (int) $diffArr[0];
