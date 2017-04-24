@@ -57,8 +57,8 @@
                             </a>
                             @if(Auth::guest())
                                 <span class="nav-item">
-                                    <a class="button is-default" href="{{ route('register')}}">
-                                      Unete!
+                                    <a class="button is-default" href="{{ route('login')}}">
+                                        Inicia sesión
                                     </a>
                                 </span>
                             @else
