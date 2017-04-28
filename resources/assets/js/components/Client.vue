@@ -15,7 +15,9 @@
                             <i class="fa fa-history" aria-hidden="true"></i> Resumen
                         </h4>-->
                         <div class="list-group">
-                            <a class="list-group-item" href="">Facturas <span class="badge">2</span></a>
+                            <a class="list-group-item" :href="'/dashboard/facturas?cliente=' + client.id">
+                                Facturas <span class="badge">{{ quantityOfInvoices || 0 }}</span>
+                            </a>
                             <div class="list-group-item">
                                 <div class="list-group-item-heading"><h4>Fecha de próximo pago</h4></div>
                                 <div class="list-group-item-text">{{ memberSince }}</div>
@@ -31,7 +33,7 @@
                             <div v-if="isAdmin && !onEdit">
                                 <!-- Redirigirá a una página sin contenido vue js en la que mediante las variables get
                                  se obtendrá la información de facturación necesaria del cliente en cuestión-->
-                                <a :href="'/dashboard/facturas/crear?client_id=' + client.id"
+                                <a :href="'/dashboard/facturas/crear?cliente=' + client.id"
                                    class="btn btn-block btn-success">
                                     <i class="fa fa-money" aria-hidden="true"></i> Crear Factura
                                 </a>
@@ -256,7 +258,8 @@
             'updateClient',
             'instructor',
             'instructors',
-            'showErrorAlert'
+            'showErrorAlert',
+            'quantityOfInvoices'
         ]
             /*{
             isAdmin: {},
@@ -326,9 +329,9 @@
         computed: {
             getGenderIcon: function() {
                 if (this.client.gender == 'm') {
-                    return 'fa-mars';
+                    return 'fa-male';
                 }
-                return 'fa-venus';
+                return 'fa-female';
             },
             getProfilePictureUrl: function () {
                 return this.client.profile_picture
