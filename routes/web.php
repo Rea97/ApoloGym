@@ -50,6 +50,12 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
     Route::get('/instructores', 'InstructorsController@showInstructors')->name('dashboard.instructors');
     Route::get('/instructores/{instructor}', 'InstructorsController@showInstructor')->name('dashboard.admin.instructor');
 
+    Route::get('/servicios', 'ServicesController@showServices')->name('dashboard.services');
+    Route::get('/servicios/crear', 'ServicesController@showNewServiceForm')->name('dashboard.service.create');
+    Route::get('/servicios/{service}', 'ServicesController@showService')->name('dashboard.service');
+
+    Route::get('/facturas/crear', 'InvoicesController@showNewInvoiceForm')->name('dashboard.invoice.create');
+    Route::get('/facturas', 'InvoicesController@showInvoices')->name('dashboard.invoices');
 });
 
 //Rutas accesibles solo por el CLIENTE
@@ -110,5 +116,20 @@ Route::group(['prefix' => '/api'], function () {
    Route::delete('/clients/{client}', 'ClientsController@destroy')->middleware('auth:admin');
    Route::put('/clients/{client}', 'ClientsController@update')->middleware('auth:admin');
    Route::post('/clients', 'ClientsController@store')->name('client.store')->middleware('auth:admin');
+
+   /**
+    * Services
+    */
+   Route::get('/services', 'ServicesController@index')->name('services.index')->middleware('auth:admin');
+   Route::get('/services/{service}', 'ServicesController@show')->name('services.show')->middleware('auth:admin');
+   Route::put('/services/{service}', 'ServicesController@update')->name('services.update')->middleware('auth:admin');
+   Route::delete('/services/{service}', 'ServicesController@destroy')->name('services.destroy')->middleware('auth:admin');
+   Route::post('/services', 'ServicesController@store')->name('services.store')->middleware('auth:admin');
+
+   /**
+    * Invoices
+    */
+   Route::get('/invoices', 'InvoicesController@index')->name('invoices.index')->middleware('auth:admin');
+   Route::post('/invoices', 'InvoicesController@store')->name('invoices.store')->middleware('auth:admin');
 });
 
