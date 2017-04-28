@@ -1,18 +1,26 @@
 <!--<div class="navbar-default sidebar" role="navigation"> tema anterior     -->
 <div class="sidebar" role="navigation"> <!-- Flaty -->
     <div class="sidebar-nav navbar-collapse">
+        <div class="visible-lg">
+            <div class="container visible-lg" style="margin-top: 14px">
+                <img class="img img-responsive pull-left" style="width: 32px" src="{{ getPP(currentAuth()) }}" alt="">&nbsp;
+                <h4 class="pull-left">Bienvenido, {{ currentAuth()->name }}</h4>
+            </div>
+            <div class="divider" style="margin-bottom: 0"></div>
+        </div>
         <ul class="nav" id="side-menu">
+            <!--
             <li class="sidebar-search">
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" placeholder="Buscar...">
                     <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
                 </div>
-                <!-- /input-group -->
             </li>
+            -->
             <li>
                 <a href="{{ route('dashboard.start') }}"
                    class="li-sidebar {{ markAsActive(route('dashboard.start')) }}">
@@ -52,6 +60,18 @@
                 </li>
             @endif
             @if(isAdmin())
+                <li>
+                    <a href="{{ route('dashboard.invoices') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.invoices')) }}">
+                        <i class="fa fa-file-text fa-fw"></i> Facturas
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('dashboard.services') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.services')) }}">
+                        <i class="fa fa-cubes fa-fw"></i> Servicios
+                    </a>
+                </li>
                 <li>
                     <a href="{{ route('dashboard.clients') }}"
                        class="li-sidebar {{ markAsActive(route('dashboard.clients')) }}">
