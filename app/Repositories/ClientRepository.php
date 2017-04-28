@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class ClientRepository
