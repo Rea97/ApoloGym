@@ -13,7 +13,7 @@ class InstructorsScheduleTableSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1000; $i < 1020; $i++) {
             for ($j = 1; $j <= 7; $j++) {
                 $from = $faker->time();
                 $to = $faker->time();

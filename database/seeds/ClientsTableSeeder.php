@@ -14,7 +14,7 @@ class ClientsTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
         for ($i = 1; $i <= 50; $i++) {
             DB::table('clients')->insert([
-                'instructor_id' => $faker->numberBetween(1, 20),
+                'instructor_id' => $faker->numberBetween(1001, 1018),
                 'name' => $faker->firstName,
                 'first_surname' => $faker->lastName,
                 'second_surname' => $faker->lastName,
