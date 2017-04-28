@@ -64,8 +64,9 @@
                             <td>@{{ client.email }}</td>
                             <td>@{{ client.phone_number }}</td>
                             <td>
-                                <a :href="'/dashboard/clientes/'+client.id">
-                                    Ver detalles
+                                <a class="btn btn-sm btn-info" :href="'/dashboard/clientes/'+client.id">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    Detalles
                                 </a>
                             </td>
                         </tr>

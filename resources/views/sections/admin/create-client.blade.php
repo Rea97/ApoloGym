@@ -241,7 +241,7 @@
                                             type="password"
                                             class="form-control"
                                             placeholder="Repite la contraseña">
-                                        <span class="help-block">Por favor, repite la contraseña para evitar errores de tipeo.</span>
+                                        <span class="help-block">Por favor, repita la contraseña para evitar errores de tipeo.</span>
                                 </div>
                             </div>
                         </fieldset>
