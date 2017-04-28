@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use App\Models\Administrator;
 use App\Models\Client;
 use App\Models\Instructor;
+use App\Notifications\Clients\NewClient;
 use App\Repositories\ClientRepository;
 use App\Utilities\Pagination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use App\Utilities\Validation\ClientValidation;
 use Illuminate\Validation\Rule;
@@ -29,9 +32,11 @@ class ClientsController extends Controller
         return view('sections.admin.clients');
     }
 
-    public function showClient()
+    public function showClient(Client $client)
     {
-        return view('sections.admin.client');
+        $quantityOfInvoices = $client->invoices()->count();
+        //dd($quantityOfInvoices);
+        return view('sections.admin.client', compact('quantityOfInvoices'));
     }
 
     public function showNewClientForm()
@@ -67,6 +72,8 @@ class ClientsController extends Controller
                 'type'      => 'success',
                 'content'   => 'Cliente registrado con exito.'
             ];
+            $newClient = $this->client->where('email', '=', $request->input('email'))->first();
+            Notification::send(Administrator::all(), new NewClient($newClient));
         } else {
             $message = [
                 'type'      => 'error',
