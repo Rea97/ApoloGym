@@ -87,8 +87,9 @@
                             <td>@{{ instructor.email }}</td>
                             <td>@{{ instructor.phone_number }}</td>
                             <td>
-                                <a :href="'/dashboard/instructores/'+instructor.id">
-                                    Ver detalles
+                                <a class="btn btn-sm btn-info" :href="'/dashboard/instructores/'+instructor.id">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    Detalles
                                 </a>
                             </td>
                         </tr>
