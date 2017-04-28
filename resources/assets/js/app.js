@@ -17,6 +17,7 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('pagination', require('./components/Pagination.vue'));
 Vue.component('client-details', require('./components/Client.vue'));
 Vue.component('instructor-details', require('./components/Instructor.vue'));
+Vue.component('service-details', require('./components/Service.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -27,6 +28,10 @@ const app = new Vue({
         clients: [],
         instructor: {},
         instructors: [],
+        service: {},
+        services: [],
+        invoice: {},
+        invoices: [],
         counter: 0,
         pagination: {
             total: 0,
@@ -50,6 +55,10 @@ const app = new Vue({
                 this.fetchClients(true, 1);
             } else if (this.getIdOfResourceInUrl() == 'instructores') {
                 this.fetchInstructors(true, 1);
+            } else if (this.getIdOfResourceInUrl() == 'servicios') {
+                this.fetchServices(true, 1);
+            } else if (this.getIdOfResourceInUrl() == 'facturas') {
+                this.fetchInvoices(true, 1);
             }
 
         });
@@ -64,6 +73,39 @@ const app = new Vue({
         }
     },*/
     methods: {
+        getClassOfLabel(status) {
+            switch (status) {
+                case 'pagada':
+                    return 'label-success';
+                case 'sin pagar':
+                    return 'label-danger';
+                case 'parcialmente pagada':
+                    return 'label-warning';
+                case 'cancelada':
+                    return 'label-default';
+                default:
+                    return '';
+            }
+        },
+        getUsersNameOfInvoice(invoiceId) {
+            let clients = this.clients;
+            for (let i = 0; i < clients.length; i++) {
+                if (clients[i].id == invoiceId) {
+                    console.log(clients[i].id);
+                    return `${clients[i].name} ${clients[i].first_surname}`;
+                }
+            }
+            return 'No encontrado';
+            /*
+             for (client in clients) {
+             console.log(client.id);
+             if (client.id == invoiceId) {
+             console.log(client.id);
+             return `${client.name} ${client.first_surname}`;
+             }
+             }
+            */
+        },
         getIdOfResourceInUrl() { //Cambiar nombre de método a getLastElementInUrl()
             let url = window.location.pathname;
             let arr = url.split('/');
@@ -99,11 +141,13 @@ const app = new Vue({
                     //_this.pagination = response.data.data.pagination;//Posible solucion
                     _this.pagination = pagination ? response.data.data : null;
                     _this.loaded = true;
-                    if ((_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0)) {
-                        //_this.pagination.current_page = 1;
-                        //console.log('Cambiando a pagina 1');
-                        //console.log('Emitiendo evento de desborde de pagina actual');
-                        _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                    if (this.pagination) {
+                        if ((_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0)) {
+                            //_this.pagination.current_page = 1;
+                            //console.log('Cambiando a pagina 1');
+                            //console.log('Emitiendo evento de desborde de pagina actual');
+                            _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                        }
                     }
 
                 })
@@ -207,6 +251,58 @@ const app = new Vue({
                     console.log(error);
                     _this.loaded = true;
                 });
+        },
+        fetchServices(pagination = false, page = 1) {
+            this.loaded = false;
+            let _this = this;
+            let url = pagination ?
+                `/api/services?page=${page}&quantity=${_this.pagination.per_page}&search=${this.search}` :
+                '/api/services';
+            console.log('Realizando petición ajax desde fetchServices');
+            axios.get(url)
+                .then((response) => {
+                    console.log(response);
+                    _this.services = pagination ?  response.data.data.data : response.data.data;
+                    _this.pagination = pagination ? response.data.data : null;
+                    _this.loaded = true;
+                    if (_this.pagination) {
+                        if (_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0) {
+                            _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorAlert();
+                    console.log(error);
+                    _this.loaded = true;
+                });
+        },
+        fetchInvoices(pagination = false, page = 1) {
+            this.loaded = false;
+            let _this = this;
+            let url = pagination ?
+                `/api/invoices?page=${page}&quantity=${_this.pagination.per_page}&search=${this.search}` :
+                '/api/invoices';
+            console.log('Realizando petición ajax desde fetchInvoices');
+            axios.get(url)
+                .then((response) => {
+                    console.log(response);
+                    _this.invoices = pagination ?  response.data.data.data : response.data.data;
+                    _this.pagination = pagination ? response.data.data : null;
+                    _this.clients = response.data.clients;
+                    _this.loaded = true;
+                    if (_this.pagination) {
+                        if (_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0) {
+                            _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorAlert();
+                    console.log(error);
+                    _this.loaded = true;
+                });
         }
-    }
+    },
+    computed: {}
 });
