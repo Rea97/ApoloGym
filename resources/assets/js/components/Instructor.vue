@@ -568,9 +568,9 @@
         computed: {
             getGenderIcon: function() {
                 if (this.instructor.gender == 'm') {
-                    return 'fa-mars';
+                    return 'fa-male';
                 }
-                return 'fa-venus';
+                return 'fa-female';
             },
             getGender: function () {
                 return this.instructor.gender == 'm' ? 'Masculino' : 'Femenino';
