@@ -145,5 +145,11 @@ return [
         'saturday-to'     => 'Sábado, salida',
         'sunday-from'   => 'Domingo, entrada',
         'sunday-to'     => 'Domingo, salida',
-	],
+        'price'         => 'Precio',
+        'description' => 'Descripción',
+        'due_date' => 'Fecha de vencimiento',
+        'client_id' => 'Cliente',
+        'services' => 'Servicio',
+        'today' => 'hoy'
+ 	],
 ];
