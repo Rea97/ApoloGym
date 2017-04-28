@@ -90,6 +90,27 @@ if (!function_exists('shouldIncludeNavbar')) {
     }
 }
 
+if (! function_exists('currentAuth')) {
+    /**
+     * @return bool|\Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function currentAuth() {
+        $guard = null;
+        if (isAdmin()) {
+            $guard = 'admin';
+        } else if (isClient()) {
+            $guard = 'client';
+        } else if(isInstructor()) {
+            $guard = 'instructor';
+        }
+        //$guard = isAdmin() ? 'admin' : isInstructor() ? 'instructor' : isClient() ? 'client' : null;
+        if (is_null($guard)) {
+            return false;
+        }
+        return Auth::guard($guard)->user();
+    }
+}
+
 if (! function_exists('getCurrentAuth')) {
     /**
      * Obtiene la instancia del usuario autenticado actual.
