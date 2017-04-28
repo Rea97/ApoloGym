@@ -29,7 +29,9 @@
                 default: 4
             },
             fetchClients: {},
-            fetchInstructors: {}
+            fetchInstructors: {},
+            fetchServices: {},
+            fetchInvoices: {}
         },
         mounted : function() {
             console.log('Componente de paginación montado.');
@@ -46,6 +48,10 @@
                 this.fetchClients(true, this.pagination.current_page); //ejecuta dicho método
             } else if (this.fetchInstructors) { //Si se le pasó la propiedad fetchInstructors al componente
                 this.fetchInstructors(true, this.pagination.current_page); //ejecuta dicho método
+            } else if (this.fetchServices) {
+                this.fetchServices(true, this.pagination.current_page);
+            } else if (this.fetchInvoices) {
+                this.fetchInvoices(true, this.pagination.current_page);
             }
         },
         computed: {
