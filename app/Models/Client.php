@@ -22,4 +22,9 @@ class Client extends Authenticatable
         return $this->belongsTo('App\Models\Instructor');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\Invoice');
+    }
+
 }
