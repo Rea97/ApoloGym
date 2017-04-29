@@ -97,6 +97,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
  * API
  */
 Route::group(['prefix' => '/api'], function () {
+    /**
+     * Notifications
+     */
+    Route::get('/notifications', 'NotificationsController@unread')->middleware('auth:admin');
+    Route::put('/notifications/{notification}/read', 'NotificationsController@markAsRead')->middleware('auth:admin,client,instructor');
    /**
     * Instructors
     */
