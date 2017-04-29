@@ -10,6 +10,13 @@ class Instructor extends Authenticatable
     use Notifiable;
 
     /**
+     * Atributo que decide por dónde se enviarán las notificaciones.
+     * Disponibles: mail, database, broadcast, nexmo y slack.
+     * @var array
+     */
+    public $notificationsVia = ['database'];
+
+    /**
      * Guard personalizado para las sesiones de los instructores
      *
      * @var string

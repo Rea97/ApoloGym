@@ -9,6 +9,13 @@ class Administrator extends Authenticatable
 {
     use Notifiable;
 
+    /**
+     * Atributo que decide por dónde se enviarán las notificaciones.
+     * Disponibles: mail, database, broadcast, nexmo y slack.
+     * @var array
+     */
+    public $notificationsVia = ['database'];
+
     protected $fillable = [
         'name', 'email', 'password','first_surname', 'second_surname', 'profile_picture', 'phone_number'
     ];
