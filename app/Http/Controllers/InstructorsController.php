@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInstructorRequest;
 use App\Http\Requests\UpdateInstructorRequest;
+use App\Models\Administrator;
 use App\Models\Client;
 use App\Models\Instructor;
 use App\Models\InstructorSchedule;
+use App\Notifications\Instructors\DeletedInstructor;
+use App\Notifications\Instructors\RegisteredInstructor;
+use App\Notifications\Instructors\UpdatedInstructor;
 use App\Repositories\ClientRepository;
 use App\Repositories\InstructorScheduleRepository;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
 use App\Repositories\InstructorRepository;
+use Illuminate\Support\Facades\Notification;
 
 class InstructorsController extends Controller
 {
@@ -98,6 +103,7 @@ class InstructorsController extends Controller
     {
         if ($instructor->create($this->instructor->makeDataArray($request))) {
             $newInstructor = $instructor->where('email', '=', $request->input('email'))->first();
+            Notification::send(Administrator::all(), new RegisteredInstructor($newInstructor));
             if ($this->instructorSchedule->storeSchedule($request, $newInstructor)) {
                 $message = [
                     'type' => 'success',
@@ -116,6 +122,7 @@ class InstructorsController extends Controller
     public function update(UpdateInstructorRequest $request, Instructor $instructor)
     {
         $edit = $instructor->update($request->all());
+        Notification::send(Administrator::all(), new UpdatedInstructor($instructor));
         return response()->json($edit);
 
     }
@@ -154,6 +161,7 @@ class InstructorsController extends Controller
     {
         $clientsInstructedBy = $client->where('instructor_id', '=', $instructor->id)->get();
         if ($clientsInstructedBy->isEmpty()) {
+            Notification::send(Administrator::all(), new DeletedInstructor($instructor));
             $instructor->delete();
             return response()->json(['message' => 'Instructor eliminado satisfactoriamente.']);
         }

@@ -7,7 +7,9 @@ use App\Http\Requests\UpdateClientRequest;
 use App\Models\Administrator;
 use App\Models\Client;
 use App\Models\Instructor;
-use App\Notifications\Clients\NewClient;
+use App\Notifications\Clients\DeletedClient;
+use App\Notifications\Clients\RegisteredClient;
+use App\Notifications\Clients\UpdatedClient;
 use App\Repositories\ClientRepository;
 use App\Utilities\Pagination;
 use Illuminate\Http\Request;
@@ -15,10 +17,11 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use App\Utilities\Validation\ClientValidation;
 use Illuminate\Validation\Rule;
+use App\Utilities\Notifications\NotifyUsers;
 
 class ClientsController extends Controller
 {
-    use Pagination, ClientValidation;
+    use Pagination, ClientValidation, NotifyUsers;
 
     protected $client;
 
@@ -73,7 +76,7 @@ class ClientsController extends Controller
                 'content'   => 'Cliente registrado con exito.'
             ];
             $newClient = $this->client->where('email', '=', $request->input('email'))->first();
-            Notification::send(Administrator::all(), new NewClient($newClient));
+            Notification::send(Administrator::all(), new RegisteredClient($newClient));
         } else {
             $message = [
                 'type'      => 'error',
@@ -96,6 +99,7 @@ class ClientsController extends Controller
                 return response()->json(['errors' => $validation->errors()]);
             }
         */
+        Notification::send(Administrator::all(), new UpdatedClient($this->client->find($id)));
         $edit = $this->client->find($id)->update($request->all());
         return response()->json($edit);
     }
@@ -116,7 +120,9 @@ class ClientsController extends Controller
 
     public function destroy($id)
     {
-        $this->client->find($id)->delete();
+        $client = $this->client->find($id);
+        Notification::send(Administrator::all(), new DeletedClient($client));
+        $client->delete();
         return response()->json(['message' => 'Cliente eliminado satisfactoriamente.']);
     }
 }
