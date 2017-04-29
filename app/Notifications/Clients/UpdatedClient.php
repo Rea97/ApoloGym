@@ -7,11 +7,11 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewClient extends Notification
+class UpdatedClient extends Notification
 {
     use Queueable;
 
-    public $client;
+    private $client;
 
     /**
      * Create a new notification instance.
@@ -31,7 +31,7 @@ class NewClient extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'email'];
+        return $notifiable->notificationsVia;
     }
 
     /**
@@ -43,8 +43,10 @@ class NewClient extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Se ha registrado exitosamente un nuevo cliente en el gimnasio.')
+                    ->subject('Registro de cliente actualizado')
+                    ->line("Se ha actualizado la información del cliente #{$this->client->id}.")
                     ->action('Ver cliente', route('dashboard.client', [$this->client->id]));
+
     }
 
     /**
@@ -56,8 +58,9 @@ class NewClient extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Se ha registrado un nuevo cliente en el gimnasio.',
-            'action' => url('/dashboard/clientes/'.$this->client->id)
+            'icon' => 'fa-refresh',
+            'message' => "Se ha actualizado el cliente {$this->client->id}",
+            'action' => route('dashboard.client', [$this->client->id])
         ];
     }
 }
