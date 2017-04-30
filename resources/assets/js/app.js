@@ -18,6 +18,7 @@ Vue.component('pagination', require('./components/Pagination.vue'));
 Vue.component('client-details', require('./components/Client.vue'));
 Vue.component('instructor-details', require('./components/Instructor.vue'));
 Vue.component('service-details', require('./components/Service.vue'));
+Vue.component('notifications-list', require('./components/Notifications.vue'));
 
 const app = new Vue({
     el: '#app',
