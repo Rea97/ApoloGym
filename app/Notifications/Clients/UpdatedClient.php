@@ -59,7 +59,7 @@ class UpdatedClient extends Notification
     {
         return [
             'icon' => 'fa-refresh',
-            'message' => "Se ha actualizado el cliente {$this->client->id}",
+            'message' => "Se ha actualizado el cliente {$this->client->id}.",
             'action' => route('dashboard.client', [$this->client->id])
         ];
     }
