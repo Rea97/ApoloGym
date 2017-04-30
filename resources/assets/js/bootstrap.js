@@ -41,9 +41,12 @@ window.Vue = require('vue');
 import VeeValidate, {Validator} from 'vee-validate';
 
 import es from 'vee-validate/dist/locale/es';
-import moment from 'moment/moment';
+//import moment from 'moment/moment';
+window.Moment = require('moment');
 
-Validator.installDateTimeValidators(moment);
+Moment.locale('es');
+
+Validator.installDateTimeValidators(Moment);
 Validator.addLocale(es);
 Vue.use(VeeValidate, {
     locale: 'es',
