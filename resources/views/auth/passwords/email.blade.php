@@ -43,8 +43,6 @@
                         </form>
 
                         <p class="has-text-centered">
-                            <a href="{{ route('register') }}">Registrarse</a>
-                            |
                             <a href="{{ route('login') }}">Inicio de sesión</a>
                             |
                             <a href="#">Ayuda</a>

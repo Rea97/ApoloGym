@@ -32,12 +32,6 @@
                    href="{{ route('login') }}">
                     Inicia sesión
                 </a>
-                <!--
-                <a class="nav-item is-tab {{ url()->current() == route('register') ? 'is-active' : '' }}"
-                   href="{{ route('register') }}">
-                    Registrate
-                </a>
-                -->
             @else
                 <a class="nav-item is-tab" href="{{ url('/profile') }}">{{ Auth::user()->name }}</a>
                 <a class="nav-item is-tab" href="{{ route('logout') }}"

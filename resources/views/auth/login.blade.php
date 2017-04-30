@@ -88,8 +88,6 @@
                         </form>
 
                         <p class="has-text-centered">
-                            <a href="{{ route('register') }}">Registrarse</a>
-                            |
                             <a href="{{ route('password.request') }}">Olvidé mi contraseña</a>
                             |
                             <a href="#">Ayuda</a>
