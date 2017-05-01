@@ -24,7 +24,7 @@
                             <div class="row">
                                 <!--  client_id Form Field  -->
                                 <div class="form-group col-sm-6 {{ $errors->has('client_id') ? 'has-error' : '' }}">
-                                    <label for="name">Cliente</label>
+                                    <label for="client_id">Cliente</label>
                                     <select name="client_id" id="client_id" class="form-control">
                                         @foreach($clients as $client)
                                             <option value="{{ $client->id }}" {{ !is_null($client_id) && $client_id == $client->id ? 'selected' : '' }}>
