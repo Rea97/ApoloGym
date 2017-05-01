@@ -21,7 +21,7 @@ use App\Utilities\Notifications\NotifyUsers;
 
 class ClientsController extends Controller
 {
-    use Pagination, ClientValidation, NotifyUsers;
+    use Pagination, ClientValidation;
 
     protected $client;
 
