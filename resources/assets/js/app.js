@@ -19,6 +19,7 @@ Vue.component('client-details', require('./components/Client.vue'));
 Vue.component('instructor-details', require('./components/Instructor.vue'));
 Vue.component('service-details', require('./components/Service.vue'));
 Vue.component('notifications-list', require('./components/Notifications.vue'));
+Vue.component('invoice-details', require('./components/Invoice.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -81,7 +82,7 @@ const app = new Vue({
                 case 'sin pagar':
                     return 'label-danger';
                 case 'parcialmente pagada':
-                    return 'label-warning';
+                    return 'label-info';
                 case 'cancelada':
                     return 'label-default';
                 default:

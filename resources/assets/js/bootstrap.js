@@ -15,6 +15,7 @@ require('./vendor/metisMenu.min');
 //require('./vendor/raphael.min');
 //require('./vendor/morris.min');
 //require('./vendor/morris-data');
+require('./helpers');
 require('./utils');
 require('./sections/dashboard');
 
