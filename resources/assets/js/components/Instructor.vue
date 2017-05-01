@@ -88,7 +88,7 @@
                     <div class="col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <i class="fa fa-book"></i> Datos personales
+                                <i class="fa fa-book" aria-hidden="true"></i> Datos personales
                             </div>
                             <div class="panel-body">
                                 <h4><i class="fa fa-user-circle" aria-hidden="true"></i> Nombre(s)</h4>
@@ -172,7 +172,7 @@
                         <div class="sol-sm-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <i class="fa fa-addsress-book"></i> Datos de contácto
+                                    <i class="fa fa-address-book"></i> Datos de contácto
                                 </div>
                                 <div class="panel-body">
                                     <h4><i class="fa fa-map-marker" aria-hidden="true"></i> Dirección</h4>
