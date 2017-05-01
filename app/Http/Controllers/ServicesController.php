@@ -63,7 +63,7 @@ class ServicesController extends Controller
                 return response()->json($response);
             }
             $services = $this->serviceRepository->getAll();
-            return response()->json(['data' => $services]);
+            return response()->json(['services' => $services]);
         }
         return redirect()->route('dashboard.start');
     }

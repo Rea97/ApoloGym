@@ -63,7 +63,7 @@ class ClientsController extends Controller
                 return response()->json($response);
             }
             $clients = $client->getAll();
-            return response()->json(['data' => $clients]);
+            return response()->json(['clients' => $clients]);
         }
         return redirect()->route('dashboard.start');
     }
