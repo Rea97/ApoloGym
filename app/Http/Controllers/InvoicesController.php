@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Utilities\Pagination;
 use App\Models\Client;
 use App\Models\Service;
+use Illuminate\Validation\Rules\In;
 
 class InvoicesController extends Controller
 {
@@ -26,6 +27,11 @@ class InvoicesController extends Controller
     public function showInvoices()
     {
         return view('sections.admin.invoices');
+    }
+
+    public function showInvoice()
+    {
+        return view('sections.admin.invoice');
     }
 
     public function showNewInvoiceForm(Request $request)
@@ -81,5 +87,29 @@ class InvoicesController extends Controller
         $message = ['type' => 'success', 'content' => 'Factura creada con exito.'];
         return redirect()->route('dashboard.invoices')->with($message['type'], $message['content']);
 
+    }
+
+    public function show(Request $request, Invoice $invoice)
+    {
+        if ($request->ajax()) {
+            $client = Client::find($invoice->client_id);
+            $services = $invoice->services;
+            return response()->json([
+                'invoice' => $invoice,
+                'client' => $client,
+                'services' => $services
+            ]);
+        }
+        return redirect()->route('dashboard.start');
+    }
+
+    public function update(Request $request, Invoice $invoice)
+    {
+        if ($request->has('client_id') && $request->has('services')) {
+            return response()->json(['message' => "Datos de la factura guardados con éxito."]);
+        }
+        $invoice->status = $request->input('status', 'cancelada');
+        $invoice->save();
+        return response()->json(['message' => "El estado de la factura ha cambiado a {$request->input('status')}."]);
     }
 }
