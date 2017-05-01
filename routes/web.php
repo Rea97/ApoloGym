@@ -66,6 +66,7 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
 
     Route::get('/facturas/crear', 'InvoicesController@showNewInvoiceForm')->name('dashboard.invoice.create');
     Route::get('/facturas', 'InvoicesController@showInvoices')->name('dashboard.invoices');
+    Route::get('/facturas/{invoice}', 'InvoicesController@showInvoice')->name('dashboard.invoice');
 });
 
 //Rutas accesibles solo por el CLIENTE
@@ -145,6 +146,8 @@ Route::group(['prefix' => '/api'], function () {
     * Invoices
     */
    Route::get('/invoices', 'InvoicesController@index')->name('invoices.index')->middleware('auth:admin');
+   Route::get('/invoices/{invoice}', 'InvoicesController@show');
    Route::post('/invoices', 'InvoicesController@store')->name('invoices.store')->middleware('auth:admin');
+   Route::put('/invoices/{invoice}', 'InvoicesController@update')->name('invoices.update')->middleware('auth:admin');
 });
 
