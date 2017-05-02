@@ -9,6 +9,7 @@ use App\Utilities\Pagination;
 use App\Models\Client;
 use App\Models\Service;
 use Illuminate\Validation\Rules\In;
+use Illuminate\Support\Facades\Validator;
 
 class InvoicesController extends Controller
 {
@@ -66,11 +67,15 @@ class InvoicesController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $messages = [
+            'after' => 'El campo :attribute debe ser una fecha posterior al día de hoy.',
+        ];
+        $rules = [
             'client_id' => 'required|integer',
             'due_date' => 'required|date|after:today',
             'services' => 'required|array'
-        ]);
+        ];
+        Validator::make($request->all(), $rules, $messages)->validate();
         $total = 0.0;
         $servicesId = $request->input('services');
         $invoice = new Invoice([
@@ -106,6 +111,18 @@ class InvoicesController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         if ($request->has('client_id') && $request->has('services')) {
+            $this->validate($request, [
+                'client_id' => 'required|integer',
+                'due_date' => 'required|date|after:today',
+                'services' => 'required|array'
+            ]);
+            $servicesIds = $request->input('services');
+            $invoice->update(['client_id' => $request->input('client_id'), 'due_date' => $request->input('due_date')]);
+            foreach ($servicesIds as $service) {
+                if (! $invoice->services->contains($service)) {
+                    $invoice->services()->attach($service);
+                }
+            }
             return response()->json(['message' => "Datos de la factura guardados con éxito."]);
         }
         $invoice->status = $request->input('status', 'cancelada');
