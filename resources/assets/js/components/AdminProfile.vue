@@ -7,11 +7,19 @@
                 </div>
                 <div class="panel-body">
                     <div class="text-center">
-                        <img class="img img-responsive img-thumbnail" :src="getProfilePictureUrl" :alt="user.name">
+                        <img v-show="!onEdit" class="img img-responsive img-thumbnail" :src="getProfilePictureUrl" :alt="user.name">
                         <div v-show="onEdit">
-                            <form action="/api/profile_picture" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-
-                            </form>
+                            <file-upload></file-upload>
+                            <!--<h6>Cambiar foto de perfil</h6>
+                            <form id="profile-picture-form" action="/api/profile_picture" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                                <input name="_token" type="hidden" :value="csrfToken">
+                                <input name="_method" type="hidden" value="PUT">
+                                <div class="form-group" :class="{'has-error': errors.has('profile_picture')}">
+                                    <input v-validate="'image|size:2024'" data-vv-as="Foto de perfil" type="file" class="form-control" name="profile_picture" >
+                                    <span v-show="errors.has('profile_picture')" class="text-muted">{{ errors.first('profile_picture') }}</span>
+                                    <button v-on:click="uploadPicture" class="btn btn-success">Guardar Foto</button>
+                                </div>
+                            </form>-->
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -153,9 +161,15 @@
             </div>
         </div>
     </div>
+
 </template>
 <script>
+    import FileUpload from './FileUpload.vue';
+    //var FileUpload = require('vue-upload-component');
     export default {
+        components: {
+            FileUpload : FileUpload
+        },
         props: ['admin', 'showErrorAlert'],
         mounted() {
             this.user.id = this.admin.id;
@@ -266,6 +280,13 @@
                     .then((response)=>{console.log(response)})
                     .catch((error)=>{console.log(error)})
             },
+            uploadPicture() {
+                if (this.formHasErrors()) {
+                    this.saving = false;
+                    return;
+                }
+                document.getElementById('profile-picture-form').submit();
+            },
             formHasErrors() {
                 if (this.errors.errors.length > 0) {
                     this.showErrorAlert("Verifica los errores en el formulario.");
@@ -281,8 +302,11 @@
         computed: {
             getProfilePictureUrl() {
                 return this.admin.profile_picture
-                    ? this.admin.profile_picture
+                    ? '/storage/'+this.admin.profile_picture
                     : '/imgs/profile_pic/default.jpg';
+            },
+            csrfToken() {
+                return window.Laravel.csrfToken;
             }
         },
     }
