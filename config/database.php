@@ -1,10 +1,12 @@
 <?php
 
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-$host = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
+if (config('app.env') == 'production') {
+    $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+    $host = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $database = substr($url["path"], 1);
+}
 
 return [
 
@@ -90,11 +92,11 @@ return [
 
         'heroku' => [
             'driver' => 'mysql',
-            'host' => $host,
+            'host' => $host ?? '',
             'port' => env('DB_PORT', '3306'),
-            'database' => $database,
-            'username' => $username,
-            'password' => $password,
+            'database' => $database ?? '',
+            'username' => $username ?? '',
+            'password' => $password ?? '',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
