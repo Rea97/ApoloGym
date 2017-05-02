@@ -20,6 +20,7 @@ Vue.component('instructor-details', require('./components/Instructor.vue'));
 Vue.component('service-details', require('./components/Service.vue'));
 Vue.component('notifications-list', require('./components/Notifications.vue'));
 Vue.component('invoice-details', require('./components/Invoice.vue'));
+Vue.component('admin-profile', require('./components/AdminProfile.vue'));
 
 const app = new Vue({
     el: '#app',
