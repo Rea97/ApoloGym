@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Nueva registro')
+@section('title', 'Nuevo registro')
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -22,12 +22,14 @@
                                 Datos de la factura
                             </legend>
                             <div class="row">
+
                                 <!--  client_id Form Field  -->
                                 <div class="form-group col-sm-6 {{ $errors->has('client_id') ? 'has-error' : '' }}">
                                     <label for="client_id">Cliente</label>
                                     <select name="client_id" id="client_id" class="form-control">
                                         @foreach($clients as $client)
-                                            <option value="{{ $client->id }}" {{ !is_null($client_id) && $client_id == $client->id ? 'selected' : '' }}>
+                                            <option value="{{ $client->id }}"
+                                                    {{ (!is_null($client_id) && $client_id == $client->id) || old('client_id') == $client->id ? 'selected' : '' }}>
                                                 {{ $client->name }} {{ $client->first_surname }}
                                             </option>
                                         @endforeach
@@ -49,27 +51,45 @@
                                     @endif
                                 </div>
 
-                                <table class="table table-hover table-striped table-condensed">
-                                    <tr>
-                                        <th class="col-sm-2">id</th>
-                                        <th class="col-sm-2">Servicio</th>
-                                        <th class="col-sm-6">Descripción</th>
-                                        <th class="col-sm-1">Precio</th>
-                                        <th class="col-sm-1">&nbsp;</th>
-                                    </tr>
-                                    @foreach($services as $service)
-                                        <tr>
-                                            <td>{{ $service->id }}</td>
-                                            <td>{{ $service->name }}</td>
-                                            <td>{{ $service->description }}</td>
-                                            <td>$ {{ $service->price }}</td>
-                                            <td>
-                                                <input type="checkbox" name="services[]" value="{{ $service->id }}">
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
-
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-striped table-condensed">
+                                            <thead>
+                                            <tr>
+                                                <th class="col-sm-2">id</th>
+                                                <th class="col-sm-2">Servicio</th>
+                                                <th class="col-sm-6">Descripción</th>
+                                                <th class="col-sm-1">Precio</th>
+                                                <th class="col-sm-1">&nbsp;</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($services as $service)
+                                                <tr>
+                                                    <td>
+                                                        <a href="{{ route('dashboard.service', [$service->id]) }}">
+                                                            {{ $service->id }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ $service->name }}</td>
+                                                    <td>{{ $service->description }}</td>
+                                                    <td>$ {{ $service->price }}</td>
+                                                    <td>
+                                                        <input type="checkbox"
+                                                               name="services[{{ $loop->index }}]"
+                                                               value="{{ $service->id }}">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12 {{ $errors->has('due_date') ? 'has-error' : '' }}">
+                                    @if($errors->has('services'))
+                                        <span class="help-block">{{ $errors->first('services') }}</span>
+                                    @endif
+                                </div>
                             </div>
                         </fieldset>
 
