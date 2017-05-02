@@ -95,9 +95,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
         return view('sections.schedule');
     })->name('dashboard.schedule');
 
-    Route::get('/perfil', function(){
-        return view('sections.profile');
-    })->name('dashboard.profile');
+    Route::get('/perfil', 'ProfileController@showProfile')->name('dashboard.profile');
 
     Route::get('/ajustes', function(){
         return view('sections.settings');
@@ -111,7 +109,8 @@ Route::group(['prefix' => '/api'], function () {
     /**
      * Notifications
      */
-    Route::get('/notifications', 'NotificationsController@unread')->middleware('auth:admin');
+    Route::get('/notifications', 'NotificationsController@unread')->middleware('auth:admin,client,instructor');
+    Route::get('/notifications/all', 'NotificationsController@all')->middleware('auth:admin,client,instructor');
     Route::put('/notifications/{notification}/read', 'NotificationsController@markAsRead')->middleware('auth:admin,client,instructor');
    /**
     * Instructors
@@ -149,5 +148,17 @@ Route::group(['prefix' => '/api'], function () {
    Route::get('/invoices/{invoice}', 'InvoicesController@show');
    Route::post('/invoices', 'InvoicesController@store')->name('invoices.store')->middleware('auth:admin');
    Route::put('/invoices/{invoice}', 'InvoicesController@update')->name('invoices.update')->middleware('auth:admin');
+
+   /**
+    * Administrators
+    */
+   Route::get('/administrators/{administrator}', 'AdministratorController@show')->name('admin.show');
+   Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update');
+   Route::delete('/administrators/{administrator}', 'AdministratorController@delete')->name('admin.delete');
+
+   /**
+    * Profile_picture
+    */
+   Route::post('/profile_picture', 'ProfileController@updatePP');
 });
 
