@@ -40,6 +40,17 @@ class NotificationsController extends Controller
         return redirect()->route('dashboard.start');
     }
 
+    public function all()
+    {
+        if ($this->request->ajax()) {
+            $notifications = $this->request->user()->notifications;
+            return $this->response->json([
+                'notifications' => $notifications
+            ]);
+        }
+        return redirect()->route('dashboard.start');
+    }
+
     public function markAsRead($id)
     {
         $notification = $this->request->user()->notifications()->findOrFail($id);
