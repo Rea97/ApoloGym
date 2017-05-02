@@ -1,0 +1,289 @@
+<template>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-user"></i> {{ user.name }}
+                </div>
+                <div class="panel-body">
+                    <div class="text-center">
+                        <img class="img img-responsive img-thumbnail" :src="getProfilePictureUrl" :alt="user.name">
+                        <div v-show="onEdit">
+                            <form action="/api/profile_picture" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            Registrado el: {{ user.created_at }}
+                        </div>
+                        <div class="list-group-item">
+                            Actualizado el: {{ user.updated_at }}
+                        </div>
+                    </div>
+                    <div id="options">
+                        <div v-show="!onEdit">
+                            <button @click="editMode" class="btn btn-block btn-info" id="edit-data">
+                                <i class="fa fa-edit" aria-hidden="true"></i> Editar Información
+                            </button>
+                            <button @click="deleteData" class="btn btn-block btn-danger" id="delete-data">
+                                <i class="fa fa-trash" aria-hidden="true"></i> Eliminar Perfil
+                            </button>
+                        </div>
+                        <div v-show="onEdit">
+                            <button @click="updateData" class="btn btn-block btn-success">
+                                <span v-if="saving"><i class="fa fa-pulse fa-spinner" aria-hidden="true"></i> Guardando...</span>
+                                <span v-else><i class="fa fa-save" aria-hidden="true"></i> Guardar</span>
+                            </button>
+                            <button @click="resetData" class="btn btn-block btn-warning">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="col-sm-6">
+                <!--  Info Panel  -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            Datos personales
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <h4><i class="fa fa-user-circle" aria-hidden="true"></i> Nombre(s)</h4>
+                        <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('name')}">
+                            <input v-model="user.name" v-validate="'required|alpha_spaces|max:40'" type="text" class="form-control" name="name" data-vv-as="Nombre">
+                            <span v-show="errors.has('name')" class="help-block">{{ errors.first('name') }}</span>
+                        </div>
+                        <div v-else>
+                            <p>{{ user.name }}</p>
+                            <div class="divider"></div>
+                        </div>
+                        <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido paterno</h4>
+                        <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('first_surname')}">
+                            <input v-model="user.first_surname" v-validate="'required|alpha|max:40'" type="text" class="form-control" name="first_surname" data-vv-as="Apellido paterno">
+                            <span v-show="errors.has('first_surname')" class="help-block">{{ errors.first('first_surname') }}</span>
+                        </div>
+                        <div v-else>
+                            <p>{{ user.first_surname }}</p>
+                            <div class="divider"></div>
+                        </div>
+                        <h4><i class="fa fa-users" aria-hidden="true"></i> Apellido materno</h4>
+                        <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('second_surname')}">
+                            <input v-model="user.second_surname" v-validate="'alpha|max:40'" type="text" class="form-control" name="second_surname" data-vv-as="Apellido materno">
+                            <span v-show="errors.has('second_surname')" class="help-block">{{ errors.first('second_surname') }}</span>
+                        </div>
+                        <div v-else>
+                            <p v-if="user.second_surname">{{ user.second_surname }}</p>
+                            <p v-else><i>No tiene.</i></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-user-circle fa-fw"></i> Datos de la cuenta
+                    </div>
+                    <div class="panel-body">
+                        <h4><i class="fa fa-phone" aria-hidden="true"></i> Teléfono</h4>
+                        <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('phone_number')}">
+                            <input v-model="user.phone_number" v-validate="'required|alpha_dash|max:50'" type="text" class="form-control" name="phone_number" data-vv-as="Teléfono">
+                            <span v-show="errors.has('phone_number')" class="help-block">{{ errors.first('phone_number') }}</span>
+                        </div>
+                        <div v-else>
+                            <p>{{ user.phone_number }}</p>
+                            <div class="divider"></div>
+                        </div>
+                        <h4><i class="fa fa-at" aria-hidden="true"></i> E-mail</h4>
+                        <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('email')}">
+                            <input v-model="user.email" v-validate="'required|email'" type="text" class="form-control" name="email" data-vv-as="E-mail">
+                            <span v-show="errors.has('email')" class="help-block">{{ errors.first('email') }}</span>
+                        </div>
+                        <div v-else>
+                            <p>{{ user.email }}</p>
+                            <div class="divider"></div>
+                        </div>
+                        <h4><i class="fa fa-lock" aria-hidden="true"></i> Contraseña</h4>
+                        <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('password')}">
+                            <input v-model="user.password" v-validate="'required|min:6'" type="password" class="form-control" name="password" data-vv-as="Contraseña">
+                            <span v-show="errors.has('password')" class="help-block">{{ errors.first('password') }}</span>
+                        </div>
+                        <div v-else>
+                            <p>*************</p>
+                        </div>
+                        <template v-if="onEdit">
+                            <h4><i class="fa fa-lock" aria-hidden="true"></i> Confirmación de contraseña</h4>
+                            <div class="form-group" :class="{'has-error': errors.has('password_confirmation')}">
+                                <input v-model="user.password_confirmation" v-validate="'required|confirmed:password'" type="password" class="form-control" name="password_confirmation" data-vv-as="Confirmación de contraseña">
+                                <span v-show="errors.has('password_confirmation')" class="help-block">{{ errors.first('password_confirmation') }}</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bell fa-fw"></i> Notificaciones
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a v-if="notifications.length > 0" v-for="notification in notifications" :href="notification.data.action" class="list-group-item">
+                                <i class="fa fa-fw" :class="notification.data.icon"></i> {{ notification.data.message }}
+                                <span class="pull-right text-muted small"><em>{{ humanTime(notification.created_at) }}</em></span>
+                            </a>
+                            <a v-else href="#" class="text-center text-muted">
+                                No hay notificaciones...
+                            </a>
+                        </div>
+                        <button class="btn btn-primary btn-block">
+                            <i class="fa fa-archive" aria-hidden="true"></i>
+                            Vaciar Notificaciones
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        props: ['admin', 'showErrorAlert'],
+        mounted() {
+            this.user.id = this.admin.id;
+            //this.setUser();
+            this.fetchUser();
+            this.fetchNotifications();
+        },
+        data() {
+            return {
+                saving: false,
+                onEdit: false,
+                notifications: [],
+                user: {
+                    id: 0,
+                    name: '',
+                    first_surname: '',
+                    second_surname: '',
+                    email: '',
+                    phone_number: '',
+                    profile_picture: '',
+                    created_at: '',
+                    updated_at: '',
+                    password: '',
+                    password_confirmation: ''
+                },
+            }
+        },
+        methods: {
+            fetchNotifications() {
+                let _this = this;
+                axios.get(`/api/notifications/all`)
+                    .then((response)=>{
+                    console.log(response);
+                    _this.notifications = response.data.notifications;
+                })
+            },
+            fetchUser() {
+                let _this = this;
+                axios.get(`/api/administrators/${this.user.id}`)
+                    .then((response)=>{
+                        _this.user = response.data.admin;
+                    })
+                    .catch((error)=>{console.log(error)});
+            },
+            setUser() {
+                this.user.id = this.admin.id;
+                this.user.name = this.admin.name;
+                this.user.first_surname = this.admin.first_surname;
+                this.user.second_surname = this.admin.second_surname;
+                this.user.email = this.admin.email;
+                this.user.phone_number = this.admin.phone_number;
+                this.user.profile_picture = this.admin.profile_picture;
+                this.user.created_at = this.admin.created_at;
+                this.user.updated_at = this.admin.updated_at;
+            },
+            editMode() {
+                this.onEdit = true;
+            },
+            resetData() {
+                this.onEdit = false;
+                this.setUser();
+            },
+            deleteData() {
+                let _this = this;
+                swal({
+                        title: "Peligro",
+                        text: "¿Estás seguro?, Se eliminará permanentemente tú perfil.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Sí, deseo eliminarlo",
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            axios.delete(`/api/administrators/${_this.user.id}`)
+                                .then((response)=>{
+                                    console.log(response);
+                                    if (response.data.error) {
+                                        swal("Error", response.data.error, "error");
+                                        return;
+                                    }
+                                    swal("Eliminado", "Se ha eliminado el registro satisfactoriamente.", "success");
+                                    setTimeout(function () {
+                                        document.getElementById('logout-form').submit();
+                                    }, 1000);
+                                })
+                                .catch((error)=>{console.log(error)});
+                        } else {
+                            swal("Cancelado", "Has cancelado la acción.", "error");
+                        }
+                    }
+                );
+            },
+            updateData() {
+                this.saving = true;
+                if (this.formHasErrors()) {
+                    this.saving = false;
+                    return;
+                }
+                this.updateProfile();
+                window.location = '/dashboard/perfil';
+            },
+            updateProfile() {
+                axios.put(`/api/administrators/${this.user.id}`, this.user)
+                    .then((response)=>{console.log(response)})
+                    .catch((error)=>{console.log(error)})
+            },
+            formHasErrors() {
+                if (this.errors.errors.length > 0) {
+                    this.showErrorAlert("Verifica los errores en el formulario.");
+                    return true;
+                }
+                return false;
+            },
+            humanTime(date) {
+                //return date;
+                return Moment(date, "YYYY-MM-DD HH:mm:ss").fromNow();
+            },
+        },
+        computed: {
+            getProfilePictureUrl() {
+                return this.admin.profile_picture
+                    ? this.admin.profile_picture
+                    : '/imgs/profile_pic/default.jpg';
+            }
+        },
+    }
+</script>
