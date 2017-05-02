@@ -42,7 +42,7 @@
             </template>
 
             <li v-show="loaded">
-                <a class="text-center" href="#">
+                <a class="text-center" :href="'/dashboard/perfil'">
                     <strong>Ver todas las notificaciones</strong>
                     <i class="fa fa-angle-right"></i>
                 </a>

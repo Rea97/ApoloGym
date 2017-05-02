@@ -61,9 +61,9 @@
                                     </button>
                                 </div>
                                 <div v-show="onEdit" class="btn-group">
-                                    <button type="button" class="btn btn-success">
-                                        <i class="fa fa-save" aria-hidden="true"></i>
-                                        Guardar
+                                    <button v-on:click="updateData" type="button" class="btn btn-success">
+                                        <span v-if="saving"><i class="fa fa-pulse fa-spinner" aria-hidden="true"></i> Guardando...</span>
+                                        <span v-else><i class="fa fa-save" aria-hidden="true"></i> Guardar</span>
                                     </button>
                                     <button v-on:click="resetData" type="button" class="btn btn-warning">
                                         <i class="fa fa-times" aria-hidden="true"></i>
@@ -121,26 +121,32 @@
                                 <h4><i class="fa fa-list" aria-hidden="true"></i> Detalles</h4>
                             </div>
                             <!--  client_id Form Field  -->
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-6" :class="{'has-error': errors.has('client_id')}">
                                 <label for="client_id">Cliente</label>
-                                <select v-model="invoice.client_id" name="client_id" id="client_id" class="form-control">
+                                <select v-model="invoice.client_id"
+                                        v-validate="'required|numeric'"
+                                        data-vv-as="Cliente"
+                                        name="client_id" id="client_id" class="form-control">
                                     <option v-for="client in clients" :value="client.id" :selected="client.id == invoice.client_id">
                                         {{ client.name }} {{ client.first_surname }}
                                     </option>
                                 </select>
-                                <span class="help-block">Mensajes de validación</span>
+                                <span v-show="errors.has('client_id')" class="help-block">{{ errors.first('client_id') }}</span>
                             </div>
                             <!--  due_date Form Field  -->
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-6" :class="{'has-error': errors.has('due_date')}">
                                 <label for="due_date">Vencimiento</label>
                                 <input v-model="invoice.due_date"
+                                       v-validate="'required|date_format:YYYY-MM-DD'"
+                                       data-vv-as="Vencimiento"
                                        id="due_date"
                                        name="due_date"
                                        type="date"
                                        class="form-control">
-                                <span class="help-block">Mensajes de validación</span>
+                                <span v-show="errors.has('due_date')" class="help-block">{{ errors.first('due_date') }}</span>
                             </div>
                             <div class="col-sm-12">
+                                <span v-show="errors.has('services')" class="help-block">{{ errors.first('services') }}</span>
                                 <div class="table-responsive">
                                     <table class="table table-hover table-striped">
                                         <thead>
@@ -159,7 +165,8 @@
                                                 <td>{{ service.description }}</td>
                                                 <td>$ {{ service.price }}</td>
                                                 <td>
-                                                    <input type="checkbox"
+                                                    <input v-validate="'required'"
+                                                           type="checkbox"
                                                            v-on:click="toggleService(service.id)"
                                                            :checked="markServiceAsChecked(service.id)"
                                                            :value="service.id"
@@ -188,6 +195,7 @@
         },
         data() {
             return {
+                saving: false,
                 onEdit: false,
                 icons: {
                     paid: 'fa-check-circle',
@@ -198,7 +206,7 @@
                 invoice: {},
                 client: {},
                 clients: [],
-                services: []
+                services: [],
             }
         },
         methods: {
@@ -255,10 +263,15 @@
             updateInvoice() {
                 let id = this.getIdOfResourceInUrl();
                 let _this = this;
+                let idsArr = [];
+                this.invoice.services.forEach(function(element) {
+                    idsArr.push(element.id);
+                });
+                console.log(idsArr);
                 axios.put(`/api/invoices/${id}`, {
                     'client_id': this.invoice.client_id,
                     'due_date': this.invoice.due_date,
-                    'services': this.invoice.services
+                    'services': idsArr
                 })
                     .then((response) => {
                         console.log(response);
@@ -268,6 +281,17 @@
             resetData() {
                 this.fetchInvoice();
                 this.onEdit = false;
+            },
+            updateData() {
+                let id = this.getIdOfResourceInUrl();
+                this.saving = true;
+                if (this.formHasErrors()) {
+                    this.saving = false;
+                    return;
+                }
+                this.updateInvoice();
+                window.location = '/dashboard/facturas/'+id;
+
             },
             markServiceAsChecked(id) {
                 for (let i = 0; i < this.invoice.services.length; i++) {
@@ -283,10 +307,14 @@
                 };
                 for (let i = 0; i < this.services.length; i++) {
                     if (this.services[i].id == serviceId) {
+                        console.log('primer if');
                         if (typeof this.invoice.services.find(isEqual) === 'undefined') {
+                            console.log('Agregando servicio');
                             this.invoice.services.push(this.services[i]);
                         } else {
+                            console.log('eliminando servicio');
                             let index = this.invoice.services.indexOf(this.services[i]);
+                            console.log(index);
                             if (index > -1) {
                                 this.invoice.services.splice(index, 1);
                             }
@@ -296,6 +324,13 @@
                     }
                 }
             },
+            formHasErrors() {
+                if (this.errors.errors.length > 0) {
+                    this.showErrorAlert("Verifica los errores en el formulario.");
+                    return true;
+                }
+                return false;
+            }
 
         },
         computed: {
@@ -329,6 +364,9 @@
                     total += parseFloat(this.invoice.services[i].price);
                 }
                 return total.toFixed(2);
+            },
+            today() {
+                return window.Moment().format('DD-MM-YYYY');
             }
         },
     }
