@@ -27260,6 +27260,17 @@ var app = new Vue({
                     return '';
             }
         },
+        total: function total(invoice) {
+            //this.invoices.fin
+            var total = 0.00;
+            for (var j = 0; j < this.invoices.length; j++) {
+                for (var i = 0; i < this.invoices.services.length; i++) {
+                    total += parseFloat(this.invoices[j].services[i].price);
+                }
+            }
+
+            return total.toFixed(2);
+        },
         getUsersNameOfInvoice: function getUsersNameOfInvoice(invoiceId) {
             var clients = this.clients;
             for (var i = 0; i < clients.length; i++) {
@@ -27469,6 +27480,31 @@ var app = new Vue({
                 _this6.showErrorAlert();
                 console.log(error);
                 _this.loaded = true;
+            });
+        },
+        alertConfirm: function alertConfirm(title, confirmButton, onConfirm, onCancel) {
+            var titleText = title || "¿Estás seguro?, Se eliminará permanentemente el registro.";
+            var confirmButtonText = confirmButton || "Sí, deseo eliminarlo";
+            swal({
+                title: "Peligro",
+                text: titleText,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: confirmButtonText,
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    onConfirm();
+                } else {
+                    if (onCancel) {
+                        onCancel();
+                    } else {
+                        swal("Cancelado", "Has cancelado la acción.", "error");
+                    }
+                }
             });
         }
     },
@@ -28489,6 +28525,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 //var FileUpload = require('vue-upload-component');
@@ -28496,7 +28533,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         FileUpload: __WEBPACK_IMPORTED_MODULE_0__FileUpload_vue___default.a
     },
-    props: ['admin', 'showErrorAlert'],
+    props: ['admin', 'showErrorAlert', 'alertConfirm'],
     mounted: function mounted() {
         this.user.id = this.admin.id;
         //this.setUser();
@@ -28612,6 +28649,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             document.getElementById('profile-picture-form').submit();
+        },
+        deletePP: function deletePP() {
+            axios.delete('/api/profile_picture').then(function (response) {
+                if (response.data.type === 'error') {
+                    swal('Error', response.data.message, response.data.type);
+                    return;
+                }
+                swal('Correcto', response.data.message, 'success');
+                window.location = '/dashboard/perfil';
+            }).catch(function (error) {
+                console.log(error);
+                swal('Error', 'Ha ourrido un error en  el servidor.', 'error');
+            });
+        },
+        deleteAllNotifications: function deleteAllNotifications() {
+            var _this = this;
+            var callback = function callback() {
+                axios.delete('/api/notifications/all').then(function (response) {
+                    swal('Correcto', response.data.message, 'success');
+                    window.location = '/dashboard/perfil';
+                }).catch(function (error) {
+                    _this.showErrorAlert();
+                });
+            };
+            this.alertConfirm('¿Estás seguro?, se borrarán todas las notificaciones.', 'Sí, deseo eliminarlas.', callback);
         },
         formHasErrors: function formHasErrors() {
             if (this.errors.errors.length > 0) {
@@ -29107,6 +29169,7 @@ var STATUS_INITIAL = 0,
                 _this.uploadedFiles = [].concat(x);
                 _this.currentStatus = STATUS_SUCCESS;
                 console.log(x);
+                window.location = '/dashboard/perfil';
             }).catch(function (err) {
                 console.log(err);
                 _this.uploadError = err.response;
@@ -57110,7 +57173,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.onEdit),
       expression: "onEdit"
     }]
-  }, [_c('file-upload')], 1)]), _vm._v(" "), _c('div', {
+  }, [_c('file-upload'), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-block btn-danger btn-sm",
+    on: {
+      "click": _vm.deletePP
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-picture-o",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Eliminar foto de perfil")])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "list-group"
@@ -57497,7 +57570,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel-body"
   }, [_c('div', {
     staticClass: "list-group"
-  }, _vm._l((_vm.notifications), function(notification) {
+  }, [_vm._l((_vm.notifications), function(notification) {
     return (_vm.notifications.length > 0) ? _c('a', {
       staticClass: "list-group-item",
       attrs: {
@@ -57508,13 +57581,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: notification.data.icon
     }), _vm._v(" " + _vm._s(notification.data.message) + "\n                            "), _c('span', {
       staticClass: "pull-right text-muted small"
-    }, [_c('em', [_vm._v(_vm._s(_vm.humanTime(notification.created_at)))])])]) : _c('a', {
-      staticClass: "text-center text-muted",
-      attrs: {
-        "href": "#"
-      }
-    }, [_vm._v("\n                            No hay notificaciones...\n                        ")])
-  })), _vm._v(" "), _vm._m(10)])])])])])
+    }, [_c('em', [_vm._v(_vm._s(_vm.humanTime(notification.created_at)))])])]) : _vm._e()
+  }), _vm._v(" "), _c('p', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.notifications.length == 0),
+      expression: "notifications.length == 0"
+    }],
+    staticClass: "text-center text-muted",
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("\n                            No hay notificaciones...\n                        ")])], 2), _vm._v(" "), _c('button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.notifications.length > 0),
+      expression: "notifications.length > 0"
+    }],
+    staticClass: "btn btn-primary btn-block",
+    on: {
+      "click": _vm.deleteAllNotifications
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-archive",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v("\n                        Vaciar Notificaciones\n                    ")])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
@@ -57587,15 +57682,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-bell fa-fw"
   }), _vm._v(" Notificaciones\n                ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-primary btn-block"
-  }, [_c('i', {
-    staticClass: "fa fa-archive",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }), _vm._v("\n                        Vaciar Notificaciones\n                    ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
