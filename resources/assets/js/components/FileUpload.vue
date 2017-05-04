@@ -82,6 +82,7 @@
                         this.uploadedFiles = [].concat(x);
                         this.currentStatus = STATUS_SUCCESS;
                         console.log(x);
+                        window.location = '/dashboard/perfil';
                     })
                     .catch(err => {
                         console.log(err);
