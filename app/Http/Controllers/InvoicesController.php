@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrator;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
 use App\Models\Client;
 use App\Models\Service;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules\In;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\Invoices\CreatedInvoice;
 
 class InvoicesController extends Controller
 {
@@ -89,6 +92,7 @@ class InvoicesController extends Controller
         $invoice->total = $total;
         $invoice->save();
         $invoice->services()->attach($servicesId);
+        Notification::send(Administrator::all(), new CreatedInvoice(Invoice::findOrFail($invoice->id)));
         $message = ['type' => 'success', 'content' => 'Factura creada con exito.'];
         return redirect()->route('dashboard.invoices')->with($message['type'], $message['content']);
 
