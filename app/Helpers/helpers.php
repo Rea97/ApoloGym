@@ -169,7 +169,10 @@ if (! function_exists('getPP')) {
      * @return string
      */
     function getPP($user) {
-        return $user->profile_picture ?? '/imgs/profile_pic/default.jpg';
+        if (! is_null($user->profile_picture)) {
+            return '/storage/'.$user->profile_picture;
+        }
+        return '/imgs/profile_pic/default.jpg';
     }
 }
 
