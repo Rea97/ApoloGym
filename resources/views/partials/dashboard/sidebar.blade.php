@@ -35,21 +35,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard.diets') }}"
-                       class="li-sidebar {{ markAsActive(route('dashboard.diets')) }}">
-                        <i class="fa fa-cutlery fa-fw"></i> Dietas
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('dashboard.progress') }}"
                        class="li-sidebar {{ markAsActive(route('dashboard.progress')) }}">
                         <i class="fa fa-line-chart fa-fw"></i> Progreso
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('dashboard.schedule') }}"
-                       class="li-sidebar {{ markAsActive(route('dashboard.schedule')) }}">
-                        <i class="fa fa-calendar fa-fw"></i> Horario
                     </a>
                 </li>
                 <li>
