@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Administrator;
 use App\Models\Invoice;
+use App\Notifications\Invoices\ChangedInvoiceStatus;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
@@ -136,6 +137,7 @@ class InvoicesController extends Controller
         }
         $invoice->status = $request->input('status', 'cancelada');
         $invoice->save();
+        Notification::send(Administrator::all(), new ChangedInvoiceStatus($invoice, $invoice->status));
         return response()->json(['message' => "El estado de la factura ha cambiado a {$request->input('status')}."]);
     }
 }
