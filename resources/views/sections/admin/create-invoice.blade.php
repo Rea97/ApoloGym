@@ -76,7 +76,7 @@
                                                     <td>$ {{ $service->price }}</td>
                                                     <td>
                                                         <input type="checkbox"
-                                                               name="services[{{ $loop->index }}]"
+                                                               name="services[]"
                                                                value="{{ $service->id }}">
                                                     </td>
                                                 </tr>
