@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use App\Notifications\Profile\ProfileUpdated;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Notifications\Profile\ProfilePictureUpdated;
 
 class ProfileController extends Controller
 {
@@ -85,6 +86,7 @@ class ProfileController extends Controller
             if ($file->isValid()) {
                 $user->profile_picture = $name;
                 $user->save();
+                Notification::send($request->user(), new ProfilePictureUpdated($request->user()));
                 $message = 'Foto de perfil actualizada correctamente.';
             } else {
                 $message = 'Ha ocurrido un error al intentar actualizar tú foto de perfil. ';
@@ -92,6 +94,23 @@ class ProfileController extends Controller
             }
         }
         return response()->json(['message' => $message]);
+    }
+
+    public function deletePP(Request $request)
+    {
+        $message['content'] = "No dispones de una foto de perfil que eliminar.";
+        $message['type'] = 'error';
+        if ($request->user()->profile_picture) {
+            Storage::disk('public')->delete($request->user()->profile_picture);
+            $request->user()->profile_picture = null;
+            $request->user()->save();
+            $message['content'] = "Foto de perfil eliminada correctamente.";
+            $message['type'] = 'success';
+        }
+        return response()->json([
+            'type' => $message['type'],
+            'message' => $message['content']
+        ]);
     }
 
 
