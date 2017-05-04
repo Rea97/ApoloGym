@@ -91,16 +91,6 @@ const app = new Vue({
                     return '';
             }
         },
-        total() {
-            let total = 0.00;
-            for (let j = 0; j < this.invoices.length; j++) {
-                for (let i = 0; i < this.invoice.services.length; i++) {
-                    total += parseFloat(this.invoice.services[i].price);
-                }
-            }
-
-            return total.toFixed(2);
-        },
         getUsersNameOfInvoice(invoiceId) {
             let clients = this.clients;
             for (let i = 0; i < clients.length; i++) {

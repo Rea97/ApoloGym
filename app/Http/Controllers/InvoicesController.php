@@ -120,13 +120,18 @@ class InvoicesController extends Controller
                 'due_date' => 'required|date|after:today',
                 'services' => 'required|array'
             ]);
+            $total = $invoice->total;
             $servicesIds = $request->input('services');
             $invoice->update(['client_id' => $request->input('client_id'), 'due_date' => $request->input('due_date')]);
             foreach ($servicesIds as $service) {
                 if (! $invoice->services->contains($service)) {
                     $invoice->services()->attach($service);
+                    $total += Service::find($service)->price;
                 }
             }
+            $invoice->total = $total;
+            $invoice->save();
+            //$invoice->update(['total' => $total]);
             return response()->json(['message' => "Datos de la factura guardados con éxito."]);
         }
         $invoice->status = $request->input('status', 'cancelada');
