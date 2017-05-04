@@ -160,5 +160,7 @@ Route::group(['prefix' => '/api'], function () {
     * Profile_picture
     */
    Route::post('/profile_picture', 'ProfileController@updatePP');
+   Route::delete('/profile_picture', 'ProfileController@deletePP');
+
 });
 
