@@ -10,6 +10,7 @@
                         <img v-show="!onEdit" class="img img-responsive img-thumbnail" :src="getProfilePictureUrl" :alt="user.name">
                         <div v-show="onEdit">
                             <file-upload></file-upload>
+                            <button v-on:click="deletePP" class="btn btn-block btn-danger btn-sm"><i class="fa fa-picture-o" aria-hidden="true"></i> Eliminar foto de perfil</button>
                             <!--<h6>Cambiar foto de perfil</h6>
                             <form id="profile-picture-form" action="/api/profile_picture" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                                 <input name="_token" type="hidden" :value="csrfToken">
@@ -286,6 +287,21 @@
                     return;
                 }
                 document.getElementById('profile-picture-form').submit();
+            },
+            deletePP() {
+                axios.delete(`/api/profile_picture`)
+                    .then(response => {
+                        if (response.data.type === 'error') {
+                            swal('Error', response.data.message, response.data.type);
+                            return;
+                        }
+                        swal('Correcto', response.data.message, 'success');
+                        window.location = '/dashboard/perfil';
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        swal('Error', 'Ha ourrido un error en  el servidor.', 'error');
+                    });
             },
             formHasErrors() {
                 if (this.errors.errors.length > 0) {
