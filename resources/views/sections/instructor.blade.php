@@ -30,17 +30,17 @@
                         {{ clientsInstructor()->second_surname ?? '' }}
                     </p>
                     <div class="divider"></div>
-                    <h4><i class="fa fa-calendar"></i> Edad</h4>
-                    <p>{{ clientsInstructor()->age ?? 'No se encontró el dato.' }}</p>
+                    <h4><i class="fa fa-calendar"></i> Cumpleaños</h4>
+                    <p>{{ clientsInstructor()->birth_date ?? 'No se encontró el dato.' }}</p>
                     <div class="divider"></div>
-                    <h4><i class="fa fa-phone"></i> Teléfono</h4>
-                    <p>{{ clientsInstructor()->phone_number }}</p>
+                    <!--<h4><i class="fa fa-phone"></i> Teléfono</h4>
+                    <p>{{ clientsInstructor()->phone_number }}</p>-->
                     <div class="divider"></div>
                     <h4><i class="fa fa-at"></i> Correo electrónico</h4>
                     <p>{{ clientsInstructor()->email }}</p>
                     <div class="divider"></div>
                     <h4><i class="fa fa-book"></i> Acerca de él</h4>
-                    <p>{{ clientsInstructor()->about_me }}</p>
+                    <p>{{ clientsInstructor()->about_me ?? 'No dispone actualmente de una biografía' }}</p>
                     <!--<p>Soy una persona apasionada por el ejercicio, para mí, es una parte fundamental de la vida y creo
                     que todos deberían dedicar al menos 60 minutos al día de su tiempo.</p>-->
                 </div>
