@@ -149,11 +149,11 @@
                                 <i class="fa fa-fw" :class="notification.data.icon"></i> {{ notification.data.message }}
                                 <span class="pull-right text-muted small"><em>{{ humanTime(notification.created_at) }}</em></span>
                             </a>
-                            <a v-else href="#" class="text-center text-muted">
+                            <p v-show="notifications.length == 0" href="#" class="text-center text-muted">
                                 No hay notificaciones...
-                            </a>
+                            </p>
                         </div>
-                        <button class="btn btn-primary btn-block">
+                        <button v-show="notifications.length > 0" v-on:click="deleteAllNotifications" class="btn btn-primary btn-block">
                             <i class="fa fa-archive" aria-hidden="true"></i>
                             Vaciar Notificaciones
                         </button>
@@ -171,7 +171,7 @@
         components: {
             FileUpload : FileUpload
         },
-        props: ['admin', 'showErrorAlert'],
+        props: ['admin', 'showErrorAlert', 'alertConfirm'],
         mounted() {
             this.user.id = this.admin.id;
             //this.setUser();
@@ -302,6 +302,24 @@
                         console.log(error);
                         swal('Error', 'Ha ourrido un error en  el servidor.', 'error');
                     });
+            },
+            deleteAllNotifications() {
+                let _this = this;
+                let callback = function() {
+                    axios.delete('/api/notifications/all')
+                        .then(response => {
+                            swal('Correcto', response.data.message, 'success');
+                            window.location = '/dashboard/perfil';
+                        })
+                        .catch(error => {
+                            _this.showErrorAlert();
+                        })
+                };
+                this.alertConfirm(
+                    '¿Estás seguro?, se borrarán todas las notificaciones.',
+                    'Sí, deseo eliminarlas.',
+                    callback
+                );
             },
             formHasErrors() {
                 if (this.errors.errors.length > 0) {

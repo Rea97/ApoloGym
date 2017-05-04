@@ -62,4 +62,10 @@ class NotificationsController extends Controller
             ]
         ]);
     }
+
+    public function deleteAll()
+    {
+        $this->request->user()->notifications()->delete();
+        return $this->response->json(['message' => 'Se han eliminado las notificaciones.']);
+    }
 }

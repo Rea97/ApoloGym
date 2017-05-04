@@ -91,6 +91,16 @@ const app = new Vue({
                     return '';
             }
         },
+        total() {
+            let total = 0.00;
+            for (let j = 0; j < this.invoices.length; j++) {
+                for (let i = 0; i < this.invoice.services.length; i++) {
+                    total += parseFloat(this.invoice.services[i].price);
+                }
+            }
+
+            return total.toFixed(2);
+        },
         getUsersNameOfInvoice(invoiceId) {
             let clients = this.clients;
             for (let i = 0; i < clients.length; i++) {
@@ -306,6 +316,33 @@ const app = new Vue({
                     console.log(error);
                     _this.loaded = true;
                 });
+        },
+        alertConfirm(title, confirmButton, onConfirm, onCancel) {
+            let titleText = title || "¿Estás seguro?, Se eliminará permanentemente el registro.";
+            let confirmButtonText = confirmButton || "Sí, deseo eliminarlo";
+            swal({
+                    title: "Peligro",
+                    text: titleText,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: confirmButtonText,
+                    cancelButtonText: "No",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        onConfirm();
+                    } else {
+                        if (onCancel) {
+                            onCancel();
+                        } else {
+                            swal("Cancelado", "Has cancelado la acción.", "error");
+                        }
+                    }
+                }
+            );
         }
     },
     computed: {}

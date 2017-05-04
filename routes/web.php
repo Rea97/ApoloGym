@@ -112,6 +112,7 @@ Route::group(['prefix' => '/api'], function () {
     Route::get('/notifications', 'NotificationsController@unread')->middleware('auth:admin,client,instructor');
     Route::get('/notifications/all', 'NotificationsController@all')->middleware('auth:admin,client,instructor');
     Route::put('/notifications/{notification}/read', 'NotificationsController@markAsRead')->middleware('auth:admin,client,instructor');
+    Route::delete('/notifications/all', 'NotificationsController@deleteAll')->middleware('auth:admin,client,instructor');
    /**
     * Instructors
     */
