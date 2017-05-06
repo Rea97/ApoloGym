@@ -19,9 +19,9 @@ class InvoicesTableSeeder extends Seeder
                 'client_id' => $faker->numberBetween(10000, 10020),
                 'total' => $service->price,
                 'due_date' => $faker->date(),
-                'status' => $faker->randomElement(['pagada', 'sin pagar', 'parcialmente pagada', 'cancelada'])
+                'status' => 'sin pagar'
             ]);
-             $invoice->save();
+            $invoice->save();
             $invoice->services()->attach($service->id);
         }
     }
