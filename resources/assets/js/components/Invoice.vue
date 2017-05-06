@@ -23,7 +23,7 @@
                             <div class="col-sm-4">
                                 <div v-show="!onEdit" class="btn-group">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                        <button :disabled="shouldBeDisabled" type="button" class="btn btn-primary dropdown-toggle"
                                                 data-toggle="dropdown">
                                             Marcar como
                                             <span class="caret"></span>
@@ -251,6 +251,9 @@
             },
             markAs(status) {
                 console.log(status);
+                if (this.invoice.status === 'pagada') {
+                    return;
+                }
                 let id = this.getIdOfResourceInUrl();
                 let _this = this;
                 axios.put(`/api/invoices/${id}`, {'status': status})
@@ -367,6 +370,9 @@
             },
             today() {
                 return window.Moment().format('DD-MM-YYYY');
+            },
+            shouldBeDisabled() {
+                return this.invoice.status === 'pagada';
             }
         },
     }
