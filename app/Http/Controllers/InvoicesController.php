@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrator;
+use App\Models\Income;
 use App\Models\Invoice;
 use App\Notifications\Invoices\ChangedInvoiceStatus;
 use App\Repositories\InvoiceRepository;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules\In;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\Invoices\CreatedInvoice;
+use Carbon\Carbon;
 
 class InvoicesController extends Controller
 {
@@ -137,6 +139,13 @@ class InvoicesController extends Controller
         }
         $invoice->status = $request->input('status', 'cancelada');
         $invoice->save();
+        if ($invoice->status === 'pagada') {
+            Income::create(['type' => 'facturas',
+                'description' => 'Pago de factura realizado',
+                'entry_date' => Carbon::now()->toDateString(),
+                'total' => $invoice->total
+            ]);
+        }
         Notification::send(Administrator::all(), new ChangedInvoiceStatus($invoice, $invoice->status));
         return response()->json(['message' => "El estado de la factura ha cambiado a {$request->input('status')}."]);
     }

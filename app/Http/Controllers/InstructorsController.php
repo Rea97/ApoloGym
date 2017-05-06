@@ -6,6 +6,7 @@ use App\Http\Requests\StoreInstructorRequest;
 use App\Http\Requests\UpdateInstructorRequest;
 use App\Models\Administrator;
 use App\Models\Client;
+use App\Models\Expense;
 use App\Models\Instructor;
 use App\Models\InstructorSchedule;
 use App\Notifications\Instructors\DeletedInstructor;
@@ -13,6 +14,7 @@ use App\Notifications\Instructors\RegisteredInstructor;
 use App\Notifications\Instructors\UpdatedInstructor;
 use App\Repositories\ClientRepository;
 use App\Repositories\InstructorScheduleRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Utilities\Pagination;
 use App\Repositories\InstructorRepository;
@@ -102,6 +104,11 @@ class InstructorsController extends Controller
     public function store(StoreInstructorRequest $request, Instructor $instructor)
     {
         if ($instructor->create($this->instructor->makeDataArray($request))) {
+            Expense::create(['type' => 'salarios',
+                'description' => 'Salario de instructor',
+                'entry_date' => Carbon::now()->toDateString(),
+                'total' => $instructor->salary
+            ]);
             $newInstructor = $instructor->where('email', '=', $request->input('email'))->first();
             Notification::send(Administrator::all(), new RegisteredInstructor($newInstructor));
             if ($this->instructorSchedule->storeSchedule($request, $newInstructor)) {
