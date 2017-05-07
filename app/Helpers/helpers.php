@@ -95,6 +95,7 @@ if (! function_exists('currentAuth')) {
      * @return bool|\Illuminate\Contracts\Auth\Authenticatable|null
      */
     function currentAuth() {
+        /*
         $guard = null;
         if (isAdmin()) {
             $guard = 'admin';
@@ -108,7 +109,25 @@ if (! function_exists('currentAuth')) {
             return false;
         }
         return Auth::guard($guard)->user();
+        */
+        return currentGuard()->user();
     }
+}
+
+function currentGuard() {
+    $guard = null;
+    if (isAdmin()) {
+        $guard = 'admin';
+    } else if (isClient()) {
+        $guard = 'client';
+    } else if(isInstructor()) {
+        $guard = 'instructor';
+    }
+    //$guard = isAdmin() ? 'admin' : isInstructor() ? 'instructor' : isClient() ? 'client' : null;
+    if (is_null($guard)) {
+        return false;
+    }
+    return Auth::guard($guard);
 }
 
 if (! function_exists('getCurrentAuth')) {
@@ -214,4 +233,8 @@ if (! function_exists('formatTime')) {
         $timeFormatted = implode(':', $timeArr);
         return $timeFormatted;
     }
+}
+
+function getPostImage($post) {
+    return ! is_null($post->image) ? '/storage/'.$post->image : '/imgs/blog/default.jpg';
 }
