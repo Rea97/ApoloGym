@@ -36,6 +36,8 @@ const app = new Vue({
         services: [],
         invoice: {},
         invoices: [],
+        posts: [],
+        post: {},
         counter: 0,
         pagination: {
             total: 0,
@@ -307,6 +309,38 @@ const app = new Vue({
                     _this.loaded = true;
                 });
         },
+        fetchPosts(pagination = false, page) {
+            this.loaded = false;
+            var _this = this;
+            let url = pagination ?
+                `/api/posts?page=${page}&quantity=${_this.pagination.per_page}&search=${this.search}` :
+                '/api/posts';
+            axios.get(url)
+                .then((response) => {
+                    //console.log(response.data);
+                    _this.posts = pagination ? response.data.data.data : response.data.data;
+                    //_this.clients = response.data.data.data;
+
+                    //FIXME:Se está asignando al objeto de paginación un arreglo con todos los clientes
+                    //_this.pagination = response.data.data.pagination;//Posible solucion
+                    _this.pagination = pagination ? response.data.data : null;
+                    _this.loaded = true;
+                    if (this.pagination) {
+                        if ((_this.pagination.current_page > this.pagination.last_page && _this.pagination.last_page != 0)) {
+                            //_this.pagination.current_page = 1;
+                            //console.log('Cambiando a pagina 1');
+                            //console.log('Emitiendo evento de desborde de pagina actual');
+                            _this.$emit('currentPageDesbord', _this.pagination.current_page);
+                        }
+                    }
+
+                })
+                .catch((error) => {
+                    this.showErrorAlert();
+                    _this.loaded = true;
+                    //console.log(error);
+                });
+        },
         alertConfirm(title, confirmButton, onConfirm, onCancel) {
             let titleText = title || "¿Estás seguro?, Se eliminará permanentemente el registro.";
             let confirmButtonText = confirmButton || "Sí, deseo eliminarlo";
@@ -333,6 +367,22 @@ const app = new Vue({
                     }
                 }
             );
+        },
+        deletePost(id) {
+            let callback = function() {
+                axios.delete(`/api/posts/${id}`)
+                    .then(response => {
+                        swal('Correcto', response.data.message, 'success');
+                        window.location = '/dashboard/noticias';
+                    })
+                    .catch()
+            };
+            this.alertConfirm(
+                '¿Estás seguro? se elliminará permanentemente la noticia',
+                'Sí, deseo eliminarla',
+                callback
+            )
+
         }
     },
     computed: {}
