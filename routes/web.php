@@ -19,6 +19,11 @@ Route::get('/', function () {
 });
 
 /**
+ * Blog
+ */
+Route::get('/blog/posts/{post}', 'PostController@showBlogPost')->name('blog.post.show');
+
+/**
  * Login, register and password reset
  */
 //Auth::routes();
@@ -75,9 +80,18 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function(
         ->name('dashboard.instructor');
 });
 
+//Rutas accesibles por el ADMINISTRADOR e INSTRUCTOR
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:admin,instructor'], function() {
+    Route::get('/noticias/crear', 'PostController@create')->name('dashboard.posts.create');
+    Route::get('/noticias/{post}', 'PostController@show')->name('dashboard.posts.show');
+});
+
 //Rutas accesibles por TODOS los usuarios autenticados
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,admin'], function() {
     Route::get('/inicio', 'HomeController@index')->name('dashboard.start');
+
+    Route::get('/noticias', 'PostController@allPosts')->name('dashboard.posts');
+
 
     Route::get('/rutinas', function(){
         return view('sections.routines');
@@ -162,6 +176,14 @@ Route::group(['prefix' => '/api'], function () {
     */
    Route::post('/profile_picture', 'ProfileController@updatePP');
    Route::delete('/profile_picture', 'ProfileController@deletePP');
+
+   /**
+    * Posts
+    */
+   Route::get('/posts', 'PostController@index');
+   Route::post('/posts', 'PostController@store')->name('posts.store');
+   Route::put('/posts/{post}', 'PostController@update')->name('posts.update');
+   Route::delete('/posts/{post}', 'PostController@delete')->name('posts.delete');
 
 });
 
