@@ -72,6 +72,12 @@
                         <i class="fa fa-users fa-fw"></i> Instructores
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('dashboard.posts') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.posts')) }}">
+                        <i class="fa fa-newspaper-o fa-fw"></i> Noticias
+                    </a>
+                </li>
             @endif
 
         </ul>
