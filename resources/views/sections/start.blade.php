@@ -136,8 +136,8 @@
                                 <i class="fa fa-book fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
-                                <div>Nuevas noticias</div>
+                                <div class="huge">{{ $posts->count() }}</div>
+                                <div>{{ $posts->count() === 1 ? 'Nueva noticia' : 'Nuevas noticias' }}</div>
                             </div>
                         </div>
                     </div>
@@ -158,12 +158,12 @@
                                 <i class="fa fa-bell fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Notificaciones</div>
+                                <div class="huge">{{ $notifications->count() }}</div>
+                                <div>{{ $notifications->count() === 1 ? 'Notificación' : 'Notificaciones' }}</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <a href="{{ route('dashboard.profile') }}">
                         <div class="panel-footer">
                             <span class="pull-left">Ver detalles</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -183,78 +183,24 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-6 col-md-6">
-                                <div class="thumbnail">
-                                    <img src="{{ asset('imgs/home/noticia.jpg') }}" alt="...">
-                                    <div class="caption">
-                                        <h3>Nueva noticia</h3>
-                                        <p>Contenido de la nueva noticia...</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary" role="button">Leer más...</a>
-                                        </p>
+                            @forelse($posts as $post)
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="thumbnail">
+                                        <img src="{{ getPostImage($post) }}" alt="{{ $post->title }}">
+                                        <div class="caption">
+                                            <h3>{{ $post->title }}</h3>
+                                            <p>{{ str_limit($post->description) }}</p>
+                                            <p>
+                                                <a target="_blank" href="{{ url('/blog/posts/'.$post->id) }}" class="btn btn-primary" role="button">Leer más...</a>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="thumbnail">
-                                    <img src="{{ asset('imgs/home/noticia.jpg') }}" alt="...">
-                                    <div class="caption">
-                                        <h3>Nueva noticia</h3>
-                                        <p>Contenido de la nueva noticia...</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary" role="button">Leer más...</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="thumbnail">
-                                    <img src="{{ asset('imgs/home/noticia.jpg') }}" alt="...">
-                                    <div class="caption">
-                                        <h3>Nueva noticia</h3>
-                                        <p>Contenido de la nueva noticia...</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary" role="button">Leer más...</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="thumbnail">
-                                    <img src="{{ asset('imgs/home/noticia.jpg') }}" alt="...">
-                                    <div class="caption">
-                                        <h3>Nueva noticia</h3>
-                                        <p>Contenido de la nueva noticia...</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary" role="button">Leer más...</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="thumbnail">
-                                    <img src="{{ asset('imgs/home/noticia.jpg') }}" alt="...">
-                                    <div class="caption">
-                                        <h3>Nueva noticia</h3>
-                                        <p>Contenido de la nueva noticia...</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary" role="button">Leer más...</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <div class="thumbnail">
-                                    <img src="{{ asset('imgs/home/noticia.jpg') }}" alt="...">
-                                    <div class="caption">
-                                        <h3>Nueva noticia</h3>
-                                        <p>Contenido de la nueva noticia...</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary" role="button">Leer más...</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                @empty
+                                    <h2>No hay noticias.</h2>
+                            @endforelse
+
+
                         </div>
                     </div>
                     <!-- /.panel-body -->
@@ -272,39 +218,21 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="list-group">
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-envelope fa-fw"></i> Mensaje recibido
-                                <span class="pull-right text-muted small"><em>Hace 30 minutos</em>
+                            @forelse($notifications as $notification)
+                                <a href="{{ $notification->data['action'] }}" class="list-group-item">
+                                    <i class="fa fa-fw {{ $notification->data['icon'] }}"></i> {{ $notification->data['message'] }}
+                                        <span class="pull-right text-muted small">
+                                        <em>{{ $notification->created_at }}</em>
                                     </span>
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-tasks fa-fw"></i> Nueva rutina
-                                <span class="pull-right text-muted small"><em>Hace 42 minutos</em>
-                                    </span>
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-upload fa-fw"></i> Archivo subido
-                                <span class="pull-right text-muted small"><em>22:32</em>
-                                    </span>
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-trash fa-fw"></i> Archivo eliminado
-                                <span class="pull-right text-muted small"><em>10:50</em>
-                                    </span>
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-envelope fa-fw"></i> Mensaje recibido
-                                <span class="pull-right text-muted small"><em>10:10</em>
-                                    </span>
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-money fa-fw"></i> Nueva factura
-                                <span class="pull-right text-muted small"><em>Ayer</em>
-                                    </span>
-                            </a>
+                                </a>
+                                @empty
+                                    <span class="text-muted text-center">No hay notificaciones sin leer.</span>
+                            @endforelse
                         </div>
                         <!-- /.list-group -->
-                        <a href="#" class="btn btn-default btn-block">Ver más...</a>
+                        @if($notifications->count() > 0)
+                            <a href="#" class="btn btn-default btn-block">Ver más...</a>
+                        @endif
                     </div>
                     <!-- /.panel-body -->
                 </div>
