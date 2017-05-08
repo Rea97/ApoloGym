@@ -31,6 +31,12 @@ class InvoicesController extends Controller
         $this->invoiceRepository = $invoiceRepository;
     }
 
+    public function showInvoicesOfClient(Request $request)
+    {
+        $invoices = $request->user()->invoices()->paginate(10);
+        return view('sections.client.invoices', compact('invoices'));
+    }
+
     public function showInvoices()
     {
         return view('sections.admin.invoices');
@@ -95,7 +101,8 @@ class InvoicesController extends Controller
         $invoice->total = $total;
         $invoice->save();
         $invoice->services()->attach($servicesId);
-        Notification::send(Administrator::all(), new CreatedInvoice(Invoice::findOrFail($invoice->id)));
+        Notification::send(Administrator::all(), new CreatedInvoice($invoice));
+        Notification::send(Client::find($invoice->client_id), new CreatedInvoice($invoice, true));
         $message = ['type' => 'success', 'content' => 'Factura creada con exito.'];
         return redirect()->route('dashboard.invoices')->with($message['type'], $message['content']);
 

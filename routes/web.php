@@ -72,6 +72,11 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
     Route::get('/facturas/crear', 'InvoicesController@showNewInvoiceForm')->name('dashboard.invoice.create');
     Route::get('/facturas', 'InvoicesController@showInvoices')->name('dashboard.invoices');
     Route::get('/facturas/{invoice}', 'InvoicesController@showInvoice')->name('dashboard.invoice');
+});
+
+//Rutas accesibles por el CLIENTE y ADMINISTRADOR
+
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,admin'], function() {
     Route::get('/facturas/{invoice}/pdf', 'InvoicesController@invoiceToPdf')->name('dashboard.invoice.pdf');
 });
 
@@ -79,6 +84,8 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function() {
     Route::get('/instructor', 'InstructorsController@showClientsInstructor')
         ->name('dashboard.instructor');
+    Route::get('/facturacion', 'InvoicesController@showInvoicesOfClient')
+        ->name('dashboard.client.invoices');
 });
 
 //Rutas accesibles por el ADMINISTRADOR e INSTRUCTOR

@@ -46,6 +46,12 @@
                         <i class="fa fa-user fa-fw"></i> Instructor
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('dashboard.client.invoices') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.client.invoices')) }}">
+                        <i class="fa fa-money fa-fw"></i> Facturación
+                    </a>
+                </li>
             @endif
             @if(isAdmin())
                 <li>
