@@ -130,6 +130,10 @@ function currentGuard() {
     return Auth::guard($guard);
 }
 
+function getFirstName($currentAuth) {
+    return explode(" ", $currentAuth->name)[0];
+}
+
 if (! function_exists('getCurrentAuth')) {
     /**
      * Obtiene la instancia del usuario autenticado actual.
