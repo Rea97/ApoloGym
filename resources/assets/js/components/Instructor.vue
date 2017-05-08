@@ -157,7 +157,7 @@
                                     <i class="fa fa-credit-card"></i> Datos financieros
                                 </div>
                                 <div class="panel-body">
-                                    <h4><i class="fa fa-money" aria-hidden="true"></i> Salario <small>semanal</small></h4>
+                                    <h4><i class="fa fa-money" aria-hidden="true"></i> Salario <small>mensual</small></h4>
                                     <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('salary')}">
                                         <input v-model="instructor.salary" v-validate="'required|decimal:2'" type="number" class="form-control" min="0" value="0.00" step="0.10" name="salary" data-vv-as="Salario">
                                         <span v-show="errors.has('salary')" class="help-block">{{ errors.first('salary') }}</span>

@@ -59,6 +59,9 @@ class HomeController extends Controller
             $notifications = $request->user()->unreadNotifications;
             return view('sections.start', compact('posts', 'notifications'));
         }
+        if (isInstructor()) {
+            return view('sections.start');
+        }
 
     }
 }

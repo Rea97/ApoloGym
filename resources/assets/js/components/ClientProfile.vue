@@ -134,7 +134,7 @@
                         </div>
                         <h4><i class="fa fa-at" aria-hidden="true"></i> E-mail</h4>
                         <div v-if="onEdit" class="form-group" :class="{'has-error': errors.has('email')}">
-                            <input v-model="user.email" v-validate="'required|email'" type="text" class="form-control" name="email" data-vv-as="E-mail">
+                            <input disabled v-model="user.email" v-validate="'required|email'" type="text" class="form-control" name="email" data-vv-as="E-mail">
                             <span v-show="errors.has('email')" class="help-block">{{ errors.first('email') }}</span>
                         </div>
                         <div v-else>

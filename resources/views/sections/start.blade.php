@@ -244,6 +244,8 @@
             <!-- /.col-lg-4 -->
         </div>
         <!-- /.row -->
+    @elseif(isInstructor())
+
     @endif
 @endsection
 @push('scripts')
