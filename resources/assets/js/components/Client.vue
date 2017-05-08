@@ -333,9 +333,9 @@
                 }
                 return 'fa-female';
             },
-            getProfilePictureUrl: function () {
+            getProfilePictureUrl() {
                 return this.client.profile_picture
-                    ? this.client.profile_picture
+                    ? '/storage/'+this.client.profile_picture
                     : '/imgs/profile_pic/default.jpg';
             },
             getGender: function () {
