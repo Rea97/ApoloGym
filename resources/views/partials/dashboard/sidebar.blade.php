@@ -4,7 +4,7 @@
         <div class="visible-lg">
             <div class="container visible-lg" style="margin-top: 14px">
                 <img class="img img-responsive img-circle pull-left" style="width: 32px" src="{{ getPP(currentAuth()) }}" alt="">&nbsp;
-                <h4 class="pull-left">Bienvenido, {{ currentAuth()->name }}</h4>
+                <h4 class="pull-left">Bienvenido, {{ getFirstName(currentAuth()) }}</h4>
             </div>
             <div class="divider" style="margin-bottom: 0"></div>
         </div>
@@ -76,6 +76,26 @@
                     <a href="{{ route('dashboard.instructors') }}"
                        class="li-sidebar {{ markAsActive(route('dashboard.instructors')) }}">
                         <i class="fa fa-users fa-fw"></i> Instructores
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('dashboard.posts') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.posts')) }}">
+                        <i class="fa fa-newspaper-o fa-fw"></i> Noticias
+                    </a>
+                </li>
+            @endif
+            @if(isInstructor())
+                <li>
+                    <a href="{{ route('dashboard.clients') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.clients')) }}">
+                        <i class="fa fa-users fa-fw"></i> Clientes
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('dashboard.schedule') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.schedule')) }}">
+                        <i class="fa fa-clock-o fa-fw"></i> Horario
                     </a>
                 </li>
                 <li>
