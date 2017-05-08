@@ -37,7 +37,7 @@
                                 <td>{{ $invoice->terms ?? 'Esta factura no tiene términos adicionales.' }}</td>
                                 <td>{{ $invoice->created_at }}</td>
                                 <td>{{ $invoice->due_date }}</td>
-                                <td>{{ $invoice->status }}</td>
+                                <td>{{ ucfirst($invoice->status) }}</td>
                                 <td>$ {{ $invoice->total }}</td>
                                 <td>
                                     <a class="btn btn-sm btn-warning" href="{{ route('dashboard.invoice.pdf', [$invoice->id]) }}" target="_blank">
