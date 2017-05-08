@@ -222,8 +222,9 @@
                                 <a href="{{ $notification->data['action'] }}" class="list-group-item">
                                     <i class="fa fa-fw {{ $notification->data['icon'] }}"></i> {{ $notification->data['message'] }}
                                         <span class="pull-right text-muted small">
-                                        <em>{{ $notification->created_at }}</em>
+                                        <em>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->diffForHumans() }}</em>
                                     </span>
+                                    <br>&nbsp;
                                 </a>
                                 @empty
                                     <span class="text-muted text-center">No hay notificaciones sin leer.</span>
@@ -231,7 +232,7 @@
                         </div>
                         <!-- /.list-group -->
                         @if($notifications->count() > 0)
-                            <a href="#" class="btn btn-default btn-block">Ver más...</a>
+                            <a href="{{ route('dashboard.profile') }}" class="btn btn-default btn-block">Ver más...</a>
                         @endif
                     </div>
                     <!-- /.panel-body -->
