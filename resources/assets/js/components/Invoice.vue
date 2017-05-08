@@ -12,7 +12,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-7">
                                 <div :class="alertType" class="alert">
                                     <h5>
                                         <i :class="iconType" class="fa" aria-hidden="true"></i>
@@ -20,7 +20,7 @@
                                     </h5>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <div v-show="!onEdit" class="btn-group">
                                     <div class="btn-group">
                                         <button :disabled="shouldBeDisabled" type="button" class="btn btn-primary dropdown-toggle"
@@ -55,10 +55,14 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <button v-on:click="editMode" type="button" class="btn btn-info">
+                                    <button :disabled="shouldBeDisabled" v-on:click="editMode" type="button" class="btn btn-info">
                                         <i class="fa fa-edit" aria-hidden="true"></i>
                                         Editar
                                     </button>
+                                    <a target="_blank" :href="'/dashboard/facturas/'+invoice.id+'/pdf'" class="btn btn-warning">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        Ver PDF
+                                    </a>
                                 </div>
                                 <div v-show="onEdit" class="btn-group">
                                     <button v-on:click="updateData" type="button" class="btn btn-success">
@@ -211,6 +215,9 @@
         },
         methods: {
             editMode() {
+                if (this.shoudBeDisabled) {
+                    return;
+                }
                 this.onEdit = true;
                 this.fetchServices();
                 this.fetchClients();
