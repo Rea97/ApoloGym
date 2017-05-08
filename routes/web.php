@@ -139,7 +139,7 @@ Route::group(['prefix' => '/api'], function () {
     * Instructors
     */
    Route::get('/instructors', 'InstructorsController@index')->middleware('auth:admin');
-   Route::get('/instructors/{instructor}', 'InstructorsController@show')->middleware('auth:admin');
+   Route::get('/instructors/{instructor}', 'InstructorsController@show')->middleware('auth:admin,instructor');
    Route::get('/instructors/{instructor}/clients', 'InstructorsController@showClientsInstructedBy')->middleware('auth:admin');
    Route::post('/instructors', 'InstructorsController@store')->name('instructor.store')->middleware('auth:admin');
    Route::delete('/instructors/{instructor}', 'InstructorsController@destroy')->middleware('auth:admin');
@@ -190,6 +190,7 @@ Route::group(['prefix' => '/api'], function () {
      */
     Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update');
     Route::put('/profile/clients/{client}', 'ProfileController@updateClient')->name('client.profile.update');
+    Route::put('/profile/instructors/{instructor}', 'ProfileController@updateInstructor')->name('instructor.profile.update');
 
    /**
     * Posts

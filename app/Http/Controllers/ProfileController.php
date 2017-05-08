@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Administrator;
 use App\Models\Client;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -72,6 +73,61 @@ class ProfileController extends Controller
         }
         if ($updated) {
             Notification::send($client, new ProfileUpdated($client));
+        }
+        return response()->json(['updated' => $updated]);
+    }
+
+    public function updateInstructor(Request $request, Instructor $instructor)
+    {
+        $v = Validator::make($request->all(), [
+            'name'              => 'required|max:40|string',
+            'first_surname'     => 'required|max:40|string',
+            'second_surname'    => 'nullable|max:40|string',
+            //'profile_picture'   => 'nullable|string',
+            'about_me'          => 'nullable|string',
+            'phone_number'      => 'required|string',
+            'address'           => 'required|string|max:100',
+            'email'             => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('instructors')->ignore($request->id)
+            ],
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+        if ($v->fails()) {
+            return response()->json(['errors' => $v->errors()]);
+        }
+        /*$this->validate($request, [
+            'name'              => 'required|max:40|string',
+            'first_surname'     => 'required|max:40|string',
+            'second_surname'    => 'nullable|max:40|string',
+            'profile_picture'   => 'nullable|string',
+            'phone_number'      => 'required|string',
+            'email'             => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('administrators')->ignore($request->id)
+            ],
+            'password' => 'required|min:6|confirmed'
+        ]);*/
+        $updated = $instructor->update([
+            'name' => $request->input('name'),
+            'first_surname' => $request->input('first_surname'),
+            'second_surname' => $request->input('second_surname'),
+            'address' => $request->input('address'),
+            'about_me' => $request->input('about_me', null),
+            'phone_number' => $request->input('phone_number'),
+            'email' => $request->input('email')
+        ]);
+        if ($request->has('password')) {
+            $updated = $instructor->update([
+                'password' => bcrypt($request->input('password'))
+            ]);
+        }
+        if ($updated) {
+            Notification::send($instructor, new ProfileUpdated($instructor));
         }
         return response()->json(['updated' => $updated]);
     }

@@ -104,12 +104,13 @@ class InstructorsController extends Controller
     public function store(StoreInstructorRequest $request, Instructor $instructor)
     {
         if ($instructor->create($this->instructor->makeDataArray($request))) {
+            $newInstructor = $instructor->where('email', '=', $request->input('email'))->first();
             Expense::create(['type' => 'salarios',
                 'description' => 'Salario de instructor',
                 'entry_date' => Carbon::now()->toDateString(),
-                'total' => $instructor->salary
+                'total' => $newInstructor->salary
             ]);
-            $newInstructor = $instructor->where('email', '=', $request->input('email'))->first();
+
             Notification::send(Administrator::all(), new RegisteredInstructor($newInstructor));
             if ($this->instructorSchedule->storeSchedule($request, $newInstructor)) {
                 $message = [

@@ -85,8 +85,7 @@ class PostController extends Controller
             $post->image = $name;
             $post->save();
         }
-        return redirect()->route('dashboard.start');
-
+        return redirect()->route('dashboard.posts');
     }
 
     public function show(Post $post)

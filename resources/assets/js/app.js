@@ -23,6 +23,8 @@ Vue.component('invoice-details', require('./components/Invoice.vue'));
 Vue.component('admin-profile', require('./components/AdminProfile.vue'));
 Vue.component('file-upload', require('./components/FileUpload.vue'));
 Vue.component('client-profile', require('./components/ClientProfile.vue'));
+Vue.component('instructor-schedule', require('./components/InstructorSchedule.vue'));
+Vue.component('instructor-profile', require('./components/InstructorProfile.vue'));
 
 const app = new Vue({
     el: '#app',
