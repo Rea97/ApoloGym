@@ -33,7 +33,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'resources/assets/css/vendor/bootstrap-flatly.css',
         'resources/assets/css/vendor/metisMenu.min.css',
         'resources/assets/css/vendor/morris.css',
-        'resources/assets/css/vendor/font-awesome.css',
+        'resources/assets/css/vendor/font-awesome.css'
     ], 'public/css/vendor/vendor.css')
 
     /**
@@ -52,6 +52,20 @@ mix.js('resources/assets/js/app.js', 'public/js')
      * Dashboard
      * Estilos unicamente aplicables al dashboard de usuario
      */
-    .styles('resources/assets/css/dashboard.css', 'public/css/section/dashboard.css');
+    .styles('resources/assets/css/dashboard.css', 'public/css/section/dashboard.css')
+
+    /**
+     * Blog
+     */
+    .styles([
+        'resources/assets/css/vendor/bootstrap-flatly.css',
+
+
+    ], 'public/css/section/blog.css')
+
+    /**
+     * Invoice Pdf
+     */
+    .styles('resources/assets/css/pdf/invoice.css', 'public/css/pdf/invoice.css');
 
 mix.version();

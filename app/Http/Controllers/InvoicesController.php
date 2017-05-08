@@ -149,4 +149,17 @@ class InvoicesController extends Controller
         Notification::send(Administrator::all(), new ChangedInvoiceStatus($invoice, $invoice->status));
         return response()->json(['message' => "El estado de la factura ha cambiado a {$request->input('status')}."]);
     }
+
+    public function invoiceToPdf(Invoice $invoice)
+    {
+        $client = $invoice->client;
+        $services = $invoice->services;
+        $price['subtotal'] = $services->sum('price');
+        $price['iva'] = round($price['subtotal'] * 0.16, 2);
+        $price['total'] = $price['subtotal'] + $price['iva'];
+        $view =  \View::make('pdf.invoice', compact('invoice', 'client', 'services', 'price'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream("Factura-#{$invoice->id}-{$invoice->created_at}");
+    }
 }

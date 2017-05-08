@@ -72,6 +72,7 @@ Route::group(['prefix' => 'dashboard','middleware' => 'auth:admin'], function() 
     Route::get('/facturas/crear', 'InvoicesController@showNewInvoiceForm')->name('dashboard.invoice.create');
     Route::get('/facturas', 'InvoicesController@showInvoices')->name('dashboard.invoices');
     Route::get('/facturas/{invoice}', 'InvoicesController@showInvoice')->name('dashboard.invoice');
+    Route::get('/facturas/{invoice}/pdf', 'InvoicesController@invoiceToPdf')->name('dashboard.invoice.pdf');
 });
 
 //Rutas accesibles solo por el CLIENTE
