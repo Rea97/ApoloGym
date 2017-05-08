@@ -7,6 +7,6 @@
     @elseif(isInstructor())
         Perfil de instructor
     @elseif(isClient())
-        Perfil de cliente
+        <client-profile :client="{{ currentAuth() }}" :show-error-alert="showErrorAlert" :alert-confirm="alertConfirm"></client-profile>
     @endif
 @endsection

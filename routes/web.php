@@ -150,7 +150,7 @@ Route::group(['prefix' => '/api'], function () {
     * Clients
     */
    Route::get('/clients', 'ClientsController@index')->middleware('auth:admin');
-   Route::get('/clients/{client}', 'ClientsController@show')->middleware('auth:admin');
+   Route::get('/clients/{client}', 'ClientsController@show')->middleware('auth:admin,client');
    Route::delete('/clients/{client}', 'ClientsController@destroy')->middleware('auth:admin');
    Route::put('/clients/{client}', 'ClientsController@update')->middleware('auth:admin');
    Route::post('/clients', 'ClientsController@store')->name('client.store')->middleware('auth:admin');
@@ -182,8 +182,14 @@ Route::group(['prefix' => '/api'], function () {
    /**
     * Profile_picture
     */
-   Route::post('/profile_picture', 'ProfileController@updatePP');
-   Route::delete('/profile_picture', 'ProfileController@deletePP');
+   Route::post('/profile_picture', 'ProfileController@updatePP')->middleware('auth:admin,client,instructor');
+   Route::delete('/profile_picture', 'ProfileController@deletePP')->middleware('auth:admin,client,instructor');
+
+    /**
+     * Profile
+     */
+    Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update');
+    Route::put('/profile/clients/{client}', 'ProfileController@updateClient')->name('client.profile.update');
 
    /**
     * Posts

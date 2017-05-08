@@ -22,6 +22,7 @@ Vue.component('notifications-list', require('./components/Notifications.vue'));
 Vue.component('invoice-details', require('./components/Invoice.vue'));
 Vue.component('admin-profile', require('./components/AdminProfile.vue'));
 Vue.component('file-upload', require('./components/FileUpload.vue'));
+Vue.component('client-profile', require('./components/ClientProfile.vue'));
 
 const app = new Vue({
     el: '#app',

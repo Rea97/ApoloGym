@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrator;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -19,13 +20,69 @@ class ProfileController extends Controller
         return view('sections.profile');
     }
 
+    public function updateClient(Request $request, Client $client)
+    {
+        $v = Validator::make($request->all(), [
+            'name'              => 'required|max:40|string',
+            'first_surname'     => 'required|max:40|string',
+            'second_surname'    => 'nullable|max:40|string',
+            //'profile_picture'   => 'nullable|string',
+            'phone_number'      => 'required|string',
+            'address'           => 'required|string|max:100',
+            'rfc'               => 'nullable|alpha_num|max:30',
+            'email'             => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('clients')->ignore($request->id)
+            ],
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+        if ($v->fails()) {
+            return response()->json(['errors' => $v->errors()]);
+        }
+        /*$this->validate($request, [
+            'name'              => 'required|max:40|string',
+            'first_surname'     => 'required|max:40|string',
+            'second_surname'    => 'nullable|max:40|string',
+            'profile_picture'   => 'nullable|string',
+            'phone_number'      => 'required|string',
+            'email'             => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('administrators')->ignore($request->id)
+            ],
+            'password' => 'required|min:6|confirmed'
+        ]);*/
+        $updated = $client->update([
+            'name' => $request->input('name'),
+            'first_surname' => $request->input('first_surname'),
+            'second_surname' => $request->input('second_surname'),
+            'address' => $request->input('address'),
+            'rfc' => $request->input('rfc'),
+            //'profile_picture' => $request->input('profile_picture'),
+            'phone_number' => $request->input('phone_number'),
+            'email' => $request->input('email')
+        ]);
+        if ($request->has('password')) {
+            $updated = $client->update([
+                'password' => bcrypt($request->input('password'))
+            ]);
+        }
+        if ($updated) {
+            Notification::send($client, new ProfileUpdated($client));
+        }
+        return response()->json(['updated' => $updated]);
+    }
+
     public function updateAdmin(Request $request, Administrator $administrator)
     {
         $v = Validator::make($request->all(), [
             'name'              => 'required|max:40|string',
             'first_surname'     => 'required|max:40|string',
             'second_surname'    => 'nullable|max:40|string',
-            'profile_picture'   => 'nullable|string',
+            //'profile_picture'   => 'nullable|string',
             'phone_number'      => 'required|string',
             'email'             => [
                 'required',
@@ -56,7 +113,7 @@ class ProfileController extends Controller
             'name' => $request->input('name'),
             'first_surname' => $request->input('first_surname'),
             'second_surname' => $request->input('second_surname'),
-            'profile_picture' => $request->input('profile_picture'),
+            //'profile_picture' => $request->input('profile_picture'),
             'phone_number' => $request->input('phone_number'),
             'email' => $request->input('email')
         ]);
@@ -75,6 +132,9 @@ class ProfileController extends Controller
     {
         $message = 'No has subido ninguna foto.';
         if ($request->profile_picture) {
+            $this->validate($request, [
+                'profile_picture' => 'required|image'
+            ]);
             if ($request->user()->profile_picture) {
                 Storage::disk('public')->delete($request->user()->profile_picture);
             }
