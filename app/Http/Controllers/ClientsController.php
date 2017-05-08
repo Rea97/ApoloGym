@@ -38,8 +38,19 @@ class ClientsController extends Controller
     public function showClient(Client $client)
     {
         $quantityOfInvoices = $client->invoices()->count();
+        $nextPaid = $client->invoices()
+            ->select('id', 'due_date')
+            ->where('status', '=', 'sin pagar')
+            ->orWhere('status', '=', 'parcialmente pagada')
+            ->orderBy('created_at', 'desc')
+            ->first();
+        $lastPaid = $client->invoices()
+            ->select('id', 'paid_at')
+            ->where('status', '=', 'pagada')
+            ->orderBy('created_at', 'desc')
+            ->first();
         //dd($quantityOfInvoices);
-        return view('sections.admin.client', compact('quantityOfInvoices'));
+        return view('sections.admin.client', compact('quantityOfInvoices', 'lastPaid', 'nextPaid'));
     }
 
     public function showNewClientForm()

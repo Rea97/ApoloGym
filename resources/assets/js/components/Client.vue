@@ -20,7 +20,11 @@
                             </a>
                             <div class="list-group-item">
                                 <div class="list-group-item-heading"><h4>Fecha de próximo pago</h4></div>
-                                <div class="list-group-item-text">{{ memberSince }}</div>
+                                <div class="list-group-item-text">
+                                    <a target="_blank" :href="'/dashboard/facturas/'+nextPaid.id+'/pdf'">
+                                        {{ nextPaid.due_date || 'No disponible.' }}
+                                    </a>
+                                </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="list-group-item-heading"><h4>Miembro desde</h4></div>
@@ -176,11 +180,15 @@
                                 <p>{{ client.email }}</p>
                                 <div class="divider"></div>
                             </div>
-                            <!-- Campo En revisión -->
-                            <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de último pago</h4>
-                            <input v-if="onEdit" type="date" class="form-control">
-                            <div v-else>
-                                <p>{{ client.birth_date }}</p>
+                            <div v-if="!onEdit">
+                                <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de último pago</h4>
+                                <div>
+                                    <p>
+                                        <a target="_blank" :href="'/dashboard/facturas/'+lastPaid.id+'/pdf'">
+                                            {{ lastPaid.paid_at || 'No disponible.' }}
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -259,7 +267,9 @@
             'instructor',
             'instructors',
             'showErrorAlert',
-            'quantityOfInvoices'
+            'quantityOfInvoices',
+            'lastPaid',
+            'nextPaid'
         ]
             /*{
             isAdmin: {},

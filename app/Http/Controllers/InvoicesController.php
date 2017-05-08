@@ -147,6 +147,8 @@ class InvoicesController extends Controller
         $invoice->status = $request->input('status', 'cancelada');
         $invoice->save();
         if ($invoice->status === 'pagada') {
+            $invoice->paid_at = Carbon::now()->toDateTimeString();
+            $invoice->save();
             Income::create(['type' => 'facturas',
                 'description' => 'Pago de factura realizado',
                 'entry_date' => Carbon::now()->toDateString(),
