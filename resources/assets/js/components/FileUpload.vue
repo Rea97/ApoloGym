@@ -19,7 +19,7 @@
             <h2>Se ha cargado la imagen</h2>
             <!--<h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>-->
             <p>
-                <a href="javascript:void(0)" @click="reset()">Cargar otra imagen</a>
+                <!--<a href="javascript:void(0)" @click="reset()">Cargar otra imagen</a>-->
             </p>
             <ul class="list-unstyled">
                 <li v-for="item in uploadedFiles">
@@ -29,7 +29,7 @@
         </div>
         <!--FAILED-->
         <div v-if="isFailed">
-            <h2>Uploaded failed.</h2>
+            <h2>Ha ocurrido un error.</h2>
             <p>
                 <a href="javascript:void(0)" @click="reset()">Intentar de nuevo</a>
             </p>
