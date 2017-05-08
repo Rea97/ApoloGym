@@ -7,21 +7,25 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class CreatedInvoice extends Notification
 {
     use Queueable;
 
-    protected $invoice;
+    private $invoice;
+
+    private $isForClient;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($invoice)
+    public function __construct($invoice, $isForClient = false)
     {
         $this->invoice = $invoice;
+        $this->isForClient = $isForClient;
     }
 
     /**
@@ -32,7 +36,10 @@ class CreatedInvoice extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        if ($this->isForClient) {
+            return ['database', 'mail'];
+        }
+        return $notifiable->notificationsVia;
     }
 
     /**
@@ -43,10 +50,17 @@ class CreatedInvoice extends Notification
      */
     public function toMail($notifiable)
     {
+        if ($this->isForClient) {
+            return (new MailMessage)
+                ->subject('Factura nueva')
+                ->line('Se ha generado una nueva factura a tú nombre.')
+                ->action('Ver Factura', route('dashboard.invoice.pdf', [$this->invoice->id]))
+                ->line('¡Gracias por ser nuestro cliente!');
+        }
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Factura nueva')
+            ->line("Se ha generado una nueva factura con ID #{$this->invoice->id}.")
+            ->action('Ver Factura', route('dashboard.invoice', [$this->invoice->id]));
     }
 
     /**
@@ -57,8 +71,15 @@ class CreatedInvoice extends Notification
      */
     public function toArray($notifiable)
     {
+        if ($this->isForClient) {
+            return [
+                'icon' => 'fa-file-text-o',
+                'message' => "Tienes una nueva factura pendiente.",
+                'action' => route('dashboard.invoice.pdf', [$this->invoice->id])
+            ];
+        }
         return [
-            'icon' => 'fa-file',
+            'icon' => 'fa-file-text-o',
             'message' => "Se ha creado una factura, #{$this->invoice->id}.",
             'action' => route('dashboard.invoice', [$this->invoice->id])
         ];
