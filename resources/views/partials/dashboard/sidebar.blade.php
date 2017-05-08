@@ -3,7 +3,7 @@
     <div class="sidebar-nav navbar-collapse">
         <div class="visible-lg">
             <div class="container visible-lg" style="margin-top: 14px">
-                <img class="img img-responsive pull-left" style="width: 32px" src="{{ getPP(currentAuth()) }}" alt="">&nbsp;
+                <img class="img img-responsive img-circle pull-left" style="width: 32px" src="{{ getPP(currentAuth()) }}" alt="">&nbsp;
                 <h4 class="pull-left">Bienvenido, {{ currentAuth()->name }}</h4>
             </div>
             <div class="divider" style="margin-bottom: 0"></div>
