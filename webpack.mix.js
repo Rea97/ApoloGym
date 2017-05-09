@@ -15,6 +15,7 @@ const { mix } = require('laravel-mix');
  * Compilación de JS
  */
 mix.js('resources/assets/js/app.js', 'public/js')
+    .js('resources/assets/js/sections/chat.js', 'public/js/chat.js')
 
 /**
  * Compilación de SASS
