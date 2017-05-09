@@ -48,7 +48,7 @@
                             </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         <h4>Actualmente no hay facturas asignadas.</h4>
                                     </td>
                                 </tr>
