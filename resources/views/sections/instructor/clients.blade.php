@@ -1,7 +1,7 @@
 @inject('carbon', '\Carbon\Carbon')
 @extends('layouts.dashboard')
 
-@section('title', 'Facturas')
+@section('title', 'Clientes instruidos')
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -48,7 +48,7 @@
                                     <a class="btn btn-sm btn-primary" href="">
                                         <i class="fa fa-tasks" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-info" href="{{ route('dashboard.chatWithClient', [$client->id]) }}">
+                                    <a class="btn btn-sm btn-warning" href="{{ route('dashboard.chatWithClient', [$client->id]) }}">
                                         <i class="fa fa-comment" aria-hidden="true"></i>
                                     </a>
                                 </td>

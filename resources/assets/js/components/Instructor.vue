@@ -577,7 +577,7 @@
             },
             getProfilePictureUrl() {
                 return this.instructor.profile_picture
-                    ? this.instructor.profile_picture
+                    ? '/storage/' + this.instructor.profile_picture
                     : '/imgs/profile_pic/default.jpg';
             },
             instructorSince() {

@@ -89,7 +89,9 @@
                             <td>
                                 <a class="btn btn-sm btn-info" :href="'/dashboard/instructores/'+instructor.id">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                    Detalles
+                                </a>
+                                <a class="btn btn-warning btn-sm" :href="'/dashboard/instructores/'+instructor.id+'/chat'">
+                                    <i class="fa fa-comment" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>

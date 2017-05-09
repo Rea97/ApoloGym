@@ -79,12 +79,14 @@ class InvoicesController extends Controller
 
     public function store(Request $request)
     {
+
         $messages = [
             'after' => 'El campo :attribute debe ser una fecha posterior al día de hoy.',
         ];
         $rules = [
             'client_id' => 'required|integer',
             'due_date' => 'required|date|after:today',
+            'terms' => 'nullable|string',
             'services' => 'required|array'
         ];
         Validator::make($request->all(), $rules, $messages)->validate();
@@ -92,7 +94,8 @@ class InvoicesController extends Controller
         $servicesId = $request->input('services');
         $invoice = new Invoice([
             'client_id' => $request->input('client_id'),
-            'due_date' => $request->input('due_date')
+            'due_date' => $request->input('due_date'),
+            'terms' => $request->input('terms')
         ]);
         for ($i = 0; $i < count($servicesId); $i++) {
             $service = Service::find($servicesId[$i]);
@@ -128,11 +131,16 @@ class InvoicesController extends Controller
             $this->validate($request, [
                 'client_id' => 'required|integer',
                 'due_date' => 'required|date|after:today',
+                'terms' => 'nullable|string',
                 'services' => 'required|array'
             ]);
             $total = $invoice->total;
             $servicesIds = $request->input('services');
-            $invoice->update(['client_id' => $request->input('client_id'), 'due_date' => $request->input('due_date')]);
+            $invoice->update([
+                'client_id' => $request->input('client_id'),
+                'due_date' => $request->input('due_date'),
+                'terms' => $request->input('terms'),
+            ]);
             foreach ($servicesIds as $service) {
                 if (! $invoice->services->contains($service)) {
                     $invoice->services()->attach($service);

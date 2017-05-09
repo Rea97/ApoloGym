@@ -37,7 +37,7 @@ class CreatedInvoice extends Notification
     public function via($notifiable)
     {
         if ($this->isForClient) {
-            return ['database', 'mail'];
+            return ['database'];
         }
         return $notifiable->notificationsVia;
     }

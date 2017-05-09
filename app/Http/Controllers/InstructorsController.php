@@ -56,11 +56,6 @@ class InstructorsController extends Controller
         return view('sections.admin.instructors');
     }
 
-    public function showClientsInstructor()
-    {
-        return view('sections.instructor');
-    }
-
     public function showInstructorClients(Request $request)
     {
         $clients = $request->user()->clients()->paginate();

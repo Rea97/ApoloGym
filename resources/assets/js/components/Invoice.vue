@@ -97,6 +97,10 @@
                                 <h4><strong>Total:</strong> $ {{ total }}</h4>
                             </div>
                             <div class="col-sm-12">
+                                <h3><i class="fa fa-th-list" aria-hidden="true"></i> Términos</h3>
+                                <p>{{ invoice.terms || 'Esta factura no tiene términos adicionales.' }}</p>
+                            </div>
+                            <div class="col-sm-12">
                                 <h3><i class="fa fa-money" aria-hidden="true"></i> Cargos</h3>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-hover">
@@ -148,6 +152,13 @@
                                        type="date"
                                        class="form-control">
                                 <span v-show="errors.has('due_date')" class="help-block">{{ errors.first('due_date') }}</span>
+                            </div>
+                            <div class="form-group col-sm-12" :class="{'has-error': errors.has('terms')}">
+                                <label for="due_date">Términos adicionales</label>
+                                <textarea v-model="invoice.terms"
+                                       id="terms"
+                                       name="terms"
+                                       class="form-control"></textarea>
                             </div>
                             <div class="col-sm-12">
                                 <span v-show="errors.has('services')" class="help-block">{{ errors.first('services') }}</span>
@@ -281,6 +292,7 @@
                 axios.put(`/api/invoices/${id}`, {
                     'client_id': this.invoice.client_id,
                     'due_date': this.invoice.due_date,
+                    'terms': this.invoice.terms,
                     'services': idsArr
                 })
                     .then((response) => {

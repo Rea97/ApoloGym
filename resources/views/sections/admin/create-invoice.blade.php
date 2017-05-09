@@ -51,6 +51,17 @@
                                     @endif
                                 </div>
 
+                                <div class="form-group col-sm-12 {{ $errors->has('due_date') ? 'has-error' : '' }}">
+                                    <label for="terms">Términos adicionales</label>
+                                    <textarea id="terms"
+                                           name="terms"
+                                           class="form-control"
+                                           value="{{ old('terms') }}"></textarea>
+                                    @if($errors->has('terms'))
+                                        <span class="help-block">{{ $errors->first('terms') }}</span>
+                                    @endif
+                                </div>
+
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
                                         <table class="table table-hover table-striped table-condensed">

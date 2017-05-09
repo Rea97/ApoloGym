@@ -16,14 +16,28 @@
                         </h4>-->
                         <div class="list-group">
                             <a class="list-group-item" :href="'/dashboard/facturas?cliente=' + client.id">
-                                Facturas <span class="badge">{{ quantityOfInvoices || 0 }}</span>
+                                Facturas
+                                <span class="badge">
+                                    {{ quantityOfInvoices || 0 }}
+                                </span>
                             </a>
                             <div class="list-group-item">
                                 <div class="list-group-item-heading"><h4>Fecha de próximo pago</h4></div>
                                 <div class="list-group-item-text">
-                                    <a target="_blank" :href="'/dashboard/facturas/'+nextPaid.id+'/pdf'">
+                                    <template v-if="nextPaid.id">
+                                        <a target="_blank" :href="'/dashboard/facturas/'+nextPaid.id+'/pdf'">
                                         {{ nextPaid.due_date || 'No disponible.' }}
-                                    </a>
+                                        </a>
+                                    </template>
+                                    <template v-else>
+                                        <template v-if="quantityOfInvoices == 0">
+                                            No hay facturas asignadas
+                                        </template>
+                                        <template v-else>
+                                            No tiene pagos pendientes
+                                        </template>
+                                    </template>
+
                                 </div>
                             </div>
                             <div class="list-group-item">
@@ -184,9 +198,19 @@
                                 <h4><i class="fa fa-calendar" aria-hidden="true"></i> Fecha de último pago</h4>
                                 <div>
                                     <p>
-                                        <a target="_blank" :href="'/dashboard/facturas/'+lastPaid.id+'/pdf'">
-                                            {{ lastPaid.paid_at || 'No disponible.' }}
-                                        </a>
+                                        <template v-if="lastPaid.id">
+                                            <a target="_blank" :href="'/dashboard/facturas/'+lastPaid.id+'/pdf'">
+                                                {{ lastPaid.paid_at || 'No disponible.' }}
+                                            </a>
+                                        </template>
+                                        <template v-else>
+                                            <template v-if="quantityOfInvoices == 0">
+                                                No hay facturas asignadas
+                                            </template>
+                                            <template v-else>
+                                                No ha realizado pagos
+                                            </template>
+                                        </template>
                                     </p>
                                 </div>
                             </div>

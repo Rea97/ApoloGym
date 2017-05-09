@@ -52,6 +52,12 @@
                         <i class="fa fa-money fa-fw"></i> Facturación
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('dashboard.admins') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.admins')) }}">
+                        <i class="fa fa-users fa-fw"></i> Administradores
+                    </a>
+                </li>
             @endif
             @if(isAdmin())
                 <li>
@@ -102,6 +108,12 @@
                     <a href="{{ route('dashboard.posts') }}"
                        class="li-sidebar {{ markAsActive(route('dashboard.posts')) }}">
                         <i class="fa fa-newspaper-o fa-fw"></i> Noticias
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('dashboard.admins') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.admins')) }}">
+                        <i class="fa fa-users fa-fw"></i> Administradores
                     </a>
                 </li>
             @endif

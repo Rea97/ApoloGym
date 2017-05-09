@@ -10,9 +10,9 @@
                     :update-client="updateClient"
                     :fetch-client="fetchClient"
                     :fetch-instructors="fetchInstructors"
-                    :quantity-of-invoices="{{ $quantityOfInvoices }}"
-                    :last-paid="{{ $lastPaid }}"
-                    :next-paid="{{ $nextPaid }}"
+                    :quantity-of-invoices="{{ $quantityOfInvoices ?? 0 }}"
+                    :last-paid="{{ $lastPaid ?? '{}' }}"
+                    :next-paid="{{ $nextPaid ?? '{}' }}"
                     :show-error-alert="showErrorAlert">
     </client-details>
 @endsection
