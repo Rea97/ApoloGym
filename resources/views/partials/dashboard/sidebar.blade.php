@@ -87,9 +87,9 @@
             @endif
             @if(isInstructor())
                 <li>
-                    <a href="{{ route('dashboard.clients') }}"
-                       class="li-sidebar {{ markAsActive(route('dashboard.clients')) }}">
-                        <i class="fa fa-users fa-fw"></i> Clientes
+                    <a href="{{ route('dashboard.show.instructorClients') }}"
+                       class="li-sidebar {{ markAsActive(route('dashboard.show.instructorClients')) }}">
+                        <i class="fa fa-users fa-fw"></i> Clientes instruidos
                     </a>
                 </li>
                 <li>

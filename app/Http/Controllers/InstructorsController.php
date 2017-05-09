@@ -61,6 +61,12 @@ class InstructorsController extends Controller
         return view('sections.instructor');
     }
 
+    public function showInstructorClients(Request $request)
+    {
+        $clients = $request->user()->clients()->paginate();
+        return view('sections.instructor.clients', compact('clients'));
+    }
+
     public function showNewInstructorForm()
     {
         //TODO: pendiente de modificación la vista
