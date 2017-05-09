@@ -57,7 +57,7 @@
                             <strong>Domingo: </strong><i>Tienes día libre.</i>
                         </li>
                         <li class="list-group-item">
-                            <strong>Total Trabajado:</strong>
+                            <strong>Total Horas:</strong>
                             <span class="badge">{{ totalWork }} horas.</span>
                         </li>
                     </ul>
