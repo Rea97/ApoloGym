@@ -8,21 +8,13 @@
                 <div class="panel-heading">
                     <i class="fa fa-user"></i> {{ clientsInstructor()->name }}
                 </div>
-                <div class="panel-body text-center">
-                    <img
-                            class="img img-responsive img-thumbnail"
-                            src="{{ asset(getPP(clientsInstructor())) }}"
-                            alt="Foto de perfil-{{clientsInstructor()->name}}">
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-book"></i> Biografía
-                </div>
                 <div class="panel-body">
+                    <div class="text-center">
+                        <img
+                                class="img img-responsive img-thumbnail"
+                                src="{{ asset(getPP(clientsInstructor())) }}"
+                                alt="Foto de perfil-{{clientsInstructor()->name}}">
+                    </div>
                     <h4><i class="fa fa-user"></i> Nombre Completo</h4>
                     <p>
                         {{ clientsInstructor()->name}}
@@ -30,12 +22,13 @@
                         {{ clientsInstructor()->second_surname ?? '' }}
                     </p>
                     <div class="divider"></div>
-                    <h4><i class="fa fa-calendar"></i> Cumpleaños</h4>
-                    <p>{{ clientsInstructor()->birth_date ?? 'No se encontró el dato.' }}</p>
+                    <h4><i class="fa fa-calendar"></i> Edad</h4>
+                    <p>{{ \Carbon\Carbon::createFromFormat('Y-m-d', clientsInstructor()->birth_date)->age }} años</p>
                     <div class="divider"></div>
-                    <!--<h4><i class="fa fa-phone"></i> Teléfono</h4>
-                    <p>{{ clientsInstructor()->phone_number }}</p>-->
+                <!--<h4><i class="fa fa-phone"></i> Teléfono</h4>
+                    <p>{{ clientsInstructor()->phone_number }}</p>
                     <div class="divider"></div>
+                    -->
                     <h4><i class="fa fa-at"></i> Correo electrónico</h4>
                     <p>{{ clientsInstructor()->email }}</p>
                     <div class="divider"></div>
@@ -45,173 +38,19 @@
                     que todos deberían dedicar al menos 60 minutos al día de su tiempo.</p>-->
                 </div>
             </div>
+
+        </div>
+        <div class="col-lg-8">
+            @component('components.chat', ['messages' => $orderedMessages, 'recipient' => clientsInstructor()])
+                @slot('route')
+                    {{ route('message.toInstructor', [clientsInstructor()->id]) }}
+                @endslot
+            @endcomponent
         </div>
     </div>
-    <div class="chat-panel panel panel-default">
-        <div class="panel-heading">
-            <i class="fa fa-comments fa-fw"></i> Conversación
-            <!-- Botón de esquina superior derecha
-            <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu slidedown">
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-refresh fa-fw"></i> Refresh
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-check-circle fa-fw"></i> Available
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-times fa-fw"></i> Busy
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-clock-o fa-fw"></i> Away
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-sign-out fa-fw"></i> Sign Out
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            -->
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-            <ul class="chat">
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Juan Carlos</strong>
-                            <small class="pull-right text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 30 minutos
-                            </small>
-                        </div>
-                        <p>
-                            Hola!
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img style="width: 50px" src="{{asset('/imgs/home/profile.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <small class=" text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 29 minutos</small>
-                            <strong class="pull-right primary-font">Tú</strong>
-                        </div>
-                        <p>
-                            Hola :)
-                        </p>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Juan Carlos</strong>
-                            <small class="pull-right text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 15 minutos</small>
-                        </div>
-                        <p>
-                            Solo quería aprovechar para felicitarte por tu entrada al gimnasio.
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img style="width: 50px" src="{{asset('/imgs/home/profile.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <small class=" text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 12 minutos</small>
-                            <strong class="pull-right primary-font">Tú</strong>
-                        </div>
-                        <p>
-                            Oh gracias es parte de mi nuevo propósito
-                        </p>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Juan Carlos</strong>
-                            <small class="pull-right text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 12 minutos
-                            </small>
-                        </div>
-                        <p>
-                            Excelente, también aprovecho para mencionarte que dentro de poco subiré las rutinas con las que empezarás, para que las veas :)
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img style="width: 50px" src="{{asset('/imgs/home/profile.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <small class=" text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 10 minutos</small>
-                            <strong class="pull-right primary-font">Tú</strong>
-                        </div>
-                        <p>
-                            Muy bien, estaré revisándolo
-                        </p>
-                    </div>
-                </li>
 
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img style="width: 50px" src="{{asset('/imgs/home/instructor2.jpg')}}" alt="User Avatar" class="img-circle" />
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Juan Carlos</strong>
-                            <small class="pull-right text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> Hace 3 minutos</small>
-                        </div>
-                        <p>
-                            okay, te veo mañana :)
-                        </p>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
-        <!-- /.panel-body -->
-        <div class="panel-footer">
-            <div class="input-group">
-                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Escribe tú mensaje aquí." />
-                <span class="input-group-btn">
-                    <button class="btn btn-warning btn-sm" id="btn-chat">
-                        Enviar
-                    </button>
-                </span>
-            </div>
-        </div>
-        <!-- /.panel-footer -->
-    </div>
-    <!-- /.panel .chat-panel -->
 @endsection
+
+@push('scripts')
+    <script src="{{ mix('/js/chat.js') }}"></script>
+@endpush
