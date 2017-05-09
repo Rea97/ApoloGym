@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class AdministratorController extends Controller
 {
+    public function allAdmins()
+    {
+        $admins = Administrator::paginate();
+        return view('sections.admins', compact('admins'));
+    }
+
     public function index()
     {
         return view('admin');
