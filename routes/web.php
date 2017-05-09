@@ -82,7 +82,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,admin'], fun
 
 //Rutas accesibles solo por el CLIENTE
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function() {
-    Route::get('/instructor', 'InstructorsController@showClientsInstructor')
+    Route::get('/instructor', 'ClientsController@showInstructorOfClient')
         ->name('dashboard.instructor');
     Route::get('/facturacion', 'InvoicesController@showInvoicesOfClient')
         ->name('dashboard.client.invoices');
@@ -102,6 +102,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
     Route::get('/noticias', 'PostController@allPosts')->name('dashboard.posts');
 
     Route::get('/clientes/{client}/chat', 'MessageController@showChatWithClient')->name('dashboard.chatWithClient');
+    Route::get('/instructores/{instructor}/chat', 'MessageController@showChatWithInstructor')->name('dashboard.chatWithInstructor');
+    Route::get('/administradores/{administrator}/chat', 'MessageController@showChatWithAdmin')->name('dashboard.chatWithAdmin');
+
+    Route::get('/admins', 'AdministratorController@allAdmins')->name('dashboard.admins');
 
 
     Route::get('/rutinas', function(){
@@ -207,6 +211,8 @@ Route::group(['prefix' => '/api'], function () {
     * Messages
     */
    Route::post('/clientes/{client}/chat', 'MessageController@messageToClient')->name('message.toClient');
+   Route::post('/instructores/{instructor}/chat', 'MessageController@messageToInstructor')->name('message.toInstructor');
+    Route::post('/administradores/{administrator}/chat', 'MessageController@messageToAdministrator')->name('message.toAdministrator');
 
 
 });
