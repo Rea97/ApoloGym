@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Utilities\Validation\ClientValidation;
 use Illuminate\Validation\Rule;
 use App\Utilities\Notifications\NotifyUsers;
+use Illuminate\Support\Collection as Collection;
 
 class ClientsController extends Controller
 {
@@ -28,6 +29,24 @@ class ClientsController extends Controller
     public function __construct(Client $client)
     {
         $this->client = $client;
+    }
+
+    public function showInstructorOfClient(Request $request)
+    {
+        $client = Client::find($request->user()->id);
+        $instructor = $client->instructor;
+
+        $messagesSentByUser = $client->messages()
+            ->where('recipient_id', '=', $instructor->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+        $messagesSentByInstructor = $instructor->messages()
+            ->where('recipient_id', '=', $client->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+        $messages = Collection::make([$messagesSentByUser, $messagesSentByInstructor])->collapse();
+        $orderedMessages = $messages->sortBy('created_at');
+        return view('sections.instructor', compact('orderedMessages'));
     }
 
     public function showClients()
@@ -49,7 +68,7 @@ class ClientsController extends Controller
             ->where('status', '=', 'pagada')
             ->orderBy('created_at', 'desc')
             ->first();
-        //dd($quantityOfInvoices);
+        //dd($quantityOfInvoices, $nextPaid, $lastPaid);
         return view('sections.admin.client', compact('quantityOfInvoices', 'lastPaid', 'nextPaid'));
     }
 
