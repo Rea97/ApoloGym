@@ -92,6 +92,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function(
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:admin,instructor'], function() {
     Route::get('/noticias/crear', 'PostController@create')->name('dashboard.posts.create');
     Route::get('/noticias/{post}', 'PostController@show')->name('dashboard.posts.show');
+    Route::get('/clientes_instruidos', 'InstructorsController@showInstructorClients')->name('dashboard.show.instructorClients');
 });
 
 //Rutas accesibles por TODOS los usuarios autenticados
@@ -99,6 +100,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
     Route::get('/inicio', 'HomeController@index')->name('dashboard.start');
 
     Route::get('/noticias', 'PostController@allPosts')->name('dashboard.posts');
+
+    Route::get('/clientes/{client}/chat', 'MessageController@showChatWithClient')->name('dashboard.chatWithClient');
 
 
     Route::get('/rutinas', function(){
@@ -199,6 +202,12 @@ Route::group(['prefix' => '/api'], function () {
    Route::post('/posts', 'PostController@store')->name('posts.store');
    Route::put('/posts/{post}', 'PostController@update')->name('posts.update');
    Route::delete('/posts/{post}', 'PostController@delete')->name('posts.delete');
+
+   /**
+    * Messages
+    */
+   Route::post('/clientes/{client}/chat', 'MessageController@messageToClient')->name('message.toClient');
+
 
 });
 
