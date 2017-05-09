@@ -54,4 +54,9 @@ class Instructor extends Authenticatable
     {
         return $this->hasMany('App\Models\InstructorSchedule');
     }
+
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message', 'sender_id');
+    }
 }

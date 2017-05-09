@@ -34,4 +34,9 @@ class Client extends Authenticatable
         return $this->hasMany('App\Models\Invoice');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message', 'sender_id');
+    }
+
 }

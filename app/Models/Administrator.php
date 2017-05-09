@@ -28,4 +28,9 @@ class Administrator extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message', 'sender_id');
+    }
 }
