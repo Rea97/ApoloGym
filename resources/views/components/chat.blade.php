@@ -47,7 +47,7 @@
                         @endif
 
                     @empty
-                        <li><h2>No hay mensajes en la conversación</h2></li>
+                        <li><h3>No hay mensajes en la conversación</h3></li>
                     @endforelse
                 </ul>
             </div>

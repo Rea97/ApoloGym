@@ -3,9 +3,9 @@
 @section('title', 'Conversación')
 @section('content')
 
-    @component('components.chat', ['messages' => $orderedMessages, 'recipient' => $client])
+    @component('components.chat', ['messages' => $orderedMessages, 'recipient' => $recipient])
         @slot('route')
-            {{ route('message.toClient', [$client->id]) }}
+            {{ route("message.to{$recipientType}", [$recipient->id]) }}
         @endslot
     @endcomponent
 
