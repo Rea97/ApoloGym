@@ -57,11 +57,31 @@ class HomeController extends Controller
         if (isClient()) {
             $posts = Post::all();
             $notifications = $request->user()->unreadNotifications;
-            return view('sections.start', compact('posts', 'notifications'));
+            $exercises = DB::table('notifications')
+                ->where('notifiable_id', '=', $request->user()->id)
+                ->where('type', '=', 'App\Notifications\Exercises\NewExercise')
+                ->where('read_at', '=', null)
+                ->get()
+                ->count();
+            $newMessages = DB::table('notifications')
+                ->where('notifiable_id', '=', $request->user()->id)
+                ->where('type', '=', 'App\Notifications\Messages\NewMessageForClient')
+                ->where('read_at', '=', null)
+                ->get()
+                ->count();
+            return view('sections.start', compact('posts', 'notifications', 'exercises', 'newMessages'));
         }
         if (isInstructor()) {
-            return view('sections.start');
+            $notifications = $request->user()->unreadNotifications;
+            $clients = currentAuth()->clients()->count();
+            $newMessages = DB::table('notifications')
+                ->where('notifiable_id', '=', $request->user()->id)
+                ->where('type', '=', 'App\Notifications\Messages\NewMessageForInstructor')
+                ->where('read_at', '=', null)
+                ->get()
+                ->count();
+            return view('sections.start', compact('clients', 'notifications', 'newMessages'));
         }
-
+        return redirect()->route('dashboard.start');
     }
 }

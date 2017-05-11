@@ -86,6 +86,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function(
         ->name('dashboard.instructor');
     Route::get('/facturacion', 'InvoicesController@showInvoicesOfClient')
         ->name('dashboard.client.invoices');
+
+    Route::get('/rutina', 'ExerciseController@showRoutineOfClient')->name('dashboard.routines');
+});
+
+//Rutas accesibles solo por el INSTRUCTOR
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:instructor'], function() {
+    Route::get('/clientes_instruidos/{client}/rutina', 'ExerciseController@exercisesOfClient')->name('dashboard.exercisesOfClient');
 });
 
 //Rutas accesibles por el ADMINISTRADOR e INSTRUCTOR
@@ -107,10 +114,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
 
     Route::get('/admins', 'AdministratorController@allAdmins')->name('dashboard.admins');
 
-
-    Route::get('/rutinas', function(){
-        return view('sections.routines');
-    })->name('dashboard.routines');
 
     Route::get('/dietas', function(){
         return view('sections.diets');
@@ -135,6 +138,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
  * API
  */
 Route::group(['prefix' => '/api'], function () {
+    /*
+     * Exercises
+     */
+    Route::delete('/exercises/{exercise}', 'ExerciseController@delete')->middleware('auth:instructor')->name('exercise.delete');
+    Route::put('/exercises/{exercise}', 'ExerciseController@check')->middleware('auth:client')->name('exercise.check');
+    Route::post('/exercises', 'ExerciseController@store')->middleware('auth:instructor')->name('exercise.store');
+
     /**
      * Notifications
      */
@@ -212,8 +222,7 @@ Route::group(['prefix' => '/api'], function () {
     */
    Route::post('/clientes/{client}/chat', 'MessageController@messageToClient')->name('message.toClient');
    Route::post('/instructores/{instructor}/chat', 'MessageController@messageToInstructor')->name('message.toInstructor');
-    Route::post('/administradores/{administrator}/chat', 'MessageController@messageToAdministrator')->name('message.toAdministrator');
-
+   Route::post('/administradores/{administrator}/chat', 'MessageController@messageToAdministrator')->name('message.toAdministrator');
 
 });
 

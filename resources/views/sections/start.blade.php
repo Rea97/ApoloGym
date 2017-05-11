@@ -92,7 +92,7 @@
                                 <i class="fa fa-envelope fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
+                                <div class="huge">{{ $newMessages }}</div>
                                 <div>Nuevos mensajes</div>
                             </div>
                         </div>
@@ -114,8 +114,8 @@
                                 <i class="fa fa-th-list fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>Nuevas rutinas</div>
+                                <div class="huge">{{ $exercises }}</div>
+                                <div>{{ $exercises === 1 ? 'Nuevo ejercicio' : 'Nuevos ejercicios' }}</div>
                             </div>
                         </div>
                     </div>
@@ -245,7 +245,81 @@
         </div>
         <!-- /.row -->
     @elseif(isInstructor())
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ $clients }}</div>
+                                <div>
+                                    {{ $clients === 1 ? 'cliente' : 'clientes' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('dashboard.show.instructorClients') }}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Ver detalles</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comment fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ $newMessages }}</div>
+                                <div>
+                                    {{ $newMessages === 1 ? 'Nuevo mensaje' : 'Nuevos mensajes' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('dashboard.profile') }}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Ver detalles</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
+            <div class="col-sm-4 col-md-4">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-bell fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ $notifications->count() }}</div>
+                                <div>
+                                    {{ $notifications->count() === 1 ? 'Nueva notificación' : 'Nuevas notificaciones' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('dashboard.profile') }}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Ver detalles</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
     @endif
 @endsection
 @push('scripts')

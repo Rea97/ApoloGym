@@ -45,7 +45,7 @@
                                 </td>
                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', explode(' ', $client->created_at)[0])->diffForHumans() }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="">
+                                    <a class="btn btn-sm btn-primary" href="{{ route('dashboard.exercisesOfClient', [$client->id]) }}">
                                         <i class="fa fa-tasks" aria-hidden="true"></i>
                                     </a>
                                     <a class="btn btn-sm btn-warning" href="{{ route('dashboard.chatWithClient', [$client->id]) }}">

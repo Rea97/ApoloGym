@@ -25,7 +25,7 @@
                                 <div class="list-group-item-heading"><h4>Fecha de próximo pago</h4></div>
                                 <div class="list-group-item-text">
                                     <template v-if="nextPaid.id">
-                                        <a target="_blank" :href="'/dashboard/facturas/'+nextPaid.id+'/pdf'">
+                                        <a target="_blank" :href="'/dashboard/facturas/'+nextPaid.id">
                                         {{ nextPaid.due_date || 'No disponible.' }}
                                         </a>
                                     </template>
@@ -199,7 +199,7 @@
                                 <div>
                                     <p>
                                         <template v-if="lastPaid.id">
-                                            <a target="_blank" :href="'/dashboard/facturas/'+lastPaid.id+'/pdf'">
+                                            <a target="_blank" :href="'/dashboard/facturas/'+lastPaid.id">
                                                 {{ lastPaid.paid_at || 'No disponible.' }}
                                             </a>
                                         </template>

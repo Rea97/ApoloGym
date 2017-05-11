@@ -1,8 +1,11 @@
 {
-  "/js/app.js": "/js/app.26fafc24e4924b9e9c53.js",
-  "/css/app.css": "/css/app.5318cd413629b4e487d8.css",
+  "/js/app.js": "/js/app.6dc4c07e4f27cd90e4bd.js",
+  "/css/app.css": "/css/app.c29a7fbd0df41fe4ce46.css",
+  "/js/chat.js": "/js/chat.6dd4126084c5971953d0.js",
   "/css/vendor/vendor.css": "/css/vendor/vendor.709bb8848f620dee480576b350dfde14.css",
   "/css/all.css": "/css/all.08778edb9500ed9d7ebf2376ddb77f60.css",
   "/css/section/welcome.css": "/css/section/welcome.68c87e7c19b4e76d6b3eb57257f827f5.css",
-  "/css/section/dashboard.css": "/css/section/dashboard.b7a6b1f3023d08c13aa67f54cd02a583.css"
+  "/css/section/dashboard.css": "/css/section/dashboard.b7a6b1f3023d08c13aa67f54cd02a583.css",
+  "/css/section/blog.css": "/css/section/blog.3c3309ed1c17644c20325660d074a80a.css",
+  "/css/pdf/invoice.css": "/css/pdf/invoice.c392e00cbdde4749cbced827e80aa785.css"
 }
