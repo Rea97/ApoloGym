@@ -24,6 +24,9 @@ class ExerciseController extends Controller
 
     public function exercisesOfClient(Client $client)
     {
+        if (! isInstructor() || currentAuth()->id != $client->instructor_id ) {
+            return redirect()->route('dashboard.start');
+        }
         $exercises = $client->exercises()->orderBy('created_at', 'desc')->get();
         return view('sections.instructor.exerciseOfClient', compact('client', 'exercises'));
     }

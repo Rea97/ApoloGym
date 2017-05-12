@@ -137,13 +137,15 @@ class ClientsController extends Controller
     public function show(Request $request, Client $client)
     {
         if ($request->ajax()) {
-            $response = [
-                'data' => [
-                    'client' => $client,
-                    'requested_instructor' => $client->instructor()->first()
-                ]
-            ];
-            return response()->json($response);
+            if (isAdmin() || currentAuth()->id === $client->id) {
+                $response = [
+                    'data' => [
+                        'client' => $client,
+                        'requested_instructor' => $client->instructor()->first()
+                    ]
+                ];
+                return response()->json($response);
+            }
         }
         return redirect()->route('dashboard.start');
     }

@@ -93,20 +93,20 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client'], function(
 //Rutas accesibles solo por el INSTRUCTOR
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:instructor'], function() {
     Route::get('/clientes_instruidos/{client}/rutina', 'ExerciseController@exercisesOfClient')->name('dashboard.exercisesOfClient');
+    Route::get('/clientes_instruidos', 'InstructorsController@showInstructorClients')->name('dashboard.show.instructorClients');
 });
 
 //Rutas accesibles por el ADMINISTRADOR e INSTRUCTOR
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:admin,instructor'], function() {
     Route::get('/noticias/crear', 'PostController@create')->name('dashboard.posts.create');
     Route::get('/noticias/{post}', 'PostController@show')->name('dashboard.posts.show');
-    Route::get('/clientes_instruidos', 'InstructorsController@showInstructorClients')->name('dashboard.show.instructorClients');
+    Route::get('/noticias', 'PostController@allPosts')->name('dashboard.posts');
 });
 
 //Rutas accesibles por TODOS los usuarios autenticados
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,admin'], function() {
     Route::get('/inicio', 'HomeController@index')->name('dashboard.start');
 
-    Route::get('/noticias', 'PostController@allPosts')->name('dashboard.posts');
 
     Route::get('/clientes/{client}/chat', 'MessageController@showChatWithClient')->name('dashboard.chatWithClient');
     Route::get('/instructores/{instructor}/chat', 'MessageController@showChatWithInstructor')->name('dashboard.chatWithInstructor');
@@ -114,7 +114,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
 
     Route::get('/admins', 'AdministratorController@allAdmins')->name('dashboard.admins');
 
-
+    /*
     Route::get('/dietas', function(){
         return view('sections.diets');
     })->name('dashboard.diets');
@@ -123,15 +123,16 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:client,instructor,a
         return view('sections.progress');
     })->name('dashboard.progress');
 
-    Route::get('/horario', function(){
-        return view('sections.schedule');
-    })->name('dashboard.schedule');
 
-    Route::get('/perfil', 'ProfileController@showProfile')->name('dashboard.profile');
 
     Route::get('/ajustes', function(){
         return view('sections.settings');
     })->name('dashboard.settings');
+    */
+    Route::get('/horario', function(){
+        return view('sections.schedule');
+    })->name('dashboard.schedule');
+    Route::get('/perfil', 'ProfileController@showProfile')->name('dashboard.profile');
 });
 
 /**
@@ -185,16 +186,16 @@ Route::group(['prefix' => '/api'], function () {
     * Invoices
     */
    Route::get('/invoices', 'InvoicesController@index')->name('invoices.index')->middleware('auth:admin');
-   Route::get('/invoices/{invoice}', 'InvoicesController@show');
+   Route::get('/invoices/{invoice}', 'InvoicesController@show')->middleware('auth:admin');
    Route::post('/invoices', 'InvoicesController@store')->name('invoices.store')->middleware('auth:admin');
    Route::put('/invoices/{invoice}', 'InvoicesController@update')->name('invoices.update')->middleware('auth:admin');
 
    /**
     * Administrators
     */
-   Route::get('/administrators/{administrator}', 'AdministratorController@show')->name('admin.show');
-   Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update');
-   Route::delete('/administrators/{administrator}', 'AdministratorController@delete')->name('admin.delete');
+   Route::get('/administrators/{administrator}', 'AdministratorController@show')->name('admin.show')->middleware('auth:admin');
+   Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update')->middleware('auth:admin');
+   Route::delete('/administrators/{administrator}', 'AdministratorController@delete')->name('admin.delete')->middleware('auth:admin');
 
    /**
     * Profile_picture
@@ -205,24 +206,24 @@ Route::group(['prefix' => '/api'], function () {
     /**
      * Profile
      */
-    Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update');
-    Route::put('/profile/clients/{client}', 'ProfileController@updateClient')->name('client.profile.update');
-    Route::put('/profile/instructors/{instructor}', 'ProfileController@updateInstructor')->name('instructor.profile.update');
+    Route::put('/administrators/{administrator}', 'ProfileController@updateAdmin')->name('admin.update')->middleware('auth:admin');
+    Route::put('/profile/clients/{client}', 'ProfileController@updateClient')->name('client.profile.update')->middleware('auth:client');
+    Route::put('/profile/instructors/{instructor}', 'ProfileController@updateInstructor')->name('instructor.profile.update')->middleware('auth:instructor');
 
    /**
     * Posts
     */
    Route::get('/posts', 'PostController@index');
-   Route::post('/posts', 'PostController@store')->name('posts.store');
-   Route::put('/posts/{post}', 'PostController@update')->name('posts.update');
-   Route::delete('/posts/{post}', 'PostController@delete')->name('posts.delete');
+   Route::post('/posts', 'PostController@store')->name('posts.store')->middleware('auth:admin,instructor');
+   Route::put('/posts/{post}', 'PostController@update')->name('posts.update')->middleware('auth:admin,instructor');
+   Route::delete('/posts/{post}', 'PostController@delete')->name('posts.delete')->middleware('auth:admin,instructor');
 
    /**
     * Messages
     */
-   Route::post('/clientes/{client}/chat', 'MessageController@messageToClient')->name('message.toClient');
-   Route::post('/instructores/{instructor}/chat', 'MessageController@messageToInstructor')->name('message.toInstructor');
-   Route::post('/administradores/{administrator}/chat', 'MessageController@messageToAdministrator')->name('message.toAdministrator');
+   Route::post('/clientes/{client}/chat', 'MessageController@messageToClient')->name('message.toClient')->middleware('auth:admin,instructor');
+   Route::post('/instructores/{instructor}/chat', 'MessageController@messageToInstructor')->name('message.toInstructor')->middleware('auth:admin,client');
+   Route::post('/administradores/{administrator}/chat', 'MessageController@messageToAdministrator')->name('message.toAdministrator')->middleware('auth:admin,instructor,client');
 
 });
 

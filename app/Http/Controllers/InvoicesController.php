@@ -169,6 +169,9 @@ class InvoicesController extends Controller
 
     public function invoiceToPdf(Invoice $invoice)
     {
+        if (! isAdmin() || currentAuth()->id != $invoice->client()->id) {
+            return redirect()->route('dashboard.start');
+        }
         $client = $invoice->client;
         $services = $invoice->services;
         $price['subtotal'] = $services->sum('price');
