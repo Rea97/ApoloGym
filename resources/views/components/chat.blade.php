@@ -21,7 +21,7 @@
                                         </small>
                                         <strong class="pull-right primary-font">Tú</strong>
                                     </div>
-                                    <p>
+                                    <p class="pull-right">
                                         {{ $message->content }}
                                     </p>
                                 </div>
@@ -47,7 +47,8 @@
                         @endif
 
                     @empty
-                        <li><h3>No hay mensajes en la conversación</h3></li>
+                        <li><h3
+                            >No hay mensajes en la conversación</h3></li>
                     @endforelse
                 </ul>
             </div>

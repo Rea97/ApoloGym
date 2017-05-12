@@ -34,14 +34,7 @@
                         <i class="fa fa-th-list fa-fw"></i> Rutinas
                     </a>
                 </li>
-                <!--
-                <li>
-                    <a href="{{ route('dashboard.progress') }}"
-                       class="li-sidebar {{ markAsActive(route('dashboard.progress')) }}">
-                        <i class="fa fa-line-chart fa-fw"></i> Progreso
-                    </a>
-                </li>
-                -->
+
                 <li>
                     <a href="{{ route('dashboard.instructor') }}"
                        class="li-sidebar {{ markAsActive(route('dashboard.instructor')) }}">
