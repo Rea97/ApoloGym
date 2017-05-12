@@ -36,6 +36,11 @@ require('./sections/dashboard');
 
 window.Vue = require('vue');
 
+//Estableciendo Vue en production mode
+Vue.config.devtools = false
+Vue.config.debug = false
+Vue.config.silent = true
+
 /**
  * Plugins para Vue js
  */
