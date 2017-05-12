@@ -87,11 +87,6 @@
                             </div>
                         </form>
 
-                        <p class="has-text-centered">
-                            <a href="{{ route('password.request') }}">Olvidé mi contraseña</a>
-                            |
-                            <a href="#">Ayuda</a>
-                        </p>
                     </div>
                 </div>
             </div>
