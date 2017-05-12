@@ -169,17 +169,17 @@ class InvoicesController extends Controller
 
     public function invoiceToPdf(Invoice $invoice)
     {
-        if (! isAdmin() || currentAuth()->id != $invoice->client()->id) {
-            return redirect()->route('dashboard.start');
+        if (isAdmin() || currentAuth()->id === $invoice->client_id) {
+            $client = $invoice->client;
+            $services = $invoice->services;
+            $price['subtotal'] = $services->sum('price');
+            $price['iva'] = round($price['subtotal'] * 0.16, 2);
+            $price['total'] = $price['subtotal'] + $price['iva'];
+            $view =  \View::make('pdf.invoice', compact('invoice', 'client', 'services', 'price'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view);
+            return $pdf->stream("Factura-#{$invoice->id}-{$invoice->created_at}");
         }
-        $client = $invoice->client;
-        $services = $invoice->services;
-        $price['subtotal'] = $services->sum('price');
-        $price['iva'] = round($price['subtotal'] * 0.16, 2);
-        $price['total'] = $price['subtotal'] + $price['iva'];
-        $view =  \View::make('pdf.invoice', compact('invoice', 'client', 'services', 'price'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream("Factura-#{$invoice->id}-{$invoice->created_at}");
+        return redirect()->route('dashboard.start');
     }
 }
