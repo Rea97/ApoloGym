@@ -41,4 +41,9 @@ class InvoiceRepository
             'price' => $request->input('price')
         ];
     }
+
+    public function invoicesWithServices()
+    {
+        return $this->invoice->with('services')->get();
+    }
 }

@@ -185,6 +185,7 @@ Route::group(['prefix' => '/api'], function () {
    /**
     * Invoices
     */
+   Route::get('/invoices_services', 'InvoicesController@invoicesWithServices')->name('invoices.withServices')->middleware('auth:admin');
    Route::get('/invoices', 'InvoicesController@index')->name('invoices.index')->middleware('auth:admin');
    Route::get('/invoices/{invoice}', 'InvoicesController@show')->middleware('auth:admin');
    Route::post('/invoices', 'InvoicesController@store')->name('invoices.store')->middleware('auth:admin');

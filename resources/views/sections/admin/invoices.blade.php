@@ -65,7 +65,8 @@
                                     @{{ getUsersNameOfInvoice(invoice.client_id) }}
                                 </a>
                             </td>
-                            <td>$ @{{ invoice.total }}</td>
+                            <td>$ @{{ total(invoice) }}</td>
+                            <!--<td>$ @{{ invoice.total }}</td>-->
                             <td>@{{ invoice.created_at }}</td>
                             <td>@{{ invoice.due_date }}</td>
                             <td>

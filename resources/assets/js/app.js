@@ -50,8 +50,12 @@ const app = new Vue({
             current_page: 1
         },
         offset: 4,
+        invoicesWithServices: []
     },
     mounted() {
+        if (this.getIdOfResourceInUrl() == 'facturas') {
+            this.fetchInvoicesWithServices();
+        }
         this.$on('currentPageDesbord' , function (pageDesborded) {
             //console.log('Pagina desbordada '+ pageDesborded);
             //console.log('reseteando pagina actual en 1');
@@ -312,6 +316,13 @@ const app = new Vue({
                     _this.loaded = true;
                 });
         },
+        fetchInvoicesWithServices() {
+            let _this = this;
+            axios.get('/api/invoices_services').then(response => {
+                console.log(response);
+                _this.invoicesWithServices = response.data.invoices;
+            }).catch(error => {console.log(error)})
+        },
         fetchPosts(pagination = false, page) {
             this.loaded = false;
             var _this = this;
@@ -386,7 +397,28 @@ const app = new Vue({
                 callback
             )
 
-        }
+        },
+        //Facturas
+        subtotal(currentInvoice) {
+            let subtotal = 0.00;
+            let invoice = this.invoicesWithServices.find(function(inv) {
+                return inv.id === currentInvoice.id;
+            });
+            for (let i = 0; i < invoice.services.length; i++) {
+                subtotal += parseFloat(invoice.services[i].price);
+            }
+            return subtotal.toFixed(2);
+        },
+        iva(invoice) {
+            let iva = this.subtotal(invoice) * 0.16;
+            return iva.toFixed(2);
+        },
+        total(invoice) {
+            let subtotal = parseFloat(this.subtotal(invoice));
+            let iva = parseFloat(this.iva(invoice));
+            let total =  subtotal + iva;
+            return total.toFixed(2);
+        },
     },
     computed: {}
 });

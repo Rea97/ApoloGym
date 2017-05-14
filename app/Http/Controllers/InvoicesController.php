@@ -55,6 +55,14 @@ class InvoicesController extends Controller
         return view('sections.admin.create-invoice', compact('clients', 'services', 'client_id'));
     }
 
+    public function invoicesWithServices(Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(['invoices' => $this->invoiceRepository->invoicesWithServices()]);
+        }
+        return redirect()->route('dashboard.start');
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
