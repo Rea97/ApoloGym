@@ -101,7 +101,12 @@ class InvoicesController extends Controller
             $service = Service::find($servicesId[$i]);
             $total += $service->price;
         }
-        $invoice->total = $total;
+
+        $price['subtotal'] = $total;
+        $price['iva'] = round($price['subtotal'] * 0.16, 2);
+        $price['total'] = $price['subtotal'] + $price['iva'];
+
+        $invoice->total = $price['total'];
         $invoice->save();
         $invoice->services()->attach($servicesId);
         Notification::send(Administrator::all(), new CreatedInvoice($invoice));
@@ -147,7 +152,11 @@ class InvoicesController extends Controller
                     $total += Service::find($service)->price;
                 }
             }
-            $invoice->total = $total;
+            $price['subtotal'] = $total;
+            $price['iva'] = round($price['subtotal'] * 0.16, 2);
+            $price['total'] = $price['subtotal'] + $price['iva'];
+
+            $invoice->total = $price['total'];
             $invoice->save();
             //$invoice->update(['total' => $total]);
             return response()->json(['message' => "Datos de la factura guardados con éxito."]);
@@ -157,6 +166,7 @@ class InvoicesController extends Controller
         if ($invoice->status === 'pagada') {
             $invoice->paid_at = Carbon::now()->toDateTimeString();
             $invoice->save();
+
             Income::create(['type' => 'facturas',
                 'description' => 'Pago de factura realizado',
                 'entry_date' => Carbon::now()->toDateString(),
@@ -174,7 +184,7 @@ class InvoicesController extends Controller
             $services = $invoice->services;
             $price['subtotal'] = $services->sum('price');
             $price['iva'] = round($price['subtotal'] * 0.16, 2);
-            $price['total'] = $price['subtotal'] + $price['iva'];
+            $price['total'] = round(($price['subtotal'] + $price['iva']), 2);
             $view =  \View::make('pdf.invoice', compact('invoice', 'client', 'services', 'price'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);

@@ -94,7 +94,9 @@
                             <div class="col-sm-6">
                                 <p><strong>Creada el:</strong> {{ invoice.created_at }}</p>
                                 <p><strong>Vencimiento:</strong> {{ invoice.due_date }}</p>
-                                <h4><strong>Total:</strong> $ {{ total }}</h4>
+                                <h4><strong>Subtotal:</strong> $ {{ subtotal }}</h4>
+                                <h4><strong>IVA:</strong> $ {{ iva }}</h4>
+                                <h3><strong>Total:</strong> $ {{ invoice.total }}</h3>
                             </div>
                             <div class="col-sm-12">
                                 <h3><i class="fa fa-th-list" aria-hidden="true"></i> Términos</h3>
@@ -380,12 +382,16 @@
                         return this.icons.cancelled;
                 }
             },
-            total() {
-                let total = 0.00;
+            subtotal() {
+                let subtotal = 0.00;
                 for (let i = 0; i < this.invoice.services.length; i++) {
-                    total += parseFloat(this.invoice.services[i].price);
+                    subtotal += parseFloat(this.invoice.services[i].price);
                 }
-                return total.toFixed(2);
+                return subtotal.toFixed(2);
+            },
+            iva() {
+                let iva = this.subtotal * 0.16;
+                return iva.toFixed(2);
             },
             today() {
                 return window.Moment().format('DD-MM-YYYY');

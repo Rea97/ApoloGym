@@ -1,1 +1,27 @@
-[v-cloak]{display:none}#nav-logo{font-family:Anton,sans-serif}.input-error{color:#ff3860;font-style:italic;font-size:70%}.divider{border-top:1px solid #ddd;margin-top:8px;margin-bottom:8px}.notification-success{background-color:#449d44;color:#fff}.notification-error{background-color:#c9302c;color:#fff}
+[v-cloak] { display:none; }
+
+#nav-logo {
+    font-family: 'Anton', sans-serif;
+}
+
+.input-error {
+    color: #FF3860;
+    font-style: italic;
+    font-size: 70%;
+}
+
+.divider {
+    border-top: 1px solid rgb(221, 221, 221);
+    margin-top: 8px;
+    margin-bottom:8px;
+}
+
+.notification-success {
+    background-color: #449D44;
+    color: white;
+}
+
+.notification-error {
+    background-color: #C9302C;
+    color: white;
+}
