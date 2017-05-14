@@ -139,6 +139,7 @@ class InvoicesController extends Controller
                 'terms' => 'nullable|string',
                 'services' => 'required|array'
             ]);
+            $addedService = false;
             $total = $invoice->total;
             $servicesIds = $request->input('services');
             $invoice->update([
@@ -150,14 +151,17 @@ class InvoicesController extends Controller
                 if (! $invoice->services->contains($service)) {
                     $invoice->services()->attach($service);
                     $total += Service::find($service)->price;
+                    $addedService = true;
                 }
             }
-            $price['subtotal'] = $total;
-            $price['iva'] = round($price['subtotal'] * 0.16, 2);
-            $price['total'] = $price['subtotal'] + $price['iva'];
+            if ($addedService) {
+                $price['subtotal'] = $total;
+                $price['iva'] = round($price['subtotal'] * 0.16, 2);
+                $price['total'] = $price['subtotal'] + $price['iva'];
 
-            $invoice->total = $price['total'];
-            $invoice->save();
+                $invoice->total = $price['total'];
+                $invoice->save();
+            }
             //$invoice->update(['total' => $total]);
             return response()->json(['message' => "Datos de la factura guardados con éxito."]);
         }
