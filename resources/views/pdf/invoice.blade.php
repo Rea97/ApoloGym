@@ -205,7 +205,12 @@
             <td colspan="2">IVA 16%</td>
             <td class="total">$ {{ $price['iva'] }}</td>
         </tr>
-
+        <!--
+        <tr>
+            <td colspan="2" class="grand total">TOTAL</td>
+            <td class="grand total">$ {{ $price['total'] }}</td>
+        </tr>
+        -->
 
         <tr>
             <td colspan="2" class="grand total">TOTAL</td>
@@ -216,7 +221,7 @@
     </table>
     <div id="notices">
         <div>TÉRMINOS:</div>
-        <div class="notice">{{ $invoice->terms ?? 'No hay términos para esta factura.' }}</div>
+        <div class="notice">{{ $invoice->terms ?? 'No hay términos adicionales para esta factura.' }}</div>
     </div>
 </main>
 <footer>
