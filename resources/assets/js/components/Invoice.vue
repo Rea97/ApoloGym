@@ -96,7 +96,7 @@
                                 <p><strong>Vencimiento:</strong> {{ invoice.due_date }}</p>
                                 <h4><strong>Subtotal:</strong> $ {{ subtotal }}</h4>
                                 <h4><strong>IVA:</strong> $ {{ iva }}</h4>
-                                <h3><strong>Total:</strong> $ {{ invoice.total }}</h3>
+                                <h3><strong>Total:</strong> $ {{ total }}</h3>
                             </div>
                             <div class="col-sm-12">
                                 <h3><i class="fa fa-th-list" aria-hidden="true"></i> Términos</h3>
@@ -116,7 +116,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="service in invoice.services">
-                                                <td><a :href="'/servicios/'+service.id">{{ service.id }}</a></td>
+                                                <td><a :href="'/dashboard/servicios/'+service.id">{{ service.id }}</a></td>
                                                 <td>{{ service.name }}</td>
                                                 <td>{{ service.description }}</td>
                                                 <td>$ {{ service.price }}</td>
@@ -392,6 +392,12 @@
             iva() {
                 let iva = this.subtotal * 0.16;
                 return iva.toFixed(2);
+            },
+            total() {
+                let subtotal = parseFloat(this.subtotal);
+                let iva = parseFloat(this.iva);
+                let total =  subtotal + iva;
+                return total.toFixed(2);
             },
             today() {
                 return window.Moment().format('DD-MM-YYYY');

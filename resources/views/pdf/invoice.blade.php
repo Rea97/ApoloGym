@@ -205,18 +205,16 @@
             <td colspan="2">IVA 16%</td>
             <td class="total">$ {{ $price['iva'] }}</td>
         </tr>
-        <!--
         <tr>
             <td colspan="2" class="grand total">TOTAL</td>
             <td class="grand total">$ {{ $price['total'] }}</td>
         </tr>
-        -->
-
+        <!--
         <tr>
             <td colspan="2" class="grand total">TOTAL</td>
             <td class="grand total">$ {{ $invoice->total }}</td>
         </tr>
-
+        -->
         </tbody>
     </table>
     <div id="notices">
