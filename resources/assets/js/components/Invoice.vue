@@ -276,7 +276,7 @@
                 }
                 let id = this.getIdOfResourceInUrl();
                 let _this = this;
-                axios.put(`/api/invoices/${id}`, {'status': status})
+                axios.put(`/api/invoices/${id}`, {'status': status, 'total': this.total})
                     .then((response) => {
                         _this.invoice.status = status;
                         swal('Correcto', response.data.message, 'success');
@@ -295,7 +295,8 @@
                     'client_id': this.invoice.client_id,
                     'due_date': this.invoice.due_date,
                     'terms': this.invoice.terms,
-                    'services': idsArr
+                    'services': idsArr,
+                    'total': this.total
                 })
                     .then((response) => {
                         console.log(response);

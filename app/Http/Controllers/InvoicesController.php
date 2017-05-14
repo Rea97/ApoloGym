@@ -170,11 +170,13 @@ class InvoicesController extends Controller
         if ($invoice->status === 'pagada') {
             $invoice->paid_at = Carbon::now()->toDateTimeString();
             $invoice->save();
-
+            $this->validate($request, [
+                'total' => 'required|numeric'
+            ]);
             Income::create(['type' => 'facturas',
                 'description' => 'Pago de factura realizado',
                 'entry_date' => Carbon::now()->toDateString(),
-                'total' => $invoice->total
+                'total' => $request->input('total')
             ]);
         }
         Notification::send(Administrator::all(), new ChangedInvoiceStatus($invoice, $invoice->status));
