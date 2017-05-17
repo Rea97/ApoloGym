@@ -62,7 +62,7 @@
 
                         <div class="row">
                             <!--  sets Form Field  -->
-                            <div class="form-group col-sm-2 {{ $errors->has('sets') ? 'has-error' : '' }}">
+                            <div class="form-group col-sm-3 {{ $errors->has('sets') ? 'has-error' : '' }}">
                                 <label for="sets">Series</label>
                                 <input id="sets"
                                        name="sets"
@@ -76,7 +76,7 @@
                                 @endif
                             </div>
                             <!--  reps Form Field  -->
-                            <div class="form-group col-sm-2 {{ $errors->has('reps') ? 'has-error' : '' }}">
+                            <div class="form-group col-sm-3 {{ $errors->has('reps') ? 'has-error' : '' }}">
                                 <label for="reps">Repeticiones</label>
                                 <input id="reps"
                                        name="reps"
@@ -90,7 +90,7 @@
                                 @endif
                             </div>
                             <!--  weight Form Field  -->
-                            <div class="form-group col-sm-4 {{ $errors->has('weight') ? 'has-error' : '' }}">
+                            <div class="form-group col-sm-3 {{ $errors->has('weight') ? 'has-error' : '' }}">
                                 <label for="weight">Peso</label>
                                 <input id="weight"
                                        name="weight"
@@ -105,7 +105,7 @@
                                 @endif
                             </div>
                             <!--  date Form Field  -->
-                            <div class="form-group col-sm-4 {{ $errors->has('date') ? 'has-error' : '' }}">
+                            <div class="form-group col-sm-3 {{ $errors->has('date') ? 'has-error' : '' }}">
                                 <label for="date">Fecha</label>
                                 <input id="date"
                                        name="date"

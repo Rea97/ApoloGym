@@ -150,6 +150,14 @@ return [
         'due_date' => 'Fecha de vencimiento',
         'client_id' => 'Cliente',
         'services' => 'Servicio',
-        'today' => 'hoy'
+        'today' => 'hoy',
+        'title' => 'Título',
+        'content' => 'Contenido',
+        'picture' => 'Imagen',
+        'terms' => 'Términos adicionales',
+        'worked_muscle' => 'Ejercicio trabajado',
+        'sets' => 'Series',
+        'reps' => 'Repeticiones',
+        'date' => 'Fecha'
  	],
 ];
