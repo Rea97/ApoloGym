@@ -34,10 +34,9 @@
     <style>
         #nav-logo {font-family: 'Anton', sans-serif;}
     </style>
+    @include('partials.analytics')
 </head>
-
 <body>
-
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top" style="margin-bottom: 100px;">
     <div class="container-fluid">

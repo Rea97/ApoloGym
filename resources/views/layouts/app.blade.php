@@ -24,6 +24,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+    @include('partials.analytics')
 </head>
 <body>
     <div id="app">
