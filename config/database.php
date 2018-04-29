@@ -1,7 +1,7 @@
 <?php
 
-if (config('app.env') == 'production') {
-    $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+if (env('APP_ENV') == 'production') {
+    $url = parse_url(getenv("DATABASE_URL"));
     $host = $url["host"];
     $username = $url["user"];
     $password = $url["pass"];
@@ -90,7 +90,7 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'heroku' => [
+        'heroku-mysql' => [
             'driver' => 'mysql',
             'host' => $host ?? '',
             'port' => env('DB_PORT', '3306'),
@@ -104,20 +104,18 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-        /*
-        'heroku' => [
+        'heroku-pgsql' => [
             'driver' => 'pgsql',
-            'host' => parse_url(getenv("DATABASE_URL"))["host"],
+            'host' => $host ?? '',
             'port' => env('DB_PORT', '5432'),
-            'database' => substr(parse_url(getenv("DATABASE_URL"))["path"], 1),
-            'username' => parse_url(getenv("DATABASE_URL"))["user"],
-            'password' => parse_url(getenv("DATABASE_URL"))["pass"],
+            'database' => $database ?? '',
+            'username' => $username ?? '',
+            'password' => $password ?? '',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
-        */
 
     ],
 
