@@ -21,7 +21,7 @@ class CreateInvoicesTable extends Migration
             $table->date('due_date');
             $table->timestamps();
         });
-        DB::unprepared('ALTER TABLE invoices AUTO_INCREMENT = 10000;');
+        //DB::unprepared('ALTER TABLE invoices AUTO_INCREMENT = 10000;');
     }
 
     /**

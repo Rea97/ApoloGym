@@ -34,7 +34,7 @@ class CreateClientsTable extends Migration
             $table->timestamps();
             //$table->softDeletes();
         });
-        DB::unprepared('ALTER TABLE clients AUTO_INCREMENT = 10000;');
+        //DB::unprepared('ALTER TABLE clients AUTO_INCREMENT = 10000;');
     }
 
     /**

@@ -29,7 +29,7 @@ class CreateInstructorsTable extends Migration
             $table->timestamps();
             //$table->softDeletes();
         });
-        DB::unprepared('ALTER TABLE instructors AUTO_INCREMENT = 1000;');
+        //DB::unprepared('ALTER TABLE instructors AUTO_INCREMENT = 1000;');
     }
 
     /**

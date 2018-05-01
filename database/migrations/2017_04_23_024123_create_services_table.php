@@ -21,7 +21,7 @@ class CreateServicesTable extends Migration
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });
-        DB::unprepared('ALTER TABLE services AUTO_INCREMENT = 1000;');
+        //DB::unprepared('ALTER TABLE services AUTO_INCREMENT = 1000;');
     }
 
     /**
