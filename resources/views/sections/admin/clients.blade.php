@@ -61,13 +61,21 @@
                             </td>
                             <td>@{{ client.name }}</td>
                             <td>@{{ client.first_surname }} @{{ client.second_surname }}</td>
-                            <td>@{{ client.email }}</td>
+                            <td><strong>@{{ client.email }}</strong></td>
                             <td>@{{ client.phone_number }}</td>
                             <td>
-                                <a class="btn btn-sm btn-info" :href="'/dashboard/clientes/'+client.id">
+                                <a data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="Perfil del cliente"
+                                   class="btn btn-sm btn-info"
+                                   :href="'/dashboard/clientes/'+client.id">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                                 </a>
-                                <a class="btn btn-warning btn-sm" :href="'/dashboard/clientes/'+client.id+'/chat'">
+                                <a data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="Enviar mensaje"
+                                   class="btn btn-warning btn-sm"
+                                   :href="'/dashboard/clientes/'+client.id+'/chat'">
                                     <i class="fa fa-comment" aria-hidden="true"></i>
                                 </a>
                             </td>

@@ -87,10 +87,17 @@
                             <td>@{{ instructor.email }}</td>
                             <td>@{{ instructor.phone_number }}</td>
                             <td>
-                                <a class="btn btn-sm btn-info" :href="'/dashboard/instructores/'+instructor.id">
+                                <a data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Perfil del instructor"
+                                    class="btn btn-sm btn-info"
+                                    :href="'/dashboard/instructores/'+instructor.id">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                                 </a>
-                                <a class="btn btn-warning btn-sm" :href="'/dashboard/instructores/'+instructor.id+'/chat'">
+                                <a data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="Enviar mensaje"
+                                   class="btn btn-warning btn-sm" :href="'/dashboard/instructores/'+instructor.id+'/chat'">
                                     <i class="fa fa-comment" aria-hidden="true"></i>
                                 </a>
                             </td>
