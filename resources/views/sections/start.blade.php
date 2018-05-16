@@ -175,7 +175,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-book fa-fw"></i> Ultimas noticias
@@ -210,38 +210,6 @@
 
             </div>
             <!-- /.col-lg-8 -->
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <i class="fa fa-bell fa-fw"></i> Notificaciones
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div class="list-group">
-                            @forelse($notifications as $notification)
-                                <a href="{{ $notification->data['action'] }}" class="list-group-item">
-                                    <i class="fa fa-fw {{ $notification->data['icon'] }}"></i> {{ $notification->data['message'] }}
-                                        <span class="pull-right text-muted small">
-                                        <em>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->diffForHumans() }}</em>
-                                    </span>
-                                    <br>&nbsp;
-                                </a>
-                                @empty
-                                    <span class="text-muted text-center">No hay notificaciones sin leer.</span>
-                            @endforelse
-                        </div>
-                        <!-- /.list-group -->
-                        @if($notifications->count() > 0)
-                            <a href="{{ route('dashboard.profile') }}" class="btn btn-default btn-block">Ver más...</a>
-                        @endif
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
-
-
-            </div>
-            <!-- /.col-lg-4 -->
         </div>
         <!-- /.row -->
     @elseif(isInstructor())

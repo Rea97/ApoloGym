@@ -29,7 +29,7 @@
                         <tbody>
                         @forelse($exercises as $exercise)
                             <tr>
-                                <td>{{ $exercise->name }}</td>
+                                <td>{{ strtoupper($exercise->name) }}</td>
                                 <td>{{ $exercise->worked_muscle }}</td>
                                 <!--
                                 <td>
